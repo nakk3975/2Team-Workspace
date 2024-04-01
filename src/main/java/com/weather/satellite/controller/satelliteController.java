@@ -32,7 +32,7 @@ public class satelliteController {
 		
 		// API URL 구성
 	    String API_URL = "http://apis.data.go.kr/1360000/SatlitImgInfoService/getInsightSatlit?serviceKey="
-	            + API_KEY + "&numOfRows=10&pageNo=1&sat=g2&data=" + mediaType + "&area=ea&time=" + "&dataType=JSON";
+	            + API_KEY + "&numOfRows=10&pageNo=1&sat=g2&data=" + mediaType + "&area=ea&time=" + receivedDate +"&dataType=JSON";
 		
 		RestTemplate restTemplate = new RestTemplate();
 

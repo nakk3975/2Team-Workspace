@@ -72,17 +72,32 @@
     String formatToday = today.format(formatterDate);
     String formatYesterday = yesterday.format(formatterDate);
 	
-	// 현재 시간 "HHMM" 형태로 변환
+	// 현재 시간 구하기
 	LocalTime now = LocalTime.now();
+	
+	// 10분전 10분후의 기준이 될 시간값 폼 제출로부터 받아오기
+    String tenTime = request.getParameter("time");
+	
+	// 받아온 시간 값을 LocalTime으로 파싱
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
+    LocalTime time = LocalTime.parse(tenTime, formatter);
+    
+    // 10분 전 시간 계산
+    LocalTime tenMinutesBefore = time.minusMinutes(10);
+    String formattedTenMinutesBefore = tenMinutesBefore.format(formatter);
+
+    // 10분 후 시간 계산
+    LocalTime tenMinutesAfter = time.plusMinutes(10);
+    String formattedTenMinutesAfter = tenMinutesAfter.format(formatter);
 	
 	// 현재 분을 10으로 나눈 후 다시 10을 곱하여 10분 단위로 내림
     int roundedDownMinute = (now.getMinute() / 10) * 10;
     LocalTime roundedTime = now.withMinute(roundedDownMinute).withSecond(0).withNano(0);
  	
-    // 시간 포맷을 "HHmm"으로 지정
+ 	// 현재 시간 "HHMM" 형태로 변환
     DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HHmm");
     String formatTime = roundedTime.format(formatterTime);
-    					
+    
 	// 폼 제출로부터 날짜 값을 받습니다.
 	String selectedDate = request.getParameter("date");
 	String selectedTime = request.getParameter("time");
@@ -94,7 +109,6 @@
     System.out.println("현재 선택된 날짜 : " + selectedDate);
     System.out.println("현재 선택된 시간 : " + selectedTime);
 	
-    // 받은 시간 값 10분 단위 내림 변환
     
 	%>
 	
@@ -169,15 +183,15 @@
 							<option value="sw038">단파적외영상</option>
 							<option value="rgbt">RGB(컬러)영상</option>
 							<option value="rgbdn">RGB(주야간합성)영상</option>
-						</select> <input type="submit" value="submit">
+						</select> <input type="submit" value="조회">
 					</form>
 				</div>
 				<div>
-					<div id="">
+					<div id="searchedDate">
 						선택된 날짜 : <%=selectedDate %>/<%=selectedTime%>
 					</div>
 					<div class="searchButton">
-						<%-- <!-- 어제 버튼 -->
+						<!-- 어제 버튼 -->
 						<form action="/satellite/getSatelliteImages" method="get">
 							<input type="hidden" name="date" value="<%=yesterday%>" />
 							<button class="">어제</button>
@@ -187,8 +201,21 @@
 						<form action="/satellite/getSatelliteImages" method="get">
 							<input type="hidden" name="date" value="<%=today%>" />
 							<button class="">오늘</button>
-						</form>  --%>
+						</form>
 						
+						<!-- 10분 전 버튼 -->
+						<form action="/satellite/getSatelliteImages" method="get">
+							<input type="hidden" name="date" value="<%= selectedDate %>">
+    						<input type="hidden" name="time" value="<%= formattedTenMinutesBefore %>">
+    						<input type="submit" value="10분 전">
+						</form>
+						
+						<!-- 10분 후 버튼 -->
+						<form action="/satellite/getSatelliteImages" method="get">
+							<input type="hidden" name="date" value="<%= selectedDate %>">
+    						<input type="hidden" name="time" value="<%= formattedTenMinutesAfter %>">
+    						<input type="submit" value="10분 후">
+						</form>
 						
 						<!-- 재생 버튼 -->
 						<form id="timeForm" action="YourServerSideEndpoint" method="get">
@@ -198,7 +225,6 @@
 						
 						<!-- 위성 이미지 출력 div -->
 						<div id="satelliteImages">
-							
 							임시 이미지!!!
 						</div>
 					</div>
