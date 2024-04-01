@@ -20,13 +20,10 @@ div {
   margin: 0;
 }
 
-.navbar img {
+
+#logo {
   max-height: 40px;
   vertical-align: middle;
-  /* 이미지의 수직 정렬 조정 */
-}
-
-#Logo {
   padding-left: 20px;
   width: 230px;
 }
@@ -58,47 +55,68 @@ div {
   /* hover 시 색 변경 */
 }
 
-.Menu:hover {
-  background-color: #F4EEEE
-}
-
-.Menu_except:hover {
-  background-color: #F4EEEE
-}
-
-.LoginOption {
+.login-option {
   font-size: 13px;
   color: gray;
   margin-left: 10px;
   /* 링크 사이의 간격 조절 */
 }
 
-#generateResult {
-  background-color: #3498DB;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 20px;
-  position: relative;
-  top: -3px;
+#box {
+  /* background-color: brown; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.menu-bar:hover {
+  background-color: #F4EEEE
 }
 
 
+.menu-bar {
+  /* background-color: #74b7fa; */
+  border-right: 2px solid #E0E0E0;
+  /* 오른쪽 선만 설정 */
+  padding: 8px 50px 8px 50px;
+}
 
-#mid_content {
+#menuExcept {
+  padding: 8px 70px 8px 70px;
+}
+
+#menuExcept:hover {
+  background-color: #F4EEEE
+}
+
+#midContent {
   /* background-color: rgb(96, 115, 115); */
   padding: 20px;
   margin-bottom: 20px;
   margin-top: 20px;
   text-align: center;
+  white-space: nowrap;
 }
 
-#mid_content span {
+.mid-content-span {
   margin: -2px;
 }
 
 
-#mid_content a {
+#midContentLink {
+  margin: 0;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  /* 링크 텍스트를 볼드 처리 */
+  /* margin: 0 5px; */
+  /* 각 링크 사이의 간격 조절 */
+  /* position: relative; */
+}
+
+.mid-content-link {
   margin: 0;
   text-decoration: none;
   font-size: 25px;
@@ -111,26 +129,10 @@ div {
 }
 
 
-#box {
-  /* background-color: brown; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-#left_main {
-  /* background-color: #E0E0E0; */
-  width: 800px;
-  height: 900px;
-}
-
-
 /* 
-우
 우측배너영역
 */
-#right_banners {
+#rightBanners {
   font-size: 25px;
   color: black;
   font-weight: bold;
@@ -142,8 +144,31 @@ div {
   float: left;
 }
 
-#right_banners p {
+#rightBannersP {
   margin: 5px 0px 10px 0px;
+}
+
+#rightBannersContentTop {
+  display: block;
+  background-color: #3498DB;
+  height: 450px;
+}
+
+#rightBannersContentTopDiv {
+  border: 1px solid black;
+  overflow: hidden;
+  height: 452px;
+}
+
+#rightBannersContentMid {
+  background-color: white;
+  height: 500px;
+}
+
+#rightBannersContentBot{
+  background-color: white;
+  height: 250px;
+
 }
 
 
@@ -151,17 +176,44 @@ div {
   display: flex;
 }
 
-
-.Menu {
-  /* background-color: #74b7fa; */
-  border-right: 2px solid #E0E0E0;
-  /* 오른쪽 선만 설정 */
-  padding: 8px 50px 8px 50px;
+#leftMain {
+  /* background-color: #E0E0E0; */
+  width: 800px;
+  height: 900px;
 }
 
-.Menu_except {
-  padding: 8px 70px 8px 70px;
+#leftMainTopNav {
+  padding: 20px 0px 10px 0px;
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  background-color: #E0E0E0;
+  height: 600px;
+  width: auto;
 }
+
+
+#generateResult {
+  background-color: #3498DB;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 20px;
+  position: relative;
+  top: -3px;
+  margin-left: 100px;
+}
+
+.left_main_top_nav_menu{
+  /* display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 0; */
+}
+
+
+
 
 #bot {
   background-color: rgb(216, 210, 210);
@@ -175,31 +227,11 @@ div {
   bottom: -900px;
 }
 
-#left_main_top {
-  padding: 20px 0px 10px 0px;
-  font-size: 25px;
-  color: black;
-  font-weight: bold;
-  background-color: #E0E0E0;
-  height: 600px;
-  width: auto;
-}
-
-.left-main-top{
-  /* display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin: 0; */
-}
 
 
-#generateResult{
-  margin-left: 100px;
-}
 
 
-#left_main_top_top {
+#leftMainTopTop {
   margin-top: 20px;
   border-top: 1px solid black;
   /* 위쪽 선만 설정 */
@@ -209,16 +241,46 @@ div {
 
 }
 
-#left_main_top_mid {
+.left-main-top-top-img{
+  width: 110px;
+  height: 110px;
+  /* background-color: #0066cc; */
+  position: relative;
+  overflow: hidden;
+  left: 45%;
+  transform: translate(-50%, 30%);
+}
+
+.left-main-top-top-text{
+  position: relative;
+  font-size: 50px;
+  left: 40px;
+  top: -45px;
+}
+
+.main-img-position1{
+  position: relative;
+  width: 800px;
+  height: auto;
+  top: -205px;
+  left: -645px;
+}
+
+#leftMainTopMid {
   margin: 5px 0px 5px 0px;
 }
 
-#left_main_top_bot {
+#leftMainTopBot {
   border-top: 1px solid black;
   /* 왼쪽 선만 설정 */
 }
 
-#left_main_bot {
+
+#province{
+  margin-left: 80px;
+}
+
+#leftMainBot {
   font-size: 25px;
   color: black;
   font-weight: bold;
@@ -229,7 +291,7 @@ div {
   width: auto;
 }
 
-#container_opt {
+#containerOpt {
   margin-top: 40px;
   height: 550px;
   /* background-color: #0066cc; */
@@ -260,26 +322,14 @@ div {
   border: 1px solid #ccc;
 }
 
-#right_banners_content_top {
-  display: block;
-  background-color: #3498DB;
-  height: 450px;
-}
-
-#right_banners_content_top_div {
-  border: 1px solid black;
-  overflow: hidden;
-  height: 452px;
-}
-
-#koreamap{
+#koreaMap{
   position: relative;
   width: 400px;
   left: -47px;
   top: -170px;
 }
 
-.mapbutton{
+.map-button{
   background-color: #3498DB;
   color: white;
   border: none;
@@ -290,7 +340,7 @@ div {
   left: -30px;
 }
 
-#mapdivSeoul{
+#mapSeoul{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -301,7 +351,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivIncheon{
+#mapIncheon{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -312,7 +362,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivChuncheon{
+#mapChuncheon{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -323,7 +373,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivGangneung{
+#mapGangneung{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -334,7 +384,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivUlreungDokdo{
+#mapUlreungDokdo{
   border: 1px solid;
   width: 40px;
   height: 88px;
@@ -345,7 +395,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivSuwon{
+#mapSuwon{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -356,7 +406,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivCheongju{
+#mapCheongju{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -367,7 +417,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivAndong{
+#mapAndong{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -378,7 +428,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivPohang{
+#mapPohang{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -389,7 +439,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivDaejeon{
+#mapDaejeon{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -400,7 +450,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivJeonju{
+#mapJeonju{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -411,7 +461,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivDaegu{
+#mapDaegu{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -422,7 +472,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivUlsan{
+#mapUlsan{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -433,7 +483,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivBusan{
+#mapBusan{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -444,7 +494,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivGwangju{
+#mapGwangju{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -455,7 +505,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivMokpo{
+#mapMokpo{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -466,7 +516,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivYeosu{
+#mapYeosu{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -477,7 +527,7 @@ div {
   border-radius: 50px;
 }
 
-#mapdivJeju{
+#mapJeju{
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -488,9 +538,13 @@ div {
   border-radius: 50px;
 }
 
-
-
-.mapdivimg{
+.map-div-img{
+  margin: 0;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  top: -10px;
   /* background-color: #0066cc; */
   width: 30px;
   height: 30px;
@@ -501,7 +555,7 @@ div {
   
 }
 
-.mapdivimgposition{
+.map-div-img-position1{
   position: relative;
   top: -10px;
   left: -204px;
@@ -509,7 +563,7 @@ div {
   height: auto;
 }
 
-.mapdivimgposition2{
+.map-div-img-position2{
   position: relative;
   top: -65px;
   left: -204px;
@@ -517,59 +571,23 @@ div {
   height: auto;
 }
 
-.mapdiv p{
+.map-div-p{
   position: relative;
   font-size: 0.5em;
-  top: 1px;
+  top: -5px;
 }
 
-.mapdiv h6{
+.map-div-h6{
   font-size: 0.5em;
   position: relative;
-  top: -45px;
+  top: -55px;
 }
 
 
-#right_banners_content_mid {
-  background-color: white;
-  height: 500px;
-}
 
-#right_banners_content_bot {
-  background-color: white;
-  height: 250px;
-
-}
-
-#mid_content {
-  /* 기존 스타일 */
-  white-space: nowrap;
-  /* 텍스트 줄바꿈 방지 */
-}
-
-.Menu_except {
-  /* 기존 스타일 */
-  min-width: 100px;
-  /* 최소 너비 설정 */
-}
-
-h1 {
-  /* 기존 스타일 */
-  white-space: nowrap;
-  /* 텍스트 줄바꿈 방지 */
-  overflow: hidden;
-  /* 넘치는 텍스트 숨김 */
-  text-overflow: ellipsis;
-  /* 넘치는 텍스트를 생략 부호 (...)로 표시 */
-}
-
-select {
+/* select {
   height: 30px;
   margin-left: 5px;
   position: relative;
   top: -5px;
-}
-
-#province{
-  margin-left: 80px;
-}
+} */

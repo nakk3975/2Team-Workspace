@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -14,15 +15,18 @@
 <body>
 
   <header class="navbar">
+
     <div>
       <!-- 왼쪽 이미지 -->
       <a href="#">
-        <img src="/static/images/logo.png" id="Logo" alt="왼쪽 이미지">
+        <img src="/static/images/logo.png" id="logo" alt="왼쪽 이미지">
       </a>
     </div>
+
     <div>
       <h1>우리 날씨</h1>
     </div>
+
     <div class="login-container">
       <div>
         <a href="#">
@@ -30,39 +34,42 @@
         </a>
       </div>
       <div>
-        <a href="#" class="LoginOption">아이디 찾기</a>
-        <a href="#" class="LoginOption">비밀번호 찾기</a>
-        <a href="#" class="LoginOption">회원가입</a>
+        <a href="#" class="login-option">아이디 찾기</a>
+        <a href="#" class="login-option">비밀번호 찾기</a>
+        <a href="#" class="login-option">회원가입</a>
       </div>
     </div>
+
   </header>
+
 
   <div id="box">
 
     <div id="top">
-      <div id="mid_content">
-        <span>
-          <a href="#" class="Menu">지역 날씨</a>
+      <div id="midContent">
+        <span class="mid-content-span">
+          <a href="#" class="menu-bar" id="midContentLink">지역 날씨</a>
         </span>
-        <span>
-          <a href="#" class="Menu">세계 날씨</a>
+        <span class="mid-content-span">
+          <a href="#" class="menu-bar" id="midContentLink">세계 날씨</a>
         </span>
-        <span>
-          <a href="#" class="Menu">미세먼지</a>
+        <span class="mid-content-span">
+          <a href="#" class="menu-bar" id="midContentLink">미세먼지</a>
         </span>
-        <span>
-          <a href="#" class="Menu">위성 영상</a>
+        <span class="mid-content-span">
+          <a href="#" class="menu-bar" id="midContentLink">위성 영상</a>
         </span>
-        <span>
-          <a href="#" class="Menu_except">날씨 앱</a>
+        <span class="mid-content-span">
+          <a href="#" id="menuExcept" class="mid-content-link">날씨 앱</a>
         </span>
       </div>
 
       <div id="main">
 
-        <div id="left_main">
-          <div id="left_main_top">
-            <div class="left-main-top">
+        <div id="leftMain">
+          <div id="leftMainTopNav">
+            
+            <div class="left_main_top_nav_menu">
               <span id="resultValue"></span>
               <select id="province">
                 <option value="서울특별시" selected>서울특별시</option>
@@ -77,250 +84,265 @@
 
             </div>
 
-            <div id="left_main_top_top">
-              상세날씨
+            <div id="leftMainTopTop">
+              <!-- 상세날씨 -->
+              <div class="left-main-top-top-img">
+                <img src="/static/images/weathericons.png" alt="" class="main-img-position1">
+              </div>
+              <div class="left-main-top-top-text">
+                9.9°
+              </div>
             </div>
-            <div id="left_main_top_mid">
+            <div id="leftMainTopMid">
               버튼
             </div>
-            <div id="left_main_top_bot">
+            <div id="leftMainTopBot">
               버튼 슬라이드
             </div>
           </div>
 
-          <div id="left_main_bot">
+          <div id="leftMainBot">
             주간 예보
-            <div id="container_opt">
+            <div id="containerOpt">
+
               <div class="container">
+
                 <div class="row">
                   <div class="item">주간 예보</div>
                   <div class="item">주간 예보</div>
                 </div>
+
                 <div class="row">
                   <div class="item">주간 예보</div>
                   <div class="item">주간 예보</div>
                 </div>
+
                 <div class="row">
                   <div class="item">주간 예보</div>
                   <div class="item">주간 예보</div>
                 </div>
+
                 <div class="row">
                   <div class="item">주간 예보</div>
                   <div class="item">주간 예보</div>
                 </div>
+
                 <div class="row">
                   <div class="item">주간 예보</div>
                   <div class="item">주간 예보</div>
                 </div>
+
               </div>
             </div>
           </div>
-
         </div>
-        <div id="right_banners">
-          <p>
+        
+        <div id="rightBanners">
+
+          <p id="rightBannersP">
             전국 날씨
           </p>
-          <div id="right_banners_content_top">
 
-            <div id="right_banners_content_top_div">
+          <div id="rightBannersContentTop">
 
-              <img src="/static/images/KoreanMap.jpg" alt="지도" id="koreamap">
+            <div id="rightBannersContentTopDiv">
+
+              <img src="/static/images/KoreanMap.jpg" alt="지도" id="koreaMap">
               <div>
-                <button class="mapbutton">현재</button>
-                <button class="mapbutton">오전</button>
-                <button class="mapbutton">오후</button>
+                <button class="map-button">현재</button>
+                <button class="map-button">오전</button>
+                <button class="map-button">오후</button>
               </div>
 
               <div>
 
-                <div id="mapdivSeoul">
-                  <div class="mapdiv">
-                    <p>서울</p>
-                    <div class="mapdivimg">
-                      <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition">
+                <div id="mapSeoul">
+                  <div>
+                    <p class="map-div-p">서울</p>
+                    <div class="map-div-img">
+                      <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                     </div>
-                    <h6>9.5°C</h6>
+                    <h6 class="map-div-h6">9.5°C</h6>
                   </div>
                 </div>
 
-                  <div id="mapdivIncheon">
-                    <div class="mapdiv">
-                      <p>인천</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition">
+                  <div id="mapIncheon">
+                    <div>
+                      <p class="map-div-p">인천</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivChuncheon">
-                    <div class="mapdiv">
-                      <p>춘천</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapChuncheon">
+                    <div>
+                      <p class="map-div-p">춘천</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivGangneung">
-                    <div class="mapdiv">
-                      <p>강릉</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapGangneung">
+                    <div>
+                      <p class="map-div-p">강릉</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivUlreungDokdo">
-                    <div class="mapdiv">
-                      <p>울릉/독도</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition">
+                  <div id="mapUlreungDokdo">
+                    <div>
+                      <p class="map-div-p">울릉/독도</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivSuwon">
-                    <div class="mapdiv">
-                      <p>수원</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapSuwon">
+                    <div>
+                      <p class="map-div-p">수원</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivCheongju">
-                    <div class="mapdiv">
-                      <p>청주</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapCheongju">
+                    <div>
+                      <p class="map-div-p">청주</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivAndong">
-                    <div class="mapdiv">
-                      <p>안동</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapAndong">
+                    <div>
+                      <p class="map-div-p">안동</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivPohang">
-                    <div class="mapdiv">
-                      <p>포항</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapPohang">
+                    <div>
+                      <p class="map-div-p">포항</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivDaejeon">
-                    <div class="mapdiv">
-                      <p>대전</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapDaejeon">
+                    <div>
+                      <p class="map-div-p">대전</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivJeonju">
-                    <div class="mapdiv">
-                      <p>전주</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapJeonju">
+                    <div>
+                      <p class="map-div-p">전주</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivDaegu">
-                    <div class="mapdiv">
-                      <p>대구</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapDaegu">
+                    <div>
+                      <p class="map-div-p">대구</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivUlsan">
-                    <div class="mapdiv">
-                      <p>울산</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapUlsan">
+                    <div>
+                      <p class="map-div-p">울산</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivBusan">
-                    <div class="mapdiv">
-                      <p>부산</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition">
+                  <div id="mapBusan">
+                    <div>
+                      <p class="map-div-p">부산</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivGwangju">
-                    <div class="mapdiv">
-                      <p>광주</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapGwangju">
+                    <div>
+                      <p class="map-div-p">광주</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivMokpo">
-                    <div class="mapdiv">
-                      <p>목포</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition2">
+                  <div id="mapMokpo">
+                    <div>
+                      <p class="map-div-p">목포</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivYeosu">
-                    <div class="mapdiv">
-                      <p>여수</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition">
+                  <div id="mapYeosu">
+                    <div>
+                      <p class="map-div-p">여수</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position1">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
-                  <div id="mapdivJeju">
-                    <div class="mapdiv">
-                      <p>제주</p>
-                      <div class="mapdivimg">
-                        <img src="/static/images/weathericons.png" alt="" class="mapdivimgposition">
+                  <div id="mapJeju">
+                    <div>
+                      <p class="map-div-p">제주</p>
+                      <div class="map-div-img">
+                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position1">
                       </div>
-                      <h6>9.5°C</h6>
+                      <h6 class="map-div-h6">9.5°C</h6>
                     </div>
                   </div>
 
             </div>
           </div>
 
-          <div id="right_banners_content_mid">위치
+          <div id="rightBannersContentMid">위치
           </div>
 
-          <div id="right_banners_content_bot">
+          <div id="rightBannersContentBot">
             <br>
             풍속, 풍향, 일몰, 일출, <Br>
             미세먼지, 초미세먼지
