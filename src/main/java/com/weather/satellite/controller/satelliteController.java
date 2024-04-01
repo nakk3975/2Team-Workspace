@@ -27,16 +27,17 @@ public class satelliteController {
 			@RequestParam(value = "time", required = false)String receivedTime,
 			@RequestParam(value = "mediaType", required = false)String mediaType) {
 		
-		// 현재 날짜와 시간을 기본값으로 사용
-        LocalDate date = (receivedDate != null) ? LocalDate.parse(receivedDate) : LocalDate.now();
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String formattedDate = date.format(dateFormat);
+		//받아온 날짜를 "20240401" 형태로 변환
+		
+		
+		//받아온 시간을 10분 단위로 내림해서 "HHMM" 형태로 변환
+		
 		
 		// 인코딩 인증키
 		String API_KEY = "SW%2B5pKGzSgxkkJeryeK9fDYT4XzTiNTgsgOqTRrx3xuxsO4kT7vcDilIqs7VmmkTGVsXAv919McNuZIbnc3uGw%3D%3D";
 		// API URL 구성
 	    String API_URL = "http://apis.data.go.kr/1360000/SatlitImgInfoService/getInsightSatlit?serviceKey="
-	            + API_KEY + "&numOfRows=10&pageNo=1&sat=g2&data=" + mediaType + "&area=ea&time=" + formattedDate + "&dataType=JSON";
+	            + API_KEY + "&numOfRows=10&pageNo=1&sat=g2&data=" + mediaType + "&area=ea&time=" +  + "&dataType=JSON";
 		
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -49,6 +50,7 @@ public class satelliteController {
 		}
 		
 		String s = restTemplate.getForObject(uri, String.class);
+		System.out.println("받아온 JSON : " + s);
 
 //		int movieSize = movie.boxOfficeResult.dailyBoxOfficeList.size();
 //		model.addAttribute("movieSize", movieSize);
