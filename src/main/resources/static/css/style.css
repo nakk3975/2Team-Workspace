@@ -1,0 +1,575 @@
+body {
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 0;
+  /* background-color: #333; /* 배경색을 검은색(#333)으로 지정 */
+  /* color: #fff; */
+}
+
+div {
+  margin: 0;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.navbar img {
+  max-height: 40px;
+  vertical-align: middle;
+  /* 이미지의 수직 정렬 조정 */
+}
+
+#Logo {
+  padding-left: 20px;
+  width: 230px;
+}
+
+.login-container {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.login-button {
+  background-color: #3498DB;
+  color: white;
+  width: 210px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.login-button:hover {
+  background-color: #0066cc;
+  /* hover 시 색 변경 */
+}
+
+.Menu:hover {
+  background-color: #F4EEEE
+}
+
+.Menu_except:hover {
+  background-color: #F4EEEE
+}
+
+.LoginOption {
+  font-size: 13px;
+  color: gray;
+  margin-left: 10px;
+  /* 링크 사이의 간격 조절 */
+}
+
+#generateResult {
+  background-color: #3498DB;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 20px;
+  position: relative;
+  top: -3px;
+}
+
+
+
+#mid_content {
+  /* background-color: rgb(96, 115, 115); */
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+#mid_content span {
+  margin: -2px;
+}
+
+
+#mid_content a {
+  margin: 0;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  /* 링크 텍스트를 볼드 처리 */
+  /* margin: 0 5px; */
+  /* 각 링크 사이의 간격 조절 */
+  /* position: relative; */
+}
+
+
+#box {
+  /* background-color: brown; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#left_main {
+  /* background-color: #E0E0E0; */
+  width: 800px;
+  height: 900px;
+}
+
+
+/* 
+우
+우측배너영역
+*/
+#right_banners {
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  padding: 10px 5px 10px 5px;
+  background-color: #E0E0E0;
+  width: 300px;
+  height: 1280px;
+  margin-left: 30px;
+  float: left;
+}
+
+#right_banners p {
+  margin: 5px 0px 10px 0px;
+}
+
+
+#main {
+  display: flex;
+}
+
+
+.Menu {
+  /* background-color: #74b7fa; */
+  border-right: 2px solid #E0E0E0;
+  /* 오른쪽 선만 설정 */
+  padding: 8px 50px 8px 50px;
+}
+
+.Menu_except {
+  padding: 8px 70px 8px 70px;
+}
+
+#bot {
+  background-color: rgb(216, 210, 210);
+  width: auto;
+  text-align: center;
+  font-weight: bold;
+  margin: 150px 0px 0px 0px;
+  padding: 5px 0px 5px 0px;
+  position: absolute;
+  width: 100%;
+  bottom: -900px;
+}
+
+#left_main_top {
+  padding: 20px 0px 10px 0px;
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  background-color: #E0E0E0;
+  height: 600px;
+  width: auto;
+}
+
+.left-main-top{
+  /* display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 0; */
+}
+
+
+#generateResult{
+  margin-left: 100px;
+}
+
+
+#left_main_top_top {
+  margin-top: 20px;
+  border-top: 1px solid black;
+  /* 위쪽 선만 설정 */
+  border-bottom: 1px solid black;
+  /* background-color: #3498DB; */
+  height: 300px;
+
+}
+
+#left_main_top_mid {
+  margin: 5px 0px 5px 0px;
+}
+
+#left_main_top_bot {
+  border-top: 1px solid black;
+  /* 왼쪽 선만 설정 */
+}
+
+#left_main_bot {
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  padding: 20px;
+  margin-top: 30px;
+  background-color: #E0E0E0;
+  height: 600px;
+  width: auto;
+}
+
+#container_opt {
+  margin-top: 40px;
+  height: 550px;
+  /* background-color: #0066cc; */
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  /* justify-content: space-between; */
+  margin-bottom: 20px;
+}
+
+.item {
+  width: calc(50% - 10px);
+  /* 각 요소의 너비를 50%로 설정하고 간격을 뺀 값으로 계산 */
+  padding: 10px;
+  margin: 8px;
+  height: 50px;
+  background-color: white;
+  border: 1px solid #ccc;
+}
+
+#right_banners_content_top {
+  display: block;
+  background-color: #3498DB;
+  height: 450px;
+}
+
+#right_banners_content_top_div {
+  border: 1px solid black;
+  overflow: hidden;
+  height: 452px;
+}
+
+#koreamap{
+  position: relative;
+  width: 400px;
+  left: -47px;
+  top: -170px;
+}
+
+.mapbutton{
+  background-color: #3498DB;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 17px 7px 17px;
+  position: relative;
+  top: -633px;
+  left: -30px;
+}
+
+#mapdivSeoul{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -620px;
+  left: 100px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivIncheon{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -680px;
+  left: 50px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivChuncheon{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -770px;
+  left: 150px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivGangneung{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -830px;
+  left: 200px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivUlreungDokdo{
+  border: 1px solid;
+  width: 40px;
+  height: 88px;
+  position: relative;
+  top: -920px;
+  left: 250px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivSuwon{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -920px;
+  left: 80px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivCheongju{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -980px;
+  left: 125px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivAndong{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1060px;
+  left: 180px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivPohang{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1110px;
+  left: 225px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivDaejeon{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1125px;
+  left: 100px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivJeonju{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1208px;
+  left: 50px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivDaegu{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1250px;
+  left: 155px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivUlsan{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1320px;
+  left: 235px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivBusan{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1340px;
+  left: 195px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivGwangju{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1410px;
+  left: 95px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivMokpo{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1460px;
+  left: 40px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivYeosu{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1530px;
+  left: 140px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+#mapdivJeju{
+  border: 1px solid;
+  width: 40px;
+  height: 70px;
+  position: relative;
+  top: -1550px;
+  left: 90px;
+  background-color: white;
+  border-radius: 50px;
+}
+
+
+
+.mapdivimg{
+  /* background-color: #0066cc; */
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  
+}
+
+.mapdivimgposition{
+  position: relative;
+  top: -10px;
+  left: -204px;
+  width: 250px;
+  height: auto;
+}
+
+.mapdivimgposition2{
+  position: relative;
+  top: -65px;
+  left: -204px;
+  width: 250px;
+  height: auto;
+}
+
+.mapdiv p{
+  position: relative;
+  font-size: 0.5em;
+  top: 1px;
+}
+
+.mapdiv h6{
+  font-size: 0.5em;
+  position: relative;
+  top: -45px;
+}
+
+
+#right_banners_content_mid {
+  background-color: white;
+  height: 500px;
+}
+
+#right_banners_content_bot {
+  background-color: white;
+  height: 250px;
+
+}
+
+#mid_content {
+  /* 기존 스타일 */
+  white-space: nowrap;
+  /* 텍스트 줄바꿈 방지 */
+}
+
+.Menu_except {
+  /* 기존 스타일 */
+  min-width: 100px;
+  /* 최소 너비 설정 */
+}
+
+h1 {
+  /* 기존 스타일 */
+  white-space: nowrap;
+  /* 텍스트 줄바꿈 방지 */
+  overflow: hidden;
+  /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis;
+  /* 넘치는 텍스트를 생략 부호 (...)로 표시 */
+}
+
+select {
+  height: 30px;
+  margin-left: 5px;
+  position: relative;
+  top: -5px;
+}
+
+#province{
+  margin-left: 80px;
+}
