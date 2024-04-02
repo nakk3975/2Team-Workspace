@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -10,6 +9,8 @@
   <link rel="stylesheet" href="/static/css/style.css">
   <title>우리 날씨</title>
   <script src="/static/js/script.js" defer></script>
+  <!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -19,7 +20,7 @@
     <div>
       <!-- 왼쪽 이미지 -->
       <a href="#">
-        <img src="/static/images/logo.png" id="logo" alt="왼쪽 이미지">
+        <img src="/static/image/logo.png" id="logo" alt="왼쪽 이미지">
       </a>
     </div>
 
@@ -85,13 +86,19 @@
             </div>
 
             <div id="leftMainTopTop">
+
               <!-- 상세날씨 -->
               <div class="left-main-top-top-img">
-                <img src="/static/images/weathericons.png" alt="" class="main-img-position1">
+                <img src="/static/image/weathericons.png" alt="" class="main-img-position1">
               </div>
               <div class="left-main-top-top-text">
                 9.9°
               </div>
+
+              <span class="resultUltrafineDust"></span>
+              <Br>
+              <span class="resultFineDust"></span>
+
             </div>
             <div id="leftMainTopMid">
               버튼
@@ -108,28 +115,48 @@
               <div class="container">
 
                 <div class="row">
-                  <div class="item">주간 예보</div>
-                  <div class="item">주간 예보</div>
+                  <div class="item">
+                    <span class="results" id="results0"></span>
+                  </div>
+                  <div class="item">
+                    <span class="results" id="results1"></span>
+                  </div>
                 </div>
 
                 <div class="row">
-                  <div class="item">주간 예보</div>
-                  <div class="item">주간 예보</div>
+                  <div class="item">
+                    <span class="results" id="results2"></span>
+                  </div>
+                  <div class="item">
+                    <span id="results3"></span>
+                  </div>
                 </div>
 
                 <div class="row">
-                  <div class="item">주간 예보</div>
-                  <div class="item">주간 예보</div>
+                  <div class="item">
+                    <span id="results4"></span>
+                  </div>
+                  <div class="item">
+                    <span id="results5"></span>
+                  </div>
                 </div>
 
                 <div class="row">
-                  <div class="item">주간 예보</div>
-                  <div class="item">주간 예보</div>
+                  <div class="item">
+                    <span id="results6"></span>
+                  </div>
+                  <div class="item">
+                    <span id="results7"></span>
+                  </div>
                 </div>
 
                 <div class="row">
-                  <div class="item">주간 예보</div>
-                  <div class="item">주간 예보</div>
+                  <div class="item">
+                    <span id="results8"></span>
+                  </div>
+                  <div class="item">
+                    <span id="results9"></span>
+                  </div>
                 </div>
 
               </div>
@@ -147,7 +174,7 @@
 
             <div id="rightBannersContentTopDiv">
 
-              <img src="/static/images/KoreanMap.jpg" alt="지도" id="koreaMap">
+              <img src="/static/image/KoreanMap.jpg" alt="지도" id="koreaMap">
               <div>
                 <button class="map-button">현재</button>
                 <button class="map-button">오전</button>
@@ -160,7 +187,7 @@
                   <div>
                     <p class="map-div-p">서울</p>
                     <div class="map-div-img">
-                      <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                      <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                     </div>
                     <h6 class="map-div-h6">9.5°C</h6>
                   </div>
@@ -170,7 +197,7 @@
                     <div>
                       <p class="map-div-p">인천</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -180,7 +207,7 @@
                     <div>
                       <p class="map-div-p">춘천</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -190,7 +217,7 @@
                     <div>
                       <p class="map-div-p">강릉</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -200,7 +227,7 @@
                     <div>
                       <p class="map-div-p">울릉/독도</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -210,7 +237,7 @@
                     <div>
                       <p class="map-div-p">수원</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -220,7 +247,7 @@
                     <div>
                       <p class="map-div-p">청주</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position1">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -230,7 +257,7 @@
                     <div>
                       <p class="map-div-p">안동</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -240,7 +267,7 @@
                     <div>
                       <p class="map-div-p">포항</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -250,7 +277,7 @@
                     <div>
                       <p class="map-div-p">대전</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -260,7 +287,7 @@
                     <div>
                       <p class="map-div-p">전주</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -270,7 +297,7 @@
                     <div>
                       <p class="map-div-p">대구</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -280,7 +307,7 @@
                     <div>
                       <p class="map-div-p">울산</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -290,7 +317,7 @@
                     <div>
                       <p class="map-div-p">부산</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -300,7 +327,7 @@
                     <div>
                       <p class="map-div-p">광주</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -310,7 +337,7 @@
                     <div>
                       <p class="map-div-p">목포</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position2">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -320,7 +347,7 @@
                     <div>
                       <p class="map-div-p">여수</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position1">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position1">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -330,7 +357,7 @@
                     <div>
                       <p class="map-div-p">제주</p>
                       <div class="map-div-img">
-                        <img src="/static/images/weathericons.png" alt="" class="map-div-img-position1">
+                        <img src="/static/image/weathericons.png" alt="" class="map-div-img-position1">
                       </div>
                       <h6 class="map-div-h6">9.5°C</h6>
                     </div>
@@ -344,8 +371,13 @@
 
           <div id="rightBannersContentBot">
             <br>
-            풍속, 풍향, 일몰, 일출, <Br>
-            미세먼지, 초미세먼지
+             자외선, 일몰, <Br>
+              <br>
+              <div class="resultUltrafineDust"></div>
+              <br>
+              <div class="resultFineDust"></div>
+              <br>
+              풍속, 풍향,
           </div>
 
         </div>
