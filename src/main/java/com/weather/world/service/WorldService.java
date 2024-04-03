@@ -31,17 +31,16 @@ public class WorldService {
 	public List<CountryDTO> getCountryCodes(){
         return worldMapper.getCountry();
     }
-	
-	@Autowired
-	private RestTemplate restTemplate;
 
 	public List<RegionDTO> getRegionsByCountryCode(String countryCode) throws JsonMappingException, JsonProcessingException {
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.set("X-RapidAPI-Key", API_KEY);
 	    HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 	    
+	    RestTemplate restTemplate = new RestTemplate();
+	    
 	    ResponseEntity<String> response = restTemplate.exchange(
-	        "https://wft-geo-db.p.rapidapi.com/v1/geo/countries/" + countryCode + "/regions", 
+	        "https://wft-geo-db.p.rapidapi.com/v1/geo/countries/" + countryCode + "/places", 
 	        HttpMethod.GET, 
 	        entity, 
 	        String.class);

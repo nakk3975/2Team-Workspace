@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,7 +28,8 @@ public class WorldRestController {
         return worldService.getCountryCodes();
     }
 	
-	public List<RegionDTO> getRegions(@PathVariable String countryCode) throws JsonMappingException, JsonProcessingException {
+	@GetMapping("/region")
+	public List<RegionDTO> getRegions(@RequestParam("countryCode") String countryCode) throws JsonMappingException, JsonProcessingException {
 	    return worldService.getRegionsByCountryCode(countryCode);
 	}
 
