@@ -258,6 +258,13 @@ div {
   top: -45px;
 }
 
+#seoulInfo1{
+  position: relative;
+  right: -250px;
+  top: -150px;
+}
+
+
 .main-img-position1{
   position: relative;
   width: 800px;

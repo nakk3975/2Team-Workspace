@@ -264,7 +264,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
         var baseDateNineDay = getLaterDate(9); // 9일 후 날짜
         var baseDateTenDay = getLaterDate(10); // 10일 후 날짜
 
-        $.getJSON("https://apis.data.go.kr/1360000/MidFcstInfoService/getMidTa?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&regId=11B10101&tmFc=202404020600",
+        $.getJSON("https://apis.data.go.kr/1360000/MidFcstInfoService/getMidTa?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&regId=11B10101&tmFc=" + baseDate + "0600",
             function (data) {
                 console.log(data);
 
@@ -291,9 +291,9 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             });
 
 
-            //미세먼지 초미세먼지
+        //미세먼지 초미세먼지
 
-             // 등급을 숫자에서 문자열로 변환하는 함수
+        // 등급을 숫자에서 문자열로 변환하는 함수
         function convertUltrafineDustGrade(grade) {
             if (grade <= 25) return "좋음";
             else if (grade <= 50) return "보통";
@@ -322,6 +322,151 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
                 let content2 = "미세먼지: " + fineDustGrade;
                 $('.resultFineDust').text(content2);
             });
+
+        // 자외선
+        // 등급을 숫자에서 문자열로 변환하는 함수
+        function ultravioletRays(ultraviolet) {
+            if (ultraviolet >= 0 && ultraviolet < 3) return "낮음";
+            else if (ultraviolet >= 3 && ultraviolet < 6) return "보통";
+            else if (ultraviolet >= 6 && ultraviolet < 8) return "높음";
+            else if (ultraviolet >= 8 && ultraviolet < 10) return "매우높음";
+            else if (ultraviolet >= 11) return "매우높음";
+        }
+
+        $.getJSON("https://apis.data.go.kr/1360000/LivingWthrIdxServiceV4/getUVIdxV4?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&areaNo=1100000000&time=" + baseDate,
+            function (data) {
+                console.log(data);
+
+                console.log(data.response.header.resultCode);
+
+                //                 단계	지수범위
+                // 위험	11 이상
+                // 매우높음	8~10
+                // 높음	6~7
+                // 보통	3~5
+                // 낮음	0~2
+                let item = data.response.header.resultCode;
+
+                let ultraviolet = ultravioletRays(item);
+
+                let content = "자외선: " + ultraviolet;
+                $('.ultraviolet').text(content);
+            });
+
+        //일출 일몰
+        class City {
+            constructor(name, latitude, longitude, containerId) {
+                this.name = name;
+                this.latitude = latitude;
+                this.longitude = longitude;
+                this.containerId = containerId;
+            }
+
+            fetchAndPrintSunriseSunset(apiKey) {
+                const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${this.latitude}&lon=${this.longitude}&appid=${apiKey}&units=metric&lang=kr`;
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const sunriseTime = new Date(data.city.sunrise * 1000);
+                        const sunsetTime = new Date(data.city.sunset * 1000);
+                        const formatTime = time => {
+                            const hours = time.getHours().toString().padStart(2, '0');
+                            const minutes = time.getMinutes().toString().padStart(2, '0');
+                            return `${hours}:${minutes}`;
+                        };
+
+                        const cityInfoContainer = document.getElementById(this.containerId);
+                        const cityInfo = document.createElement("div");
+                        cityInfo.classList.add("city-info");
+                        cityInfo.innerHTML = `<p>${this.name} 일출 시간: ${formatTime(sunriseTime)}</p><p>${this.name} 일몰 시간: ${formatTime(sunsetTime)}</p>`;
+                        cityInfoContainer.appendChild(cityInfo);
+                    })
+                    .catch(error => console.error(`${this.name}의 데이터를 불러오는 중 오류가 발생했습니다:`, error));
+            }
+        }
+
+        const cities = [
+            { name: "서울", latitude: "37.5665", longitude: "126.9780", containerId: "seoulInfo1" },
+            { name: "서울", latitude: "37.5665", longitude: "126.9780", containerId: "seoulInfo2" },
+            { name: "부산", latitude: "35.1796", longitude: "129.0756", containerId: "busanInfo1" },
+            { name: "인천", latitude: "37.4563", longitude: "126.7052", containerId: "incheonInfo1" },
+            { name: "대구", latitude: "35.8714", longitude: "128.6014", containerId: "daeguInfo1" },
+            { name: "대전", latitude: "36.3504", longitude: "127.3845", containerId: "daejeonInfo1" },
+            { name: "광주", latitude: "35.1595", longitude: "126.8526", containerId: "gwangjuInfo1" },
+            { name: "울산", latitude: "35.5384", longitude: "129.3114", containerId: "ulsanInfo1" },
+            { name: "수원", latitude: "37.2636", longitude: "127.0286", containerId: "suwonInfo1" },
+            { name: "강릉", latitude: "37.7519", longitude: "128.8760", containerId: "gangneungInfo1" },
+            { name: "춘천", latitude: "37.8810", longitude: "127.7298", containerId: "chuncheonInfo1" },
+            { name: "울릉", latitude: "37.4847", longitude: "130.8988", containerId: "uljinInfo1" },
+            { name: "청주", latitude: "36.6394", longitude: "127.4897", containerId: "cheongjuInfo1" },
+            { name: "안동", latitude: "36.5686", longitude: "128.7294", containerId: "andongInfo1" },
+            { name: "포항", latitude: "36.0198", longitude: "129.3700", containerId: "pohangInfo1" },
+            { name: "전주", latitude: "35.8242", longitude: "127.1470", containerId: "jeonjuInfo1" },
+            { name: "목포", latitude: "34.8128", longitude: "126.3945", containerId: "mokpoInfo1" },
+            { name: "여수", latitude: "34.7445", longitude: "127.7385", containerId: "yeosuInfo1" },
+            { name: "제주", latitude: "33.4996", longitude: "126.5312", containerId: "jejuInfo1" },
+            { name: "부산", latitude: "35.1796", longitude: "129.0756", containerId: "busanInfo2" },
+            { name: "인천", latitude: "37.4563", longitude: "126.7052", containerId: "incheonInfo2" },
+            { name: "대구", latitude: "35.8714", longitude: "128.6014", containerId: "daeguInfo2" },
+            { name: "대전", latitude: "36.3504", longitude: "127.3845", containerId: "daejeonInfo2" },
+            { name: "광주", latitude: "35.1595", longitude: "126.8526", containerId: "gwangjuInfo2" },
+            { name: "울산", latitude: "35.5384", longitude: "129.3114", containerId: "ulsanInfo2" },
+            { name: "수원", latitude: "37.2636", longitude: "127.0286", containerId: "suwonInfo2" },
+            { name: "강릉", latitude: "37.7519", longitude: "128.8760", containerId: "gangneungInfo2" },
+            { name: "춘천", latitude: "37.8810", longitude: "127.7298", containerId: "chuncheonInfo2" },
+            { name: "울릉", latitude: "37.4847", longitude: "130.8988", containerId: "uljinInfo2" },
+            { name: "청주", latitude: "36.6394", longitude: "127.4897", containerId: "cheongjuInfo2" },
+            { name: "안동", latitude: "36.5686", longitude: "128.7294", containerId: "andongInfo2" },
+            { name: "포항", latitude: "36.0198", longitude: "129.3700", containerId: "pohangInfo2" },
+            { name: "전주", latitude: "35.8242", longitude: "127.1470", containerId: "jeonjuInfo2" },
+            { name: "목포", latitude: "34.8128", longitude: "126.3945", containerId: "mokpoInfo2" },
+            { name: "여수", latitude: "34.7445", longitude: "127.7385", containerId: "yeosuInfo2" },
+            { name: "제주", latitude: "33.4996", longitude: "126.5312", containerId: "jejuInfo2" }
+            // 다른 도시들도 같은 방식으로 추가
+        ];
+
+        const apiKey = "35751a4ab55af8aaee858624e4a8d31e";
+
+        cities.forEach(city => {
+            const newCity = new City(city.name, city.latitude, city.longitude, city.containerId);
+            newCity.fetchAndPrintSunriseSunset(apiKey);
+        });
+
+
+        //풍속 풍향
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate+"&base_time=0500&nx=60&ny=127",
+        function (data) {
+            console.log(data);
+
+            const items = data.response.body.items.item;
+            let vecValue, wsdValue;
+
+            items.forEach(item => {
+                if (item.category === 'VEC') {
+                    // 풍향 값 변환 함수
+                    function convertWindDirection(deg) {
+                        if (deg >= 0 && deg <= 45) return '북북동';
+                        else if (deg > 45 && deg <= 90) return '북동';
+                        else if (deg > 90 && deg <= 135) return '동동남';
+                        else if (deg > 135 && deg <= 180) return '동남';
+                        else if (deg > 180 && deg <= 225) return '남남서';
+                        else if (deg > 225 && deg <= 270) return '남서';
+                        else if (deg > 270 && deg <= 315) return '서서북';
+                        else if (deg > 315 && deg <= 360) return '서북';
+                        else return '알 수 없음';
+                    }
+
+                    vecValue = convertWindDirection(item.fcstValue);
+                } else if (item.category === 'WSD') {
+                    wsdValue = item.fcstValue;
+                }
+            });
+
+            $(".result-vec").text(`풍향: ${vecValue}`);
+            $(".result-wsd").text(`풍속: ${wsdValue} m/s`);
+        });
+
 
 
 
