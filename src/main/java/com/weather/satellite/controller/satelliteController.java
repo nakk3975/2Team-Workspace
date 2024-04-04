@@ -2,20 +2,15 @@ package com.weather.satellite.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weather.satellite.dto.SatelliteDto;
 
 @RequestMapping("/satellite/*")
@@ -27,16 +22,12 @@ public class satelliteController {
 			@RequestParam(value = "time", required = false)String receivedTime,
 			@RequestParam(value = "mediaType", required = false)String mediaType) {
 		
-		// 현재 날짜와 시간을 기본값으로 사용
-        LocalDate date = (receivedDate != null) ? LocalDate.parse(receivedDate) : LocalDate.now();
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String formattedDate = date.format(dateFormat);
-		
 		// 인코딩 인증키
 		String API_KEY = "SW%2B5pKGzSgxkkJeryeK9fDYT4XzTiNTgsgOqTRrx3xuxsO4kT7vcDilIqs7VmmkTGVsXAv919McNuZIbnc3uGw%3D%3D";
+		
 		// API URL 구성
 	    String API_URL = "http://apis.data.go.kr/1360000/SatlitImgInfoService/getInsightSatlit?serviceKey="
-	            + API_KEY + "&numOfRows=10&pageNo=1&sat=g2&data=" + mediaType + "&area=ea&time=" + formattedDate + "&dataType=JSON";
+	            + API_KEY + "&numOfRows=10&pageNo=1&sat=g2&data=" + mediaType + "&area=ea&time=" + receivedDate +"&dataType=JSON";
 		
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -49,34 +40,19 @@ public class satelliteController {
 		}
 		
 		String s = restTemplate.getForObject(uri, String.class);
-
-//		int movieSize = movie.boxOfficeResult.dailyBoxOfficeList.size();
-//		model.addAttribute("movieSize", movieSize);
-//		String searchDate = movie.boxOfficeResult.showRange;
-//		model.addAttribute("searchDate", searchDate);
-//		List<String> movieName = new ArrayList<>();
-//		List<String> movieNum = new ArrayList<>();
-//		List<String> movieRank = new ArrayList<>();
-//		List<String> movieSales = new ArrayList<>();
-//		List<String> movieOpen = new ArrayList<>();
-//		for(int i = 0; i < movieSize; i++) {
-//			movieName.add(movie.boxOfficeResult.dailyBoxOfficeList.get(i).movieNm);
-//		    movieNum .add(movie.boxOfficeResult.dailyBoxOfficeList.get(i).rnum);
-//		    movieRank.add(movie.boxOfficeResult.dailyBoxOfficeList.get(i).rank);
-//		    movieSales.add(movie.boxOfficeResult.dailyBoxOfficeList.get(i).salesAcc);
-//		    movieOpen.add(movie.boxOfficeResult.dailyBoxOfficeList.get(i).openDt);
-//		}
-//		    // 영화 정보를 Model에 추가
-//		    model.addAttribute("movieName", movieName);
-//		    model.addAttribute("movieNum", movieNum);
-//		    model.addAttribute("movieRank", movieRank);
-//		    model.addAttribute("movieSales", movieSales);
-//		    model.addAttribute("movieOpen", movieOpen);
-//
-//		    String ddara = String.format("\n조회한 날짜 : %s\n"
-//		            + "영화 번호 : %s\n" + "영화 이름 : %s\n" + "영화 순위 : %s\n" + "영화 누적 매출액 : %s\n"
-//		            , searchDate, movieNum, movieName, movieRank, movieSales);
-//		    log.info("콘솔 확인용\n" + ddara);
+		System.out.println("받아온 JSON : " + s);
+		
+		// 오브젝트 맵퍼 json 정렬화 후 반환문
+		ObjectMapper objectMapper = new ObjectMapper();
+		      SatelliteDto response = new SatelliteDto();
+		      try {
+		         response = objectMapper.readValue(s,SatelliteDto.class);
+		      } catch (Exception e) {
+		         e.printStackTrace();
+		      }
+		      
+		System.out.println(response);
+		model.addAttribute("satellite", response);
 	
 		return "satellite/getSatelliteImages";
 	}
