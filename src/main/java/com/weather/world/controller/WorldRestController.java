@@ -30,7 +30,10 @@ public class WorldRestController {
 	
 	@GetMapping("/region")
 	public List<RegionDTO> getRegions(@RequestParam("countryCode") String countryCode) throws JsonMappingException, JsonProcessingException {
-	    return worldService.getRegionsByCountryCode(countryCode);
+	    // 국가 코드를 파라미터로 받아 그 나라의 도시 정보 가져오기
+		return worldService.getRegionsByCountryCode(countryCode);
 	}
 
+//	@GetMapping("/city")
+//	public List
 }
