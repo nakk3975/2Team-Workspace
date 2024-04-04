@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 import com.weather.finedust.dto.FineDustDto;
-import com.weather.finedustpicture.dto.FinedustPictureDto;
 
 import lombok.AllArgsConstructor;
 
@@ -94,30 +93,30 @@ public class FinedustController {
 
 			// [2] 지역별 어제~내일 미세먼지, 초미세먼지 예보.
 			URI uri = new URI(UrlMaker.dustForecastUrl(yesterday));
-			FinedustPictureDto dp = restTemplate.getForObject(uri, FinedustPictureDto.class);
-
-			//api 내 순서대로 오늘 미세먼지, 내일 미세먼지, 모래 미세먼지, 오늘 초미세먼지, 내일 초미세먼지, 모래 초미세먼지 정보가 주어짐.
-			com.weather.finedustpicture.dto.Item yesterday10 = dp.response.body.items.get(0);
-			com.weather.finedustpicture.dto.Item today10 = dp.response.body.items.get(1);
-			com.weather.finedustpicture.dto.Item tomorrow10 = dp.response.body.items.get(2);
-			com.weather.finedustpicture.dto.Item yesterday25 = dp.response.body.items.get(3);
-			com.weather.finedustpicture.dto.Item today25 = dp.response.body.items.get(4);
-			com.weather.finedustpicture.dto.Item tomorrow25 = dp.response.body.items.get(5);
-
-			// index 0부터 지역,등급 번갈아나옴. : 서울, 제주, 전남, 전북, 광주, 경남, 경북, 울산, 대구, 부산, 충남, 충북, 세종,
-			// 대전, 영동, 영서, 경기남부, 경기북부, 인천 순. (예 : index1 : 서울의 등급) 파싱하여 배열로 넘김.
-			String[] yesterday10Grades = yesterday10.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] today10Grades = today10.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] tomorrow10Grades = tomorrow10.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] yesterday25Grades = yesterday25.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] today25Grades = today25.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] tomorrow25Grades = tomorrow25.informGrade.split("\\s*(,|\\:)\\s*");
-			model.addAttribute("yesterday10Grades", yesterday10Grades);
-			model.addAttribute("today10Grades", today10Grades);
-			model.addAttribute("tomorrow10Grades", tomorrow10Grades);
-			model.addAttribute("yesterday25Grades", yesterday25Grades);
-			model.addAttribute("today25Grades", today25Grades);
-			model.addAttribute("tomorrow25Grades", tomorrow25Grades);
+//			FinedustPictureDto dp = restTemplate.getForObject(uri, FinedustPictureDto.class);
+//
+//			//api 내 순서대로 오늘 미세먼지, 내일 미세먼지, 모래 미세먼지, 오늘 초미세먼지, 내일 초미세먼지, 모래 초미세먼지 정보가 주어짐.
+//			com.weather.finedustpicture.dto.Item yesterday10 = dp.response.body.items.get(0);
+//			com.weather.finedustpicture.dto.Item today10 = dp.response.body.items.get(1);
+//			com.weather.finedustpicture.dto.Item tomorrow10 = dp.response.body.items.get(2);
+//			com.weather.finedustpicture.dto.Item yesterday25 = dp.response.body.items.get(3);
+//			com.weather.finedustpicture.dto.Item today25 = dp.response.body.items.get(4);
+//			com.weather.finedustpicture.dto.Item tomorrow25 = dp.response.body.items.get(5);
+//
+//			// index 0부터 지역,등급 번갈아나옴. : 서울, 제주, 전남, 전북, 광주, 경남, 경북, 울산, 대구, 부산, 충남, 충북, 세종,
+//			// 대전, 영동, 영서, 경기남부, 경기북부, 인천 순. (예 : index1 : 서울의 등급) 파싱하여 배열로 넘김.
+//			String[] yesterday10Grades = yesterday10.informGrade.split("\\s*(,|\\:)\\s*");
+//			String[] today10Grades = today10.informGrade.split("\\s*(,|\\:)\\s*");
+//			String[] tomorrow10Grades = tomorrow10.informGrade.split("\\s*(,|\\:)\\s*");
+//			String[] yesterday25Grades = yesterday25.informGrade.split("\\s*(,|\\:)\\s*");
+//			String[] today25Grades = today25.informGrade.split("\\s*(,|\\:)\\s*");
+//			String[] tomorrow25Grades = tomorrow25.informGrade.split("\\s*(,|\\:)\\s*");
+//			model.addAttribute("yesterday10Grades", yesterday10Grades);
+//			model.addAttribute("today10Grades", today10Grades);
+//			model.addAttribute("tomorrow10Grades", tomorrow10Grades);
+//			model.addAttribute("yesterday25Grades", yesterday25Grades);
+//			model.addAttribute("today25Grades", today25Grades);
+//			model.addAttribute("tomorrow25Grades", tomorrow25Grades);
 
 			
 			// [3] 사진 api 부분. > 17시 기준으로 데이터를 제공해줌. > 어제, 오늘, 내일 데이터를 받아오게 변경함.

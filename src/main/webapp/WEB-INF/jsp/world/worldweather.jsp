@@ -21,9 +21,6 @@
 		<section class="contents d-flex justify-content-center align-items-center">
 			<div>
 				<div id="map"></div>
-				<div id="nowWeather">
-				
-				</div>
 				<div id="weeklyWeather">
 				</div>
 			</div>
