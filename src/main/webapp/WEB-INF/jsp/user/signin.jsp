@@ -13,7 +13,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="/static/css/userstyle.css" type="text/css">
-
 </head>
 <body>
 	<div id="wrap">
@@ -44,13 +43,13 @@
 	<script>	
 		$(document).ready(function() {
 			
+			// 로그인 버튼 클릭 시
 			$("#loginForm").on("submit",function() {
-			
-//			$("#loginBtn").on("click", function() {
 				
 				let id = $("#idInput").val();
 				let password = $("#passwordInput").val();
 				
+				// id 입력창이 null 인지 확인 비어 있으면 알림 후 id 입력창으로 포커스 이동
 				if(!valueCheck($("#idInput"), "아이디")){
 					e.preventDefault();
 					return;
@@ -64,10 +63,12 @@
 				$.ajax({
 					type: "post"
 					, url: "/user/signin"
-					, data: {"loginId":id, "password":password}
+					, data: {"id":id, "password":password}
 					, success:function(data) {
+						// 로그인 성공 시 메인화면으로 이동
 						if(data.result == "success"){
-							location.href="/post/main/view";
+							location.href="/weather/main/view";
+						// 실패시 오류 메세지 표시
 						} else {
 							$("#loginFail").show();
 						}

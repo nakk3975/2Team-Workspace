@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-	<link rel="stylesheet" href="/static/css/style.css" type="text/css">
+	<link rel="stylesheet" href="/static/css/userstyle.css" type="text/css">
 
 </head>
 <body>
@@ -49,12 +49,14 @@
 			
 			var check = false;
 			
+			// id 입력창 변경 시 (중복확인 후 값을 변경 했을 때 다시 중복확인 누르게 바꿈)
 			$("#idInput").on("change", function() {
 				check = false;
 				$("#idDuplication").hide();
 				$("#idNotDuplication").hide();
 			});
 			
+			// 중복체크 버튼 클릭 시
 			$("#idCheckBtn").on("click", function() {
 				let id = $("#idInput").val();
 				
@@ -65,12 +67,14 @@
 				$.ajax({
 					type:"get"
 					, url:"/user/signup/duplication"
-					, data:{"loginId": id}
+					, data:{"id": id}
 					, success:function(data) {
+						// 결과가 true면 중복 되었다는 텍스트 출력
 						if(data.result) {
 							$("#idDuplication").show();
 							$("#idNotDuplication").hide();
 							check = false;
+						// false면 사용 가능하다고 출력
 						} else {
 							$("#idDuplication").hide();
 							$("#idNotDuplication").show();
@@ -84,6 +88,7 @@
 				
 			});
 			
+			// 가입버튼 클릭시
 			$("#joinBtn").on("click", function() {
 				let id = $("#idInput").val();
 				let password = $("#passwordInput").val();
@@ -108,6 +113,7 @@
 					return;
 				}
 				
+				// 이메일 유효성 체크
 				if(!exptext.test(email)){
 					alert("이메일 형식이 맞지 않습니다.");
 					email.val("");
@@ -115,6 +121,7 @@
 					return;
 				}
 				
+				// 비밀번호와 비밀번호 확인이 일치하는지 체크
 				if(password != passwordConfirm){
 					alert("비밀번호와 비밀번호확인이 일치하지 않습니다.");
 					passwordConfirm.val("");
@@ -122,6 +129,7 @@
 					return;
 				}
 				
+				// id 중복체크가 안 되어 있을 시 알림
 				if(!check){
 					alert("아이디 중복체크를 해주세요");
 					return;
@@ -130,17 +138,19 @@
 				$.ajax({
 					type:"post"
 					, url:"/user/signup"
-					, data:{"loginId":id, "password":password, "name":name, "email":email}
+					, data:{"id":id, "password":password, "name":name, "email":email}
 					, success:function(data) {
+						// 회원가입 성공 시 로그인 화면으로 이동
 						if(data.result == "success"){
 							alert("가입이 완료되었습니다.");
 							location.href="/user/signin/view";
+						// 실패 시 오류 알림
 						} else {
-							alert("가입 오류");
+							alert("입력 오류");
 						}
 					}
 					, error:function() {
-						alert("입력 오류");
+						alert("회원가입 api 오류");
 					}
 				});
 			});

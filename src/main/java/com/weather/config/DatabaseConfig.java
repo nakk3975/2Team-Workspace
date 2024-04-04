@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+// DB, Mapper 연결 설정
 @Configuration
 @MapperScan(basePackages="com.weather.*")
 public class DatabaseConfig {
