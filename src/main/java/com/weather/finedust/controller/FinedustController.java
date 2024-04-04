@@ -95,7 +95,7 @@ public class FinedustController {
 			URI uri = new URI(UrlMaker.dustForecastUrl(yesterday));
 			FineDustDto dp = restTemplate.getForObject(uri, FineDustDto.class);
 
-			//api 내 순서대로 오늘 미세먼지, 내일 미세먼지, 모래 미세먼지, 오늘 초미세먼지, 내일 초미세먼지, 모래 초미세먼지 정보가 주어짐.
+			// api 내 순서대로 오늘 미세먼지, 내일 미세먼지, 모래 미세먼지, 오늘 초미세먼지, 내일 초미세먼지, 모래 초미세먼지 정보가 주어짐.
 			com.weather.finedust.dto.Item yesterday10 = dp.response.body.items.get(0);
 			com.weather.finedust.dto.Item today10 = dp.response.body.items.get(1);
 			com.weather.finedust.dto.Item tomorrow10 = dp.response.body.items.get(2);
@@ -118,7 +118,6 @@ public class FinedustController {
 			model.addAttribute("today25Grades", today25Grades);
 			model.addAttribute("tomorrow25Grades", tomorrow25Grades);
 
-			
 			// [3] 사진 api 부분. > 17시 기준으로 데이터를 제공해줌. > 어제, 오늘, 내일 데이터를 받아오게 변경함.
 			// 10:미세먼지, 25:초미세먼지.
 			String yesterdayAm10Image = UrlMaker.dustPictureUrl(twoDaysAgo, twoDaysAgo, twoDaysAgo, "am", 10);
@@ -149,8 +148,7 @@ public class FinedustController {
 			model.addAttribute("tomorrowPm25Image", tomorrowPm25Image);
 
 		} catch (URISyntaxException e) {
-			
+
 		}
 	}
-
 }
