@@ -290,9 +290,112 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
             });
 
+        // 실시간 기온
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date="+ baseDate+"&base_time=0600&nx=60&ny=127",
+            function (data) {
+                console.log(data);
+                // 데이터에서 T1H 값을 찾아서 출력
+                var items = data.response.body.items.item;
+                var t1hValue;
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].category === "T1H") {
+                        t1hValue = items[i].obsrValue;
+                        console.log("실황기온: " + t1hValue);
+                        $(".result-t1h").text(`${t1hValue}°`);
+                        // 어제의 평균 기온을 가져오는 AJAX 호출 실행
+                        getYesterdayAvgTa(t1hValue);
+                        break;
+                    }
+                }
+            });
+
+        // 어제의 평균 기온을 가져오는 AJAX 호출
+        function getYesterdayAvgTa(t1hValue) {
+            $.getJSON("https://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&dataCd=ASOS&dateCd=DAY&startDt="+baseDateYesterday+"&endDt="+baseDateYesterday+"&stnIds=108",
+                function (data) {
+                    console.log(data);
+                    var yesterdayAvgTa = parseFloat(data.response.body.items.item[0].avgTa); // 어제의 평균 기온
+                    console.log("어제 평균 기온: " + yesterdayAvgTa);
+                    // 실황기온과 어제의 평균 기온을 비교하여 증감을 계산
+                    var temperatureChange = parseFloat(t1hValue) - yesterdayAvgTa;
+                    var temperatureChangeText = temperatureChange >= 0 ? "어제보다 " + temperatureChange.toFixed(1) + "°↑" : "어제보다 " + Math.abs(temperatureChange).toFixed(1) + "°↓";
+                    $(".temperature-change").text(temperatureChangeText);
+                });
+        }
+
+        // 날씨 흐림 비 맑음 등
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date="+ baseDate+"&base_time=0500&nx=60&ny=127",
+            function (data) {
+                var items = data.response.body.items.item;
+                var skyValue = null;
+                var ptyValue = null;
+
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    if (item.category === 'SKY') {
+                        switch (item.fcstValue) {
+                            case '1':
+                                skyValue = '맑음';
+                                break;
+                            case '3':
+                                skyValue = '구름많음';
+                                break;
+                            case '4':
+                                skyValue = '흐림';
+                                break;
+                        }
+                    } else if (item.category === 'PTY') {
+                        switch (item.fcstValue) {
+                            case '0':
+                                // PTY 값이 '없음'인 경우에는 skyValue를 사용
+                                ptyValue = '없음';
+                                break;
+                            case '1':
+                                ptyValue = '비';
+                                break;
+                            case '2':
+                                ptyValue = '비/눈';
+                                break;
+                            case '3':
+                                ptyValue = '눈';
+                                break;
+                            case '5':
+                                ptyValue = '빗방울';
+                                break;
+                            case '6':
+                                ptyValue = '빗방울눈날림';
+                                break;
+                            case '7':
+                                ptyValue = '눈날림';
+                                break;
+                        }
+                    }
+                }
+
+                let weatherInfo = ptyValue === '없음' ? skyValue : ptyValue;
+                $('.weather-info').text(weatherInfo);
+            });
+
+            // 강수 습도
+            $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=20240404&base_time=0600&nx=60&ny=127",
+            function (data) {
+                // 습도와 1시간 강수량 데이터 찾기
+                var rehValue, rn1Value;
+                data.response.body.items.item.forEach(function(item) {
+                    if (item.category === "REH") {
+                        rehValue = item.obsrValue + "%"; // 습도 값에 "%" 추가
+                    } else if (item.category === "RN1") {
+                        rn1Value = item.obsrValue + "mm"; // 강수량 값에 "mm" 추가
+                    }
+                });
+
+                // 결과를 화면에 표시
+                $(".result-reh").text("습도: " + rehValue);
+                $(".result-rn1").text("강수: " + rn1Value);
+            });
+
 
         //미세먼지 초미세먼지
-
         // 등급을 숫자에서 문자열로 변환하는 함수
         function convertUltrafineDustGrade(grade) {
             if (grade <= 25) return "좋음";
@@ -435,37 +538,37 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
 
         //풍속 풍향
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate+"&base_time=0500&nx=60&ny=127",
-        function (data) {
-            console.log(data);
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+            function (data) {
+                console.log(data);
 
-            const items = data.response.body.items.item;
-            let vecValue, wsdValue;
+                const items = data.response.body.items.item;
+                let vecValue, wsdValue;
 
-            items.forEach(item => {
-                if (item.category === 'VEC') {
-                    // 풍향 값 변환 함수
-                    function convertWindDirection(deg) {
-                        if (deg >= 0 && deg <= 45) return '북북동';
-                        else if (deg > 45 && deg <= 90) return '북동';
-                        else if (deg > 90 && deg <= 135) return '동동남';
-                        else if (deg > 135 && deg <= 180) return '동남';
-                        else if (deg > 180 && deg <= 225) return '남남서';
-                        else if (deg > 225 && deg <= 270) return '남서';
-                        else if (deg > 270 && deg <= 315) return '서서북';
-                        else if (deg > 315 && deg <= 360) return '서북';
-                        else return '알 수 없음';
+                items.forEach(item => {
+                    if (item.category === 'VEC') {
+                        // 풍향 값 변환 함수
+                        function convertWindDirection(deg) {
+                            if (deg >= 0 && deg <= 45) return '북북동';
+                            else if (deg > 45 && deg <= 90) return '북동';
+                            else if (deg > 90 && deg <= 135) return '동동남';
+                            else if (deg > 135 && deg <= 180) return '동남';
+                            else if (deg > 180 && deg <= 225) return '남남서';
+                            else if (deg > 225 && deg <= 270) return '남서';
+                            else if (deg > 270 && deg <= 315) return '서서북';
+                            else if (deg > 315 && deg <= 360) return '서북';
+                            else return '알 수 없음';
+                        }
+
+                        vecValue = convertWindDirection(item.fcstValue);
+                    } else if (item.category === 'WSD') {
+                        wsdValue = item.fcstValue;
                     }
+                });
 
-                    vecValue = convertWindDirection(item.fcstValue);
-                } else if (item.category === 'WSD') {
-                    wsdValue = item.fcstValue;
-                }
+                $(".result-vec").text(`풍향: ${vecValue}`);
+                $(".result-wsd").text(`풍속: ${wsdValue} m/s`);
             });
-
-            $(".result-vec").text(`풍향: ${vecValue}`);
-            $(".result-wsd").text(`풍속: ${wsdValue} m/s`);
-        });
 
 
 

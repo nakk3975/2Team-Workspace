@@ -1,4 +1,5 @@
- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> 
+<!-- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> -->
+<!-- 이미지 null값 뜨면 alt로 이미지 날짜 표기 -->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -92,15 +93,34 @@
               <div class="left-main-top-top-img">
                 <img src="/static/image/weathericons.png" alt="" class="main-img-position1">
               </div>
+
+
+              <!-- 현재기온 어제기온비교 -->
               <div class="left-main-top-top-text">
-                9.9°
+                <!-- 현재 온도 -->
+                <div class="result-t1h"></div>
+                <!-- 어제 온도 비교 -->
+                <div class="temperature-change"></div>
+                <!-- 날씨상태 맑음 흐림 구름  -->
+                <div class="weather-info"></div>
               </div>
 
-              <span class="resultUltrafineDust"></span>
-              <Br>
-              <span class="resultFineDust"></span>
-              <Br>
-              <span class="ultraviolet"></span>
+
+
+              <div class="temporary">
+
+                <div class="result-rn1"></div>
+                <div class="result-reh"></div>
+
+                <span class="resultUltrafineDust"></span>
+
+                <Br>
+
+                <span class="resultFineDust"></span>
+                <Br>
+                <span class="ultraviolet"></span>
+
+              </div>
 
               <div id="seoulInfo1"></div>
 
@@ -372,6 +392,7 @@
             </div>
 
             <div id="rightBannersContentMid">위치
+              <div class="result-t1h"></div>
             </div>
 
             <div id="rightBannersContentBot">
@@ -383,9 +404,9 @@
               <div class="resultUltrafineDust"></div>
 
               <div class="resultFineDust"></div>
-              
+
               <div class="result-wsd"></div>
-              
+
               <div class="result-vec"></div>
 
             </div>

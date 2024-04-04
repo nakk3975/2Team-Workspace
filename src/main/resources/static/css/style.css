@@ -258,11 +258,29 @@ div {
   top: -45px;
 }
 
+.temporary{
+  position: relative;
+  font-size: 20px;
+  left: -200px;
+  top: -80px;
+}
+
+.temperature-change{
+  font-size: 20px;
+}
+
+.weather-info{
+  font-size: 20px;
+}
+
+
 #seoulInfo1{
   position: relative;
   right: -250px;
-  top: -150px;
+  top: -200px;
 }
+
+
 
 
 .main-img-position1{
