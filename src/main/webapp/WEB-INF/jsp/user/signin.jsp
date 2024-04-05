@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div id="wrap">
-		<!--<c:import url="/WEB-INF/jsp/include/header.jsp" /> -->
+		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section class="contents d-flex justify-content-center">
 			<div class="join">
 				<div class="text-center">
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 		</section>
-		<!--<c:import url="/WEB-INF/jsp/include/footer.jsp"/>-->
+		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
 	</div>
 	
 	<script src="/static/js/form.js"></script>
