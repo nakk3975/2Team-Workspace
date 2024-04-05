@@ -99,15 +99,21 @@
               <div class="left-main-top-top-text">
                 <!-- 현재 온도 -->
                 <div class="result-t1h"></div>
-                <!-- 어제 온도 비교 -->
-                <div class="temperature-change"></div>
-                <!-- 날씨상태 맑음 흐림 구름  -->
-                <div class="weather-info"></div>
+
+                <div id="flex1">
+                  <!-- 어제 온도 비교 -->
+                  <div class="temperature-change"></div>
+                  <!-- 날씨상태 맑음 흐림 구름  -->
+                  <div class="weather-info"></div>
+                  <!-- 체감온도 -->
+                </div>
+
               </div>
 
 
 
               <div class="temporary">
+                <div id="seoulWeather"></div>
 
                 <div class="result-rn1"></div>
                 <div class="result-reh"></div>
@@ -142,45 +148,85 @@
                 <div class="row">
                   <div class="item">
                     <span class="results" id="results0"></span>
+                    <div class="flex-container0">
+                      <div id="forecastData1"></div>
+                      <div id="forecastData2"></div>
+                    </div>
                   </div>
                   <div class="item">
                     <span class="results" id="results1"></span>
+                    <div class="flex-container1">
+                      <div id="forecastData3"></div>
+                      <div id="forecastData4"></div>
+                    </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="item">
                     <span class="results" id="results2"></span>
+                    <div class="flex-container2">
+                      <div id="forecastData5"></div>
+                      <div id="forecastData6"></div>
+                    </div>
                   </div>
                   <div class="item">
                     <span id="results3"></span>
+                    <div class="flex-container3">
+                      <p id="rnSt3Am"></p>
+                      <p id="rnSt3Pm"></p>
+                    </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="item">
                     <span id="results4"></span>
+                    <div class="flex-container4">
+                      <p id="rnSt4Am"></p>
+                      <p id="rnSt4Pm"></p>
+                  </div>
                   </div>
                   <div class="item">
                     <span id="results5"></span>
+                    <div class="flex-container5">
+                      <p id="rnSt5Am"></p>
+                      <p id="rnSt5Pm"></p>
+                  </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="item">
                     <span id="results6"></span>
+                    <div class="flex-container6">
+                      <p id="rnSt6Am"></p>
+                      <p id="rnSt6Pm"></p>
+                  </div>
                   </div>
                   <div class="item">
                     <span id="results7"></span>
+                    <div class="flex-container7">
+                      <p id="rnSt7Am"></p>
+                      <p id="rnSt7Pm"></p>
+                  </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="item">
                     <span id="results8"></span>
+                    <div class="flex-container8">
+                      <p id="rnSt8Am"></p>
+                      <p id="rnSt8Pm"></p>
+                  </div>
                   </div>
                   <div class="item">
                     <span id="results9"></span>
+                    <div class="flex-container9">
+                      <p id="rnSt9Am"></p>
+                      <p id="rnSt9Pm"></p>
+                  </div>
                   </div>
                 </div>
 
@@ -391,7 +437,7 @@
               </div>
             </div>
 
-            <div id="rightBannersContentMid">위치
+            <div id="rightBannersContentMid">서울 | 현재
               <div class="result-t1h"></div>
             </div>
 

@@ -165,7 +165,7 @@ div {
   height: 350px;
 }
 
-#rightBannersContentBot{
+#rightBannersContentBot {
   background-color: white;
   height: 400px;
 
@@ -204,13 +204,6 @@ div {
   margin-left: 100px;
 }
 
-.left_main_top_nav_menu{
-  /* display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin: 0; */
-}
 
 
 
@@ -241,7 +234,7 @@ div {
 
 }
 
-.left-main-top-top-img{
+.left-main-top-top-img {
   width: 110px;
   height: 110px;
   /* background-color: #0066cc; */
@@ -251,30 +244,35 @@ div {
   transform: translate(-50%, 30%);
 }
 
-.left-main-top-top-text{
+.left-main-top-top-text {
   position: relative;
   font-size: 50px;
   left: 40px;
   top: -45px;
 }
 
-.temporary{
+#flex1{
+  display: flex;
+  justify-content: center;
+}
+
+.temporary {
   position: relative;
   font-size: 20px;
   left: -200px;
   top: -80px;
 }
 
-.temperature-change{
+.temperature-change {
   font-size: 20px;
 }
 
-.weather-info{
+.weather-info {
   font-size: 20px;
 }
 
 
-#seoulInfo1{
+#seoulInfo1 {
   position: relative;
   right: -250px;
   top: -200px;
@@ -283,7 +281,7 @@ div {
 
 
 
-.main-img-position1{
+.main-img-position1 {
   position: relative;
   width: 800px;
   height: auto;
@@ -301,7 +299,7 @@ div {
 }
 
 
-#province{
+#province {
   margin-left: 80px;
 }
 
@@ -345,21 +343,41 @@ div {
   height: 50px;
   background-color: white;
   border: 1px solid #ccc;
+  display: flex;
 }
 
-.results{
+.results {
   position: relative;
   top: -35px;
 }
 
-#koreaMap{
+.flex-container0,
+.flex-container1,
+.flex-container2{
+  display: flex;
+}
+
+.flex-container3,
+.flex-container4,
+.flex-container5,
+.flex-container6,
+.flex-container7,
+.flex-container8,
+.flex-container9{
+  display: flex;
+  position: relative;
+  top: -30px;
+}
+
+
+#koreaMap {
   position: relative;
   width: 400px;
   left: -47px;
   top: -170px;
 }
 
-.map-button{
+.map-button {
   background-color: #3498DB;
   color: white;
   border: none;
@@ -370,7 +388,7 @@ div {
   left: -30px;
 }
 
-#mapSeoul{
+#mapSeoul {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -381,7 +399,7 @@ div {
   border-radius: 50px;
 }
 
-#mapIncheon{
+#mapIncheon {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -392,7 +410,7 @@ div {
   border-radius: 50px;
 }
 
-#mapChuncheon{
+#mapChuncheon {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -403,7 +421,7 @@ div {
   border-radius: 50px;
 }
 
-#mapGangneung{
+#mapGangneung {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -414,7 +432,7 @@ div {
   border-radius: 50px;
 }
 
-#mapUlreungDokdo{
+#mapUlreungDokdo {
   border: 1px solid;
   width: 40px;
   height: 88px;
@@ -425,7 +443,7 @@ div {
   border-radius: 50px;
 }
 
-#mapSuwon{
+#mapSuwon {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -436,7 +454,7 @@ div {
   border-radius: 50px;
 }
 
-#mapCheongju{
+#mapCheongju {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -447,7 +465,7 @@ div {
   border-radius: 50px;
 }
 
-#mapAndong{
+#mapAndong {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -458,7 +476,7 @@ div {
   border-radius: 50px;
 }
 
-#mapPohang{
+#mapPohang {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -469,7 +487,7 @@ div {
   border-radius: 50px;
 }
 
-#mapDaejeon{
+#mapDaejeon {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -480,7 +498,7 @@ div {
   border-radius: 50px;
 }
 
-#mapJeonju{
+#mapJeonju {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -491,7 +509,7 @@ div {
   border-radius: 50px;
 }
 
-#mapDaegu{
+#mapDaegu {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -502,7 +520,7 @@ div {
   border-radius: 50px;
 }
 
-#mapUlsan{
+#mapUlsan {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -513,7 +531,7 @@ div {
   border-radius: 50px;
 }
 
-#mapBusan{
+#mapBusan {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -524,7 +542,7 @@ div {
   border-radius: 50px;
 }
 
-#mapGwangju{
+#mapGwangju {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -535,7 +553,7 @@ div {
   border-radius: 50px;
 }
 
-#mapMokpo{
+#mapMokpo {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -546,7 +564,7 @@ div {
   border-radius: 50px;
 }
 
-#mapYeosu{
+#mapYeosu {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -557,7 +575,7 @@ div {
   border-radius: 50px;
 }
 
-#mapJeju{
+#mapJeju {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -568,7 +586,7 @@ div {
   border-radius: 50px;
 }
 
-.map-div-img{
+.map-div-img {
   margin: 0;
   text-decoration: none;
   font-size: 25px;
@@ -582,10 +600,10 @@ div {
   position: relative;
   left: 50%;
   transform: translate(-50%, -40%);
-  
+
 }
 
-.map-div-img-position1{
+.map-div-img-position1 {
   position: relative;
   top: -10px;
   left: -204px;
@@ -593,7 +611,7 @@ div {
   height: auto;
 }
 
-.map-div-img-position2{
+.map-div-img-position2 {
   position: relative;
   top: -65px;
   left: -204px;
@@ -601,13 +619,13 @@ div {
   height: auto;
 }
 
-.map-div-p{
+.map-div-p {
   position: relative;
   font-size: 0.5em;
   top: -5px;
 }
 
-.map-div-h6{
+.map-div-h6 {
   font-size: 0.5em;
   position: relative;
   top: -55px;
