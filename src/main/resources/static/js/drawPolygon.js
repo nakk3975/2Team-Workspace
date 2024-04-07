@@ -15,18 +15,11 @@ let mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
     kakao.maps.event.addListener(map, 'zoom_changed', function () {
         level = map.getLevel()
-        if (!detailMode && level <= 10) { // level 에 따라 다른 json 파일을 사용한다.
-            detailMode = true;
             removePolygon();
-            init("json/sido.json")
-        } else if (detailMode && level > 10) { // level 에 따라 다른 json 파일을 사용한다.
-            detailMode = false;
-            removePolygon();
-            init("json/sido.json")
-        }
+            init("json/sido.json");
     });
 
-  	// 모든 폴리곤을 지우는 함수
+//  	 모든 폴리곤을 지우는 함수
     function removePolygon() { 
         for (let i = 0; i < polygons.length; i++) {
             polygons[i].setMap(null);
