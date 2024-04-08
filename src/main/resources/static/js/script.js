@@ -3,10 +3,35 @@ const provinceSelect = document.getElementById('province');
 const citySelect = document.getElementById('city');
 const resultDiv = document.getElementById('resultValue');
 const generateResultButton = document.getElementById('generateResult');
-
+va
 const citiesByProvince = {
-    '서울특별시': ['강남구', '강서구', '관악구'],
-    '경기도': ['수원시', '성남시', '용인시']
+    '서울특별시': {
+        '종로구': {x: 60, y: 127},
+        '중구': {x: 60, y: 127},
+        '용산구': {x: 60, y: 126},
+        '성동구': {x: 61, y: 127},
+        '광진구': {x: 62, y: 126},
+        '동대문구': {x: 61, y: 127},
+        '중랑구': {x: 62, y: 128},
+        '성북구': {x: 61, y: 127},
+        '강북구': {x: 61, y: 128},
+        '도봉구': {x: 61, y: 129},
+        '노원구': {x: 61, y: 129},
+        '은평구': {x: 59, y: 127},
+        '서대문구': {x: 59, y: 127},
+        '마포구': {x: 59, y: 127},
+        '양천구': {x: 58, y: 126},
+        '강서구': {x: 58, y: 126},
+        '구로구': {x: 58, y: 125},
+        '금천구': {x: 59, y: 124},
+        '영등포구': {x: 58, y: 126},
+        '동작구': {x: 59, y: 125},
+        '관악구': {x: 59, y: 125},
+        '서초구': {x: 61, y: 125},
+        '강남구': {x: 61, y: 126},
+        '송파구': {x: 62, y: 126},
+        '강동구': {x: 62, y: 126}
+    }
     // 다른 시/도에 따른 구/군 정보 추가
 };
 
