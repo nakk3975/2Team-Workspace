@@ -1,6 +1,6 @@
 
-var x;
-var y;
+var x = 61;
+var y = 126;
 const citiesByProvince = {
     '서울특별시': {
         '종로구': {x: 60, y: 127},
@@ -294,23 +294,25 @@ const citiesByProvince = {
 const provinceSelect = document.getElementById('province');
 const citySelect = document.getElementById('city');
 const resultDiv = document.getElementById('resultValue');
-const generateResultButton = document.getElementById('generateResult');
-
-function populateOptions(selectElement, options) {
-    selectElement.innerHTML = '';
-    options.forEach(option => {
-        const optionElement = document.createElement('option');
-        optionElement.textContent = option;
-        optionElement.value = option;
-        selectElement.appendChild(optionElement);
-    });
-}
 
 function updateCityOptions() {
     const selectedProvince = provinceSelect.value;
-    const cities = citiesByProvince[selectedProvince];
-    populateOptions(citySelect, cities);
-    citySelect.disabled = false;
+    const cities = Object.keys(citiesByProvince[selectedProvince]); //citiesByProvince[selectedProvince];
+
+    citySelect.innerHTML = '<option value="" selected disabled>구/군 선택</option>';
+
+     if (cities.length > 0) {
+        cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+        });
+        citySelect.disabled = false;
+    } else {
+        citySelect.disabled = true;
+    }
+
     updateResult();
 }
 
@@ -320,20 +322,10 @@ function updateResult() {
     resultDiv.textContent = `${province} ${city}`;
 }
 
-function printSelectedValuesToConsole() {
-    const province = provinceSelect.value;
-    const city = citySelect.value || "";
-    console.log(`${province} ${city}`);
-}
-
-
-
 provinceSelect.addEventListener('change', updateCityOptions);
 citySelect.addEventListener('change', updateResult);
-generateResultButton.addEventListener('click', printSelectedValuesToConsole);
 
 updateCityOptions();
-updateResult();
 
 // script.js 파일
 
