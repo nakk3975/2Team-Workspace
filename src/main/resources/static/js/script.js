@@ -430,7 +430,7 @@ var baseDateYesterday = getYesterday(); // 어제 날짜
 
 var baseDateToday = getTodayFormatted() // 오늘 날짜 00.00 버전
 
-$.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDateYesterday + "&base_time=0500&nx="+ x + "&ny=" + y,
+$.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDateYesterday + "&base_time=0500&nx=" + x + "&ny=" + y,
     function (data) {
         console.log(data);
 
