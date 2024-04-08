@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.weather.user.dto.UserDTO;
 import com.weather.user.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/user")
 public class UserRestController {
@@ -47,7 +50,8 @@ public class UserRestController {
 	@PostMapping("/signin")
 	public Map<String, String> signin(
 			@RequestParam("id") String id
-			, @RequestParam("password") String password) {
+			, @RequestParam("password") String password
+			, HttpSession session) {
 		// select의 결과 값을 user에 저장
 		// 실패 null, 성공하면 회원가입 당시 유저 정보
 		UserDTO user = userService.searchUser(id, password);
@@ -55,7 +59,13 @@ public class UserRestController {
 		Map<String, String> result = new HashMap<>();
 		
 		// user의 정보가 null이 아니면 result에 success 저장
+		// session에 user 정보 저장
 		if(user != null) {
+			
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("userName", user.getName());
+			session.setAttribute("userEmail", user.getEmail());
+			
 			result.put("result", "success");
 		} else {
 			result.put("result", "fail");
@@ -77,6 +87,72 @@ public class UserRestController {
 		result.put("result", count == 1);
 
 		return result;
+	}
+	
+	// 비밀번호 찾기 시 입력 정보
+	@PostMapping("/passwordsearch")
+	public Map<String, String> passwordsearch(
+			@RequestParam("id") String id
+			, @RequestParam("email") String email
+			, HttpServletRequest request) {
+		
+		UserDTO user = userService.passwordSearch(id, email);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(user != null) {
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("userId", user.getNo());
+			
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
+	}
+	
+	// 비밀번호 변경
+	@PostMapping("/passwordchange")
+	public Map<String, String> passwordChange(
+			@RequestParam("no") int no
+			, @RequestParam("password") String password){
+		
+		int count = userService.updatePassword(no, password);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
+	}
+	
+	// 아이디 찾기 결과
+	@GetMapping("/idcheck")
+	public Map<String, String> idCheck(
+			@RequestParam("name") String name
+			, @RequestParam("email") String email
+			, HttpServletRequest request) {
+		
+		UserDTO user = userService.selectId(name, email);
+		
+		Map<String, String> result = new HashMap<>();
+
+		if(user != null) {
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("userName", user.getName());
+			session.setAttribute("userId", user.getId());
+			
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
+		
 	}
 	
 }

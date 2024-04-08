@@ -65,7 +65,6 @@
           <a href="#" id="menuExcept" class="mid-content-link">날씨 앱</a>
         </span>
       </div>
-
       <div id="main">
 
         <div id="leftMain">

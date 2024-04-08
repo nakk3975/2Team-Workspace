@@ -107,7 +107,7 @@ function initMap() {
 			img.src = "/static/image/구름_많음.png";
 		} else if (weatherDescription == "broken clouds" || weatherDescription == "overcast clouds") {
 			img.src = "/static/image/흐림.png";
-		} else if (weatherDescription == "shower rain" || weatherDescription == "light rain" || weatherDescription == "rain") {
+		} else if (weatherDescription == "shower rain" || weatherDescription == "light rain" || weatherDescription == "rain" || weatherDescription == "heavy intensity rain" || weatherDescription == "moderate rain") {
 			img.src = "/static/image/폭우.png";
 		} else if (weatherDescription == "thunderstorm") {
 			img.src = "/static/image/천둥번개.png";
@@ -134,6 +134,8 @@ function initMap() {
 				if (currentForecast) {
 					var nowTimeDiv = $('#nowTime');
 					nowTimeDiv.empty(); // 기존 내용을 비웁니다.
+					$('#nowWeather').empty();
+					$('#weeklyForecast').empty();
 
 					// 오늘의 모든 예보를 가져옵니다.
 					var dailyForecasts = forecastList.filter(function(forecast) {
@@ -171,7 +173,7 @@ function initMap() {
 
 						var img = getImage(forecastList[i].weather[0].description);
 						var forecastDiv = $("<div class='time-weather'>").addClass("forecast");
-						
+						console.log(forecastList[i].weather[0].description);
 						// 그래프 그리기
 						var chartDiv = document.createElement('div');
 						chartDiv.style.width = '100%';
@@ -181,7 +183,7 @@ function initMap() {
 						var chart = echarts.init(chartDiv);
 						var option = {
 							grid: {
-								top: '5%', // 그래프의 위쪽 공백을 줄입니다.
+								//top: '5%', // 그래프의 위쪽 공백을 줄입니다.
 								containLabel: true
 							},
 							xAxis: {
@@ -216,7 +218,7 @@ function initMap() {
 						forecastDiv.append($("<div>").text("강수확률: " + rainProb));
 						forecastDiv.append($("<div>").text("풍향: " + windDirection));
 						forecastDiv.append($("<div>").text("풍속: " + forecastList[i].wind.speed + "m/s"));
-
+						
 						$('#nowWeather').append(forecastDiv);
 					}
 				}
@@ -241,7 +243,7 @@ function initMap() {
 					var minTemp = (Math.min.apply(Math, dailyForecasts.map(function(forecast) { return forecast.main.temp_min; })) - 273.15).toFixed(0);
 					var maxTemp = (Math.max.apply(Math, dailyForecasts.map(function(forecast) { return forecast.main.temp_max; })) - 273.15).toFixed(0);
 					var humidity = dailyForecasts[0].main.humidity;
-
+		
 					var imgMorning = getImage(dailyForecasts[0].weather[0].description); // 오전의 날씨 이미지
 					var imgAfternoon = getImage(dailyForecasts[dailyForecasts.length - 1].weather[0].description);
 
@@ -254,7 +256,7 @@ function initMap() {
 					forecastDiv.append($("<div>").text(weeklyPop + "%"));
 					forecastDiv.append($("<div>").text(minTemp + "° / " + maxTemp + "°"));
 					forecastDiv.append($("<div>").text("습도: " + humidity + "%"));
-
+					
 					$('#weeklyForecast').append(forecastDiv); // 'weeklyForecast' div에 예보를 추가합니다.
 				}
 			},

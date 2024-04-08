@@ -17,22 +17,24 @@
 <body>
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
-		<section class="contents d-flex justify-content-center">
+		<section class="contents d-flex justify-content-center mt-5">
 			<div class="join">
 				<div class="text-center">
 					<h3>로그인</h3>
 					<form id="loginForm">
 						<input type="text" class="form-control" placeholder="아이디" id="idInput">
 						<input type="password" class="form-control mt-3" placeholder="비밀번호" id="passwordInput">
-						<button type="submit" class="btn btn-primary btn-block mt-3" id="loginBtn">로그인</button>
+						<br>
+						<button type="submit" id="loginBtn" class="btn">
+							
+						</button>
 					</form>
-					<br>
 					<div class="text-center">
 						<span id="loginFail" class="text-danger small" style="display:none">id 또는 비밀번호가 잘못 되었습니다.</span>
 					</div>
-					<a href="/user/signup/view">회원가입</a>
-					<br>
-					<a href="/user/searchid/view" class="mt-3">아이디 / 비밀번호 찾기</a>
+					<a href="/user/signup/view"><img src="/static/image/signup.png" height="37px"></a>
+					<br><br>
+					<a href="/user/idSearch/view" class="mt-3">아이디 / 비밀번호 찾기</a>
 				</div>
 			</div>
 		</section>
