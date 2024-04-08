@@ -1,5 +1,4 @@
-<!-- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> -->
-<!-- 이미지 null값 뜨면 alt로 이미지 날짜 표기 -->
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -105,7 +104,6 @@
                   <div class="temperature-change"></div>
                   <!-- 날씨상태 맑음 흐림 구름  -->
                   <div class="weather-info"></div>
-                  <!-- 체감온도 -->
                 </div>
 
               </div>
@@ -113,17 +111,21 @@
 
 
               <div class="temporary">
+                <!-- 체감온도 -->
                 <div id="seoulWeather"></div>
-
+                <!-- 강수량 -->
                 <div class="result-rn1"></div>
+                <!-- 습도 -->
                 <div class="result-reh"></div>
 
+                <!-- 초미세먼지 -->
                 <span class="resultUltrafineDust"></span>
 
                 <Br>
-
+                  <!-- 미세먼지 -->
                 <span class="resultFineDust"></span>
                 <Br>
+
                 <span class="ultraviolet"></span>
 
               </div>
@@ -131,11 +133,35 @@
               <div id="seoulInfo1"></div>
 
             </div>
+
+
             <div id="leftMainTopMid">
-              버튼
+              <span class="mid-content-span">
+                <a href="#" class="menu-bar" id="midContentLink">날씨</a>
+              </span>
+              <span class="mid-content-span">
+                <a href="#" class="menu-bar" id="midContentLink">강수</a>
+              </span>
+              <span class="mid-content-span">
+                <a href="#" class="menu-bar" id="midContentLink">바람</a>
+              </span>
+              <span class="mid-content-span">
+                <a href="#" class="menu-bar" id="midContentLink">습도</a>
+              </span>
             </div>
+
+
             <div id="leftMainTopBot">
-              버튼 슬라이드
+              <div id="scrollButtons">
+              </div>
+              <button id="scrollLeft">◀</button>
+              <div id="weatherDataContainer">
+                <div id="weatherData">
+                    <!-- 여기에 날씨 데이터가 표시됩니다 -->
+                </div>
+                
+            </div>
+            <button id="scrollRight">▶</button>
             </div>
           </div>
 
@@ -236,7 +262,7 @@
         </div>
 
         <div id="rightBanners">
- 
+
           <p id="rightBannersP">
             전국 날씨
           </p>
@@ -260,7 +286,9 @@
                     <div class="map-div-img">
                       <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                     </div>
-                    <h6 class="map-div-h6">9.5°C</h6>
+                    <h6 class="map-div-h6">
+                      <div class="result-t1h"></div>
+                    </h6>
                   </div>
                 </div>
 
@@ -438,7 +466,17 @@
             </div>
 
             <div id="rightBannersContentMid">서울 | 현재
+              <!-- 현재 온도 -->
               <div class="result-t1h"></div>
+              <!-- 날씨 흐림 맑음 -->
+              <div class="weather-info"></div>
+              <!-- 강수량 -->
+              <div class="result-rn1"></div>
+              <!-- 체감온도 -->
+              <div id="seoulWeather2"></div>
+              <!-- 오전 오후 온도 -->
+              <p id="morningTemp"></p>
+              <p id="afternoonTemp"></p>
             </div>
 
             <div id="rightBannersContentBot">

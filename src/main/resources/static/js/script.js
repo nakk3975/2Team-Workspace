@@ -228,7 +228,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
         // tmn_today과 tmx_today에 저장된 값을 결과에 표시
         $.each(tmn_today, function (date, value) {
-            let content = "내일 " + baseDateTomorrow + "<br>" + value + "° / "+ tmx_today[date]+ "°";
+            let content = "내일 " + baseDateTomorrow + "<br>" + value + "° / " + tmx_today[date] + "°";
             $('#results1').append('<p>' + content + '</p>');
         });
 
@@ -239,6 +239,220 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
         });
 
 
+        // 버튼 슬라이드
+               // 캐시 객체 생성
+var cache = {};
+
+// 기온 및 날씨 정보를 가져오는 함수
+function getWeatherData() {
+    // 캐시 확인
+    if (cache.weatherData) {
+        // 캐시된 데이터가 있는 경우, 캐시된 데이터를 사용하여 페이지 업데이트
+        updatePage(cache.weatherData);
+    } else {
+        // 캐시된 데이터가 없는 경우, API 요청 보내기
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+            function (data) {
+                var category = "TMP"; // 기온을 나타내는 category
+
+                // 데이터에서 원하는 category 값인 TMP를 필터링
+                var forecastData = data.response.body.items.item.filter(item => item.category === category);
+
+                // 캐시에 데이터 저장
+                cache.weatherData = forecastData;
+
+                // 페이지 업데이트
+                updatePage(forecastData);
+            });
+    }
+}
+        $(document).ready(function () {
+            const container = $('#weatherDataContainer');
+            const scrollLeft = $('#scrollLeft');
+            const scrollRight = $('#scrollRight');
+
+            scrollLeft.click(function () {
+                container.scrollLeft(container.scrollLeft() - 100);
+            });
+
+            scrollRight.click(function () {
+                container.scrollLeft(container.scrollLeft() + 100);
+            });
+
+            // 기온 및 날씨 정보를 모두 가져오는 함수 호출
+            getWeatherData();
+        });
+
+        // 기온 및 날씨 정보를 가져오는 함수
+        function getWeatherData() {
+            $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+                function (data) {
+                    var category = "TMP"; // 기온을 나타내는 category
+
+                    // 데이터에서 원하는 category 값인 TMP를 필터링
+                    var forecastData = data.response.body.items.item.filter(item => item.category === category);
+
+                    // 내일, 모레, 글피 날짜 설정
+                    var tomorrowIndex = 18;
+                    var dayAfterTomorrowIndex = 42;
+                    var dayAfterDayAfterTomorrowIndex = 66;
+
+                    // 필터링된 데이터를 화면에 표시
+                    forecastData.forEach(function (item, index) {
+                        var hour = item.fcstTime.substr(0, 2);
+                        var time = hour + "시";
+                        var temperature = item.fcstValue;
+
+                        // 날짜 변경
+                        var date = "";
+                        if (index === tomorrowIndex) {
+                            date = "내일";
+                        } else if (index === dayAfterTomorrowIndex) {
+                            date = "모레";
+                        } else if (index === dayAfterDayAfterTomorrowIndex) {
+                            date = "글피";
+                        }
+
+                        // span 요소 생성하여 데이터 추가
+                        var span = $("<span class='weatherItem'></span>");
+                        var temperatureSpan = $("<span class='temperature'></span>").text(temperature + "℃");
+                        var timeSpan = $("<span class='time'></span>").text(time);
+                        var dateSpan = $("<span class='date'></span>").text(date);
+
+                        // span에 온도, 시간, 날짜 순으로 추가
+                        span.append(temperatureSpan);
+                        span.append(timeSpan);
+                        $("#weatherData").append(span);
+                        span.append(dateSpan);
+
+                        // 그래프를 그리고 날씨 이미지를 표시하는 함수 호출
+                        drawGraphAndShowWeatherImage(span, item.fcstTime, temperature);
+                    });
+                });
+        }
+
+        // 그래프를 그리고 날씨 이미지를 표시하는 함수
+        function drawGraphAndShowWeatherImage(span, fcstTime, temperature) {
+            // 그래프를 그리는 함수 호출
+            drawGraph([parseInt(temperature)], span.get(0), span);
+            // 날씨 이미지를 표시하는 함수 호출
+            showWeatherImage(span, fcstTime);
+        }
+
+        // 그래프를 그리는 함수
+        function drawGraph(temperature, container, span) {
+            var graphContainer = document.createElement('div');
+            graphContainer.classList.add('graph');
+
+            temperature.forEach(function (temp) {
+                var line = document.createElement('div');
+                line.classList.add('graph-line');
+                line.style.height = temp + 'px';
+                graphContainer.appendChild(line);
+            });
+
+            container.insertBefore(graphContainer, container.childNodes[1]); // 그래프를 온도 뒤에 삽입
+        }
+
+        // 날씨 이미지를 표시하는 함수
+        function showWeatherImage(span, fcstTime) {
+            $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+                function (data) {
+                    var items = data.response.body.items.item;
+                    var skyValue = null;
+                    var ptyValue = null;
+
+                    for (var i = 0; i < items.length; i++) {
+                        var item = items[i];
+                        if (item.fcstTime === fcstTime) {
+                            if (item.category === 'SKY') {
+                                switch (item.fcstValue) {
+                                    case '1':
+                                        skyValue = '맑음';
+                                        break;
+                                    case '3':
+                                        skyValue = '구름많음';
+                                        break;
+                                    case '4':
+                                        skyValue = '흐림';
+                                        break;
+                                }
+                            } else if (item.category === 'PTY') {
+                                switch (item.fcstValue) {
+                                    case '0':
+                                        // PTY 값이 '없음'인 경우에는 skyValue를 사용
+                                        ptyValue = '없음';
+                                        break;
+                                    case '1':
+                                        ptyValue = '비';
+                                        break;
+                                    case '2':
+                                        ptyValue = '비/눈';
+                                        break;
+                                    case '3':
+                                        ptyValue = '눈';
+                                        break;
+                                    case '5':
+                                        ptyValue = '빗방울';
+                                        break;
+                                    case '6':
+                                        ptyValue = '빗방울눈날림';
+                                        break;
+                                    case '7':
+                                        ptyValue = '눈날림';
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
+                    let weatherInfo = ptyValue === '없음' ? skyValue : ptyValue;
+
+                    // 이미지 URL 매핑
+                    let imageUrl = '';
+                    switch (weatherInfo) {
+                        case '맑음':
+                            imageUrl = '/static/image/맑은하늘.png';
+                            break;
+                        case '구름많음':
+                            imageUrl = '/static/image/구름_많음.png';
+                            break;
+                        case '흐림':
+                            imageUrl = '/static/image/대체로_맑음.png';
+                            break;
+                        case '비':
+                            imageUrl = '/static/image/밤에_눈.png';
+                            break;
+                        case '비/눈':
+                            imageUrl = '/static/image/폭우.png';
+                            break;
+                        case '눈':
+                            imageUrl = '/static/image/폭설.png';
+                            break;
+                        case '빗방울':
+                            imageUrl = '/static/image/물방울.png';
+                            break;
+                        case '빗방울눈날림':
+                            imageUrl = '/static/image/물방울.png';
+                            break;
+                        case '눈날림':
+                            imageUrl = '/static/image/눈송이.png';
+                            break;
+                        default:
+                            imageUrl = '/static/image/맑은하늘.png';
+                            break;
+                    }
+
+                    // 이미지를 추가하여 표시
+                    var image = document.createElement('img');
+                    image.classList.add('weatherImage');
+                    image.src = imageUrl;
+                    span.append(image);
+                });
+        }
+
+
+
         // 오늘~2일 강수량
 
         function formatDate(date) {
@@ -247,8 +461,8 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             var day = date.getDate().toString().padStart(2, '0');
             return year + month + day;
         }
-        
-            function fetchData(url) {
+
+        function fetchData(url) {
             return fetch(url)
                 .then(response => {
                     if (!response.ok) {
@@ -264,19 +478,19 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
                     return []; // 빈 배열 반환하여 오류 발생 시 데이터 처리할 수 있도록 함
                 });
         }
-        
+
         async function processData() {
             const today = new Date();
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
             const afterTomorrow = new Date();
             afterTomorrow.setDate(afterTomorrow.getDate() + 2);
-        
+
             const url = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + formatDate(today) + "&base_time=0500&nx=60&ny=127";
-        
+
             try {
                 const data = await fetchData(url);
-        
+
                 const forecasts = [
                     { date: today, time: "0600", period: "0 오전", divId: "#forecastData1" },
                     { date: today, time: "1200", period: "0 오후", divId: "#forecastData2" },
@@ -285,14 +499,14 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
                     { date: afterTomorrow, time: "0500", period: "2 오전", divId: "#forecastData5" },
                     { date: afterTomorrow, time: "1200", period: "2 오후", divId: "#forecastData6" }
                 ];
-        
+
                 forecasts.forEach(forecast => {
                     const selectedData = data.find(item =>
                         item.fcstDate === formatDate(forecast.date) &&
                         item.category === "POP" &&
                         item.fcstTime === forecast.time
                     );
-        
+
                     if (selectedData) {
                         const fcstValue = selectedData.fcstValue;
                         const html = "<div>" + forecast.period + "<br>" + fcstValue + "%</div>";
@@ -305,9 +519,9 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
                 console.error('Error processing data:', error);
             }
         }
-        
+
         processData();
-        
+
 
         ///3일~10일
         // 3일부터 10일까지의 날짜 반환하는 함수
@@ -341,33 +555,33 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
                 let content = baseDateThreeDay + "<br>" + item.taMin3 + "° / " + item.taMax3 + "°";
                 $('#results3').html(content);
-                
+
                 let content2 = baseDateFourDay + "<br>" + item.taMin4 + "° / " + item.taMax4 + "°";
                 $('#results4').html(content2);
-                
+
                 let content3 = baseDateFiveDay + "<br>" + item.taMin5 + "° / " + item.taMax5 + "°";
                 $('#results5').html(content3);
-                
+
                 let content4 = baseDateSixDay + "<br>" + item.taMin6 + "° / " + item.taMax6 + "°";
                 $('#results6').html(content4);
-                
+
                 let content5 = baseDateSevenDay + "<br>" + item.taMin7 + "° / " + item.taMax7 + "°";
                 $('#results7').html(content5);
-                
+
                 let content6 = baseDateEightDay + "<br>" + item.taMin8 + "° / " + item.taMax8 + "°";
                 $('#results8').html(content6);
-                
+
                 let content7 = baseDateNineDay + "<br>" + item.taMin9 + "° / " + item.taMax9 + "°";
                 $('#results9').html(content7);
-                
+
                 let content8 = baseDateTenDay + "<br>" + item.taMin10 + "° / " + item.taMax10 + "°";
                 $('#results10').html(content8);
 
             });
 
-            // 3~7일 강수량
+        // 3~7일 강수량
 
-            $.getJSON("https://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&regId=11B00000&tmFc="+ baseDate + "0600",
+        $.getJSON("https://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&regId=11B00000&tmFc=" + baseDate + "0600",
             function (data) {
 
                 let item = data.response.body.items.item[0];
@@ -407,7 +621,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             });
 
         // 실시간 기온
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date="+ baseDate+"&base_time=0600&nx=60&ny=127",
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0600&nx=60&ny=127",
             function (data) {
                 console.log(data);
                 // 데이터에서 T1H 값을 찾아서 출력
@@ -427,7 +641,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
         // 어제의 평균 기온을 가져오는 AJAX 호출
         function getYesterdayAvgTa(t1hValue) {
-            $.getJSON("https://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&dataCd=ASOS&dateCd=DAY&startDt="+baseDateYesterday+"&endDt="+baseDateYesterday+"&stnIds=108",
+            $.getJSON("https://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&dataCd=ASOS&dateCd=DAY&startDt=" + baseDateYesterday + "&endDt=" + baseDateYesterday + "&stnIds=108",
                 function (data) {
                     console.log(data);
                     var yesterdayAvgTa = parseFloat(data.response.body.items.item[0].avgTa); // 어제의 평균 기온
@@ -440,120 +654,121 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
         }
 
         // 날씨 흐림 비 맑음 등
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date="+ baseDate+"&base_time=0500&nx=60&ny=127",
-        function (data) {
-            var items = data.response.body.items.item;
-            var skyValue = null;
-            var ptyValue = null;
-    
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
-                if (item.category === 'SKY') {
-                    switch (item.fcstValue) {
-                        case '1':
-                            skyValue = '맑음';
-                            break;
-                        case '3':
-                            skyValue = '구름많음';
-                            break;
-                        case '4':
-                            skyValue = '흐림';
-                            break;
-                    }
-                } else if (item.category === 'PTY') {
-                    switch (item.fcstValue) {
-                        case '0':
-                            // PTY 값이 '없음'인 경우에는 skyValue를 사용
-                            ptyValue = '없음';
-                            break;
-                        case '1':
-                            ptyValue = '비';
-                            break;
-                        case '2':
-                            ptyValue = '비/눈';
-                            break;
-                        case '3':
-                            ptyValue = '눈';
-                            break;
-                        case '5':
-                            ptyValue = '빗방울';
-                            break;
-                        case '6':
-                            ptyValue = '빗방울눈날림';
-                            break;
-                        case '7':
-                            ptyValue = '눈날림';
-                            break;
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+            function (data) {
+                var items = data.response.body.items.item;
+                var skyValue = null;
+                var ptyValue = null;
+
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    if (item.category === 'SKY') {
+                        switch (item.fcstValue) {
+                            case '1':
+                                skyValue = '맑음';
+                                break;
+                            case '3':
+                                skyValue = '구름많음';
+                                break;
+                            case '4':
+                                skyValue = '흐림';
+                                break;
+                        }
+                    } else if (item.category === 'PTY') {
+                        switch (item.fcstValue) {
+                            case '0':
+                                // PTY 값이 '없음'인 경우에는 skyValue를 사용
+                                ptyValue = '없음';
+                                break;
+                            case '1':
+                                ptyValue = '비';
+                                break;
+                            case '2':
+                                ptyValue = '비/눈';
+                                break;
+                            case '3':
+                                ptyValue = '눈';
+                                break;
+                            case '5':
+                                ptyValue = '빗방울';
+                                break;
+                            case '6':
+                                ptyValue = '빗방울눈날림';
+                                break;
+                            case '7':
+                                ptyValue = '눈날림';
+                                break;
+                        }
                     }
                 }
-            }
-    
-            let weatherInfo = ptyValue === '없음' ? skyValue : ptyValue;
-            // /를 추가하여 표시
-            $('.weather-info').text(weatherInfo);
-        });
-    
 
-            //체감 온도
-            const apiKey2 = "35751a4ab55af8aaee858624e4a8d31e";
-
-            // 도시 정보
-            const cities2 = [
-                { name: "서울", latitude: "37.5665", longitude: "126.9780", containerId: "seoulWeather" },
-                { name: "부산", latitude: "35.1796", longitude: "129.0756", containerId: "busanWeather" },
-                { name: "인천", latitude: "37.4563", longitude: "126.7052", containerId: "incheonWeather" },
-                { name: "대구", latitude: "35.8714", longitude: "128.6014", containerId: "daeguWeather" },
-                { name: "대전", latitude: "36.3504", longitude: "127.3845", containerId: "daejeonWeather" },
-                { name: "광주", latitude: "35.1595", longitude: "126.8526", containerId: "gwangjuWeather" },
-                { name: "울산", latitude: "35.5384", longitude: "129.3114", containerId: "ulsanWeather" },
-                { name: "수원", latitude: "37.2636", longitude: "127.0286", containerId: "suwonWeather" },
-                { name: "강릉", latitude: "37.7519", longitude: "128.8760", containerId: "gangneungWeather" },
-                { name: "춘천", latitude: "37.8810", longitude: "127.7298", containerId: "chuncheonWeather" },
-                { name: "울릉", latitude: "37.4847", longitude: "130.8988", containerId: "ulleungWeather" },
-                { name: "청주", latitude: "36.6394", longitude: "127.4897", containerId: "cheongjuWeather" },
-                { name: "안동", latitude: "36.5686", longitude: "128.7294", containerId: "andongWeather" },
-                { name: "포항", latitude: "36.0198", longitude: "129.3700", containerId: "pohangWeather" },
-                { name: "전주", latitude: "35.8242", longitude: "127.1470", containerId: "jeonjuWeather" },
-                { name: "목포", latitude: "34.8128", longitude: "126.3945", containerId: "mokpoWeather" },
-                { name: "여수", latitude: "34.7445", longitude: "127.7385", containerId: "yeosuWeather" },
-                { name: "제주", latitude: "33.4996", longitude: "126.5312", containerId: "jejuWeather" }
-            ];
-    
-            // 각 도시의 현재 날씨 정보를 가져오는 Promise를 만듦
-            const currentWeatherPromises = cities2.map(city => {
-                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${city.latitude}&lon=${city.longitude}&appid=${apiKey2}&units=metric&lang=kr`;
-    
-                return fetch(apiUrl)
-                    .then(response => response.json())
-                    .then(data => {
-                        const feelsLike = data.main.feels_like.toFixed(1); // 체감온도를 소수점 한 자리로 제한
-                        const container = document.getElementById(city.containerId);
-                        if (container) {
-                            container.textContent = `${city.name}: 체감 ${feelsLike}°`;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching weather data:', error);
-                        const container = document.getElementById(city.containerId);
-                        if (container) {
-                            container.textContent = `${city.name}: N/A`;
-                        }
-                    });
+                let weatherInfo = ptyValue === '없음' ? skyValue : ptyValue;
+                // /를 추가하여 표시
+                $('.weather-info').text(weatherInfo);
             });
-    
-            // 결과를 HTML에 표시
-            Promise.all(currentWeatherPromises)
-                .then(() => {
-                    console.log('Weather data fetched and displayed.');
+
+
+        //체감 온도
+        const apiKey2 = "35751a4ab55af8aaee858624e4a8d31e";
+
+        // 도시 정보
+        const cities2 = [
+            { name: "서울", latitude: "37.5665", longitude: "126.9780", containerId: "seoulWeather" },
+            { name: "서울", latitude: "37.5665", longitude: "126.9780", containerId: "seoulWeather2" },
+            { name: "부산", latitude: "35.1796", longitude: "129.0756", containerId: "busanWeather" },
+            { name: "인천", latitude: "37.4563", longitude: "126.7052", containerId: "incheonWeather" },
+            { name: "대구", latitude: "35.8714", longitude: "128.6014", containerId: "daeguWeather" },
+            { name: "대전", latitude: "36.3504", longitude: "127.3845", containerId: "daejeonWeather" },
+            { name: "광주", latitude: "35.1595", longitude: "126.8526", containerId: "gwangjuWeather" },
+            { name: "울산", latitude: "35.5384", longitude: "129.3114", containerId: "ulsanWeather" },
+            { name: "수원", latitude: "37.2636", longitude: "127.0286", containerId: "suwonWeather" },
+            { name: "강릉", latitude: "37.7519", longitude: "128.8760", containerId: "gangneungWeather" },
+            { name: "춘천", latitude: "37.8810", longitude: "127.7298", containerId: "chuncheonWeather" },
+            { name: "울릉", latitude: "37.4847", longitude: "130.8988", containerId: "ulleungWeather" },
+            { name: "청주", latitude: "36.6394", longitude: "127.4897", containerId: "cheongjuWeather" },
+            { name: "안동", latitude: "36.5686", longitude: "128.7294", containerId: "andongWeather" },
+            { name: "포항", latitude: "36.0198", longitude: "129.3700", containerId: "pohangWeather" },
+            { name: "전주", latitude: "35.8242", longitude: "127.1470", containerId: "jeonjuWeather" },
+            { name: "목포", latitude: "34.8128", longitude: "126.3945", containerId: "mokpoWeather" },
+            { name: "여수", latitude: "34.7445", longitude: "127.7385", containerId: "yeosuWeather" },
+            { name: "제주", latitude: "33.4996", longitude: "126.5312", containerId: "jejuWeather" }
+        ];
+
+        // 각 도시의 현재 날씨 정보를 가져오는 Promise를 만듦
+        const currentWeatherPromises = cities2.map(city => {
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${city.latitude}&lon=${city.longitude}&appid=${apiKey2}&units=metric&lang=kr`;
+
+            return fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const feelsLike = data.main.feels_like.toFixed(1); // 체감온도를 소수점 한 자리로 제한
+                    const container = document.getElementById(city.containerId);
+                    if (container) {
+                        container.textContent = `${city.name}: 체감 ${feelsLike}°`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                    const container = document.getElementById(city.containerId);
+                    if (container) {
+                        container.textContent = `${city.name}: N/A`;
+                    }
                 });
+        });
+
+        // 결과를 HTML에 표시
+        Promise.all(currentWeatherPromises)
+            .then(() => {
+                console.log('Weather data fetched and displayed.');
+            });
 
 
-            // 강수 습도
-            $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date="+ baseDate+"&base_time=0600&nx=60&ny=127",
+        // 강수 습도
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0600&nx=60&ny=127",
             function (data) {
                 // 습도와 1시간 강수량 데이터 찾기
                 var rehValue, rn1Value;
-                data.response.body.items.item.forEach(function(item) {
+                data.response.body.items.item.forEach(function (item) {
                     if (item.category === "REH") {
                         rehValue = item.obsrValue + "%"; // 습도 값에 "%" 추가
                     } else if (item.category === "RN1") {
@@ -597,6 +812,28 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
                 let content2 = "미세먼지: " + fineDustGrade;
                 $('.resultFineDust').text(content2);
             });
+
+        // 오전 오후 기온
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate+"&base_time=0630&nx=60&ny=127",
+        function (data) {
+            console.log(data);
+            let morningTemp, afternoonTemp;
+
+            // Loop through each item in the response
+            data.response.body.items.item.forEach(function (item) {
+                if (item.category === "T1H") {
+                    if (item.fcstTime === "0700") {
+                        morningTemp = item.fcstValue;
+                    } else if (item.fcstTime === "1200") {
+                        afternoonTemp = item.fcstValue;
+                    }
+                }
+            });
+
+            // Display the morning and afternoon temperatures
+            $('#morningTemp').text("오전 기온: " + morningTemp + "℃");
+            $('#afternoonTemp').text("오후 기온: " + afternoonTemp + "℃");
+        });
 
         // 자외선
         // 등급을 숫자에서 문자열로 변환하는 함수
@@ -707,6 +944,8 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             const newCity = new City(city.name, city.latitude, city.longitude, city.containerId);
             newCity.fetchAndPrintSunriseSunset(apiKey);
         });
+
+
 
 
         //풍속 풍향

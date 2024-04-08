@@ -70,17 +70,6 @@ div {
   text-align: center;
 }
 
-.menu-bar:hover {
-  background-color: #F4EEEE
-}
-
-
-.menu-bar {
-  /* background-color: #74b7fa; */
-  border-right: 2px solid #E0E0E0;
-  /* 오른쪽 선만 설정 */
-  padding: 8px 50px 8px 50px;
-}
 
 #menuExcept {
   padding: 8px 70px 8px 70px;
@@ -97,6 +86,18 @@ div {
   margin-top: 20px;
   text-align: center;
   white-space: nowrap;
+}
+
+.menu-bar:hover {
+  background-color: #F4EEEE
+}
+
+
+.menu-bar {
+  /* background-color: #74b7fa; */
+  border-right: 2px solid #E0E0E0;
+  /* 오른쪽 선만 설정 */
+  padding: 8px 50px 8px 50px;
 }
 
 .mid-content-span {
@@ -226,9 +227,9 @@ div {
 
 #leftMainTopTop {
   margin-top: 20px;
-  border-top: 1px solid black;
+  border-top: 1px solid white;
   /* 위쪽 선만 설정 */
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid white;
   /* background-color: #3498DB; */
   height: 300px;
 
@@ -294,10 +295,174 @@ div {
 }
 
 #leftMainTopBot {
-  border-top: 1px solid black;
+  display: flex;
+  border-top: 1px solid white;
   /* 왼쪽 선만 설정 */
 }
 
+/* 날씨 그래프 임시 */
+ /* CSS 스타일링 */
+ #weatherDataContainer {
+  background-color: white;
+  position: relative;
+  /* 상대적 위치 지정 */
+  overflow-x: auto;
+  /* 가로 스크롤을 허용 */
+  white-space: nowrap;
+  /* 내용이 넘칠 경우 줄바꿈 방지 */
+  padding-bottom: 7px;
+  /* 가로 스크롤 뒷부분이 가려지는 것을 방지하기 위한 여분의 공간 */
+}
+
+#weatherData {
+  display: flex;
+  flex-wrap: nowrap;
+  /* 가로 스크롤을 위해 flex-wrap을 nowrap으로 설정 */
+}
+
+.weatherItem {
+  padding: 5px 10px;
+  /* 5픽셀의 상단 및 하단 패딩, 10픽셀의 좌우 패딩 */
+  margin-right: 5px;
+  /* 각 요소 사이의 간격 설정 */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  /* 온도, 이미지, 시간을 세로로 배치 */
+  align-items: center;
+  /* 가운데 정렬 */
+  position: relative;
+  /* 상대적 위치 지정 */
+}
+
+.time {
+  order: 8;
+  /* 시간을 두 번째로 배치 */
+}
+
+.temperature {
+  order: 1;
+  /* 온도를 첫 번째로 배치 */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* 온도와 이미지 사이 간격 설정 */
+}
+
+.weatherImage {
+  width: 40px;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.graph {
+  width: 40px;
+  /* 그래프의 너비 지정 */
+  position: absolute;
+  /* 절대적 위치 지정 */
+  bottom: 50%;
+  /* 가운데 정렬 */
+  transform: translateY(50%);
+  /* 가운데 정렬 */
+}
+
+.graph-line {
+  width: 75px;
+  /* 그래프의 너비 지정 */
+  background-color: transparent;
+  /* 그래프의 배경색을 투명으로 설정 */
+  border-top: 1px solid #007bff;
+  /* 선 색상과 굵기 설정 */
+  margin: 0 2px;
+  /* 그래프 간격 조정 */
+  position: relative;
+  /* 상대적 위치 지정 */
+}
+
+.graph-circle {
+  /* 원의 지름 설정 */
+  height: 6px;
+  background-color: #007bff;
+  /* 원의 색상 설정 */
+  border-radius: 50%;
+  /* 원의 모양을 둥글게 설정 */
+  position: absolute;
+  /* 절대적 위치 지정 */
+  bottom: -3px;
+  /* 아래쪽으로 선의 두께의 반만큼 이동 */
+  left: 50%;
+  /* 가운데 정렬 */
+  transform: translateX(-50%);
+  /* 가운데 정렬 */
+}
+
+.graph {
+  margin-top: 5px;
+  /* 그래프의 위쪽 마진 */
+  margin-bottom: 25px;
+  /* 그래프의 아래쪽 마진 */
+  padding: 0 10px;
+  /* 그래프의 좌우 패딩 */
+}
+
+.temperature {
+  order: 1;
+  /* 온도를 첫 번째로 배치 */
+}
+
+.graph-container {
+  order: 2;
+  /* 그래프를 두 번째로 배치 */
+}
+
+.weatherImage {
+  order: 4;
+  /* 이미지를 세 번째로 배치 */
+}
+
+.date {
+  order: 5;
+  /* 날짜를 마지막으로 배치 */
+}
+
+/* 버튼 스타일 */
+#scrollButtons {
+  top: 50px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  /* 버튼을 다른 요소 위에 배치 */
+}
+
+#scrollLeft{
+  width: 200px;
+  height: 50px;
+  position: relative;
+  top: 75px;
+  border-radius: 50px;
+  border: none;
+}
+#scrollRight{
+  width: 200px;
+  height: 50px;
+  position: relative;
+  top: 75px;
+  border-radius: 50px;
+  border: none;
+}
+
+button {
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+/* 가로 스크롤 바를 숨김 */
+#weatherDataContainer::-webkit-scrollbar {
+  display: none;
+}
+/* 날씨 그래프 임시 끝 */
 
 #province {
   margin-left: 80px;
