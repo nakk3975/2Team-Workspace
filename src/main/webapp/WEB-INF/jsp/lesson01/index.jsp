@@ -236,7 +236,7 @@
         </div>
 
         <div id="rightBanners">
-
+ 
           <p id="rightBannersP">
             전국 날씨
           </p>
