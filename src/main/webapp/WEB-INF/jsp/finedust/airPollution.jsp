@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.net.URLEncoder"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -9,29 +9,47 @@
 <!-- 상오님이 만드신 상단부 css 일단 시험적용 -->
 <link rel="stylesheet" href="/static/css/getSatelliteImages.css"
 	type="text/css">
+
+<!-- 	카카오지도 -->
 <!-- <script type="text/javascript" -->
 <!-- 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd"></script> -->
+'
+
+<!-- jquery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Echarts -->
+<script
+	src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
 <!-- <script -->
 <!-- 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd&libraries=services,clusterer,drawing"></script> -->
 <!-- <script src="/static/js/drawPolygon.js"></script> -->
-<script src="/static/js/finedustButton.js"></script>
-<script>
-var yesterdayAm10 = "${yesterdayAm10Image}";
-var todayAm10 = "${todayAm10Image}";
-var tomorrowAm10 = "${tomorrowAm10Image}";
-var yesterdayPm10 = "${yesterdayPm10Image}";
-var todayPm10 = "${todayPm10Image}";
-var tomorrowPm10 = "${tomorrowPm10Image}";
-var yesterdayAm25 = "${yesterdayAm25Image}";
-var todayAm25 = "${todayAm25Image}";
-var tomorrowAm25 = "${tomorrowAm25Image}";
-var yesterdayPm25 = "${yesterdayPm25Image}";
-var todayPm25 = "${todayPm25Image}";
-var tomorrowPm25 = "${tomorrowPm25Image}";
-</script>
 
+
+<!-- 버튼 실험중 -->
+<style>
+/* 스타일링을 위한 간단한 CSS */
+button {
+	margin: 5px;
+	padding: 10px;
+	cursor: pointer;
+}
+</style>
+
+<!-- 차트 담을 div -->
+<style>
+    #chart-container-SO2,
+    #chart-container-CO,
+    #chart-container-NO2,
+    #chart-container-O3,
+    #chart-container-AQI {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        margin-right: 10px; /* 각 차트 사이의 간격 조정 */
+    }
+</style>
 
 
 <style>
@@ -90,32 +108,199 @@ var tomorrowPm25 = "${tomorrowPm25Image}";
 	</div>
 
 
+	<div>
+		<button onclick="updateImageDate('yesterday')">어제</button>
+		<button onclick="updateImageDate('today')">오늘</button>
+		<button onclick="updateImageDate('tomorrow')">내일</button>
+	</div>
+	<div>
+		<button onclick="updateImageTime('Am')">오전</button>
+		<button onclick="updateImageTime('Pm')">오후</button>
+	</div>
+	<div>
+		<button onclick="updateImageDust('10')">미세먼지</button>
+		<button onclick="updateImageDust('25')">초미세먼지</button>
+	</div>
+
+	<!-- 미세먼지 사진 교체버튼 (꾸미기만 남음) -->
+	<script>
+		let todayAm10ImageUrl = "${todayAm10Image}";
+		let todayAm25ImageUrl = "${todayAm25Image}";
+		let todayPm10ImageUrl = "${todayPm10Image}";
+		let todayPm25ImageUrl = "${todayPm25Image}";
+		let yesterdayAm10ImageUrl = "${yesterdayAm10Image}";
+		let yesterdayAm25ImageUrl = "${yesterdayAm25Image}";
+		let yesterdayPm10ImageUrl = "${yesterdayPm10Image}";
+		let yesterdayPm25ImageUrl = "${yesterdayPm25Image}";
+		let tomorrowAm10ImageUrl = "${tomorrowAm10Image}";
+		let tomorrowAm25ImageUrl = "${tomorrowAm25Image}";
+		let tomorrowPm10ImageUrl = "${tomorrowPm10Image}";
+		let tomorrowPm25ImageUrl = "${tomorrowPm25Image}";
+
+		let imagePath = ""; // 초기 이미지 경로
+		let tdate = "today";
+		let ttime = "Am"; // 기본값 오전으로 설정
+		let tdust = "10"; // 기본값 미세먼지로 설정
+
+		function updateImageDate(value) {
+			tdate = value;
+			updateResultImage();
+		}
+
+		function updateImageTime(value) {
+			ttime = value;
+			updateResultImage();
+		}
+
+		function updateImageDust(value) {
+			tdust = value;
+			updateResultImage();
+		}
+
+		function updateResultImage() {
+			imagePath = tdate + ttime + tdust + "ImageUrl";
+			document.getElementById("resultImage").src = eval(imagePath);
+		}
+
+		window.onload = function() {
+			updateResultImage();
+		};
+	</script>
+
+	<div>
+		<img id="resultImage" src="" alt="Result Image">
+	</div>
+
+
+<!-- 차트 작업중 -->
+<div id="chart-container-SO2" style="width: 100px; height: 100px;"></div>
+<div id="chart-container-CO" style="width: 100px; height: 100px;"></div>
+<div id="chart-container-NO2" style="width: 100px; height: 100px;"></div>
+<div id="chart-container-O3" style="width: 100px; height: 100px;"></div>
+<div id="chart-container-AQI" style="width: 100px; height: 100px;"></div>
+
 <div>
- <img id="outputImage" src="" alt="오늘 이미지">
-        <div id="outputText">오늘</div>
+    <!-- JSP 코드 -->
+    <% 
+    // 모델에서 데이터 가져오기
+    String[][] data = (String[][]) request.getAttribute("todayAirs"); 
+    %>
+
+    <% 
+    // 해당하는 지역의 데이터 인덱스 설정 
+    double SO2Data = Double.parseDouble(data[0][1]); 
+    double COData = Double.parseDouble(data[0][3]); 
+    double NO2Data = Double.parseDouble(data[0][5]); 
+    double O3Data = Double.parseDouble(data[0][7]); 
+    double AQIData = Double.parseDouble(data[0][13]);
+    String SO2Grade = data[0][0];
+    String COGrade = data[0][2];
+    String NO2Grade = data[0][4];
+    String O3Grade = data[0][6];
+    String AQIGrade = data[0][12];
+    
+    // 사용한 비율과 나머지 비율. 
+    double SO2Ratio = (double) SO2Data / 0.15 * 100; 
+    if (SO2Ratio >= 100) { 
+        SO2Ratio = 100; 
+    } 
+    double SO2Remain = 100 - SO2Ratio; 
+    
+    double CORatio = (double) COData / 15 * 100; 
+    if (CORatio >= 100) { 
+        CORatio = 100; 
+    } 
+    double CORemain = 100 - CORatio; 
+
+    double NO2Ratio = (double) NO2Data / 0.2 * 100; 
+    if (NO2Ratio >= 100) { 
+        NO2Ratio = 100; 
+    } 
+    double NO2Remain = 100 - NO2Ratio; 
+
+    double O3Ratio = (double) O3Data / 0.15 * 100; 
+    if (O3Ratio >= 100) { 
+        O3Ratio = 100; 
+    } 
+    double O3Remain = 100 - O3Ratio; 
+
+    double AQIRatio = (double) AQIData / 250 * 100; 
+    if (AQIRatio >= 100) { 
+        AQIRatio = 100; 
+    } 
+    double AQIRemain = 100 - AQIRatio; 
+    %>
+
+    <button onclick="updateCharts()">서울</button>
 </div>
-<button onclick="changeContent('yesterdayAm10')">어제 오전 미세먼지</button>
-<button onclick="changeContent('todayAm10')">오늘 오전 미세먼지</button>
-<button onclick="changeContent('tomorrowAm10')">내일 오전 미세먼지</button>
-<button onclick="changeContent('yesterdayPm10')">어제 오후 미세먼지</button>
-<button onclick="changeContent('todayPm10')">오늘 오후 미세먼지</button>
-<button onclick="changeContent('tomorrowPm10')">내일 오후 미세먼지</button>
-<button onclick="changeContent('yesterdayAm25')">어제 오전 초미세먼지</button>
-<button onclick="changeContent('todayAm25')">오늘 오전 초미세먼지</button>
-<button onclick="changeContent('tomorrowAm25')">내일 오전 초미세먼지</button>
-<button onclick="changeContent('yesterdayPm25')">어제 오후 초미세먼지</button>
-<button onclick="changeContent('todayPm25')">오늘 오후 초미세먼지</button>
-<button onclick="changeContent('tomorrowPm25')">내일 오후 초미세먼지</button>
 
+<script>
+function updateCharts() {
+    updateChart('SO2', <%= SO2Ratio %>, <%= SO2Remain %>, '<%= SO2Grade %>');
+    updateChart('CO', <%= CORatio %>, <%= CORemain %>, '<%= COGrade %>');
+    updateChart('NO2', <%= NO2Ratio %>, <%= NO2Remain %>, '<%= NO2Grade %>');
+    updateChart('O3', <%= O3Ratio %>, <%= O3Remain %>, '<%= O3Grade %>');
+    updateChart('AQI', <%= AQIRatio %>, <%= AQIRemain %>, '<%= AQIGrade %>');
+}
 
+function updateChart(chemical, ratio, remain, grade) {
+    let option = {
+        legend: {
+            orient: 'vertical',
+            left: 10,
+            data: [chemical]
+        },
+        series: [{
+            name: chemical,
+            type: 'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                show: true,
+                position: 'center',
+                formatter: '{text|' + grade + '}',
+                rich: {
+                    text: {
+                        fontSize: 16,
+                        color: '#333',
+                        align: 'center',
+                        lineHeight: 24
+                    }
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data: [{
+                value: ratio,
+                name: '사용한 비율'
+            }, {
+                value: remain,
+                name: '나머지 비율',
+                itemStyle: {
+                    normal: {
+                        color: 'rgba(128, 128, 128, 0.5)'  // 옅은 회색으로 변경
+                    }
+                }
+            }]
+        }],
+        tooltip: null,
+        hover: null
+    };
+
+    let dom = document.getElementById("chart-container-" + chemical);
+    let myChart = echarts.init(dom);
+    myChart.setOption(option);
+}
+</script>
 
 	<!-- 카카오 지도 실험 -->
-<!-- 	<div id="map" style="width: 1000px; height: 1500px;">아니</div> -->
+	<!-- 	<div id="map" style="width: 1000px; height: 1500px;">아니</div> -->
 
 
-<!-- 		<div id="map" style="width: 500px; height: 650px;"></div> -->
+	<!-- 		<div id="map" style="width: 500px; height: 650px;"></div> -->
 
-<!-- 	 <script> -->
+	<!-- 	 <script> -->
 	<!--         var map = new kakao.maps.Map(document.getElementById('map'), { -->
 	<!--             center: new kakao.maps.LatLng(36, 128), -->
 	<!--             level: 13 -->
@@ -164,96 +349,24 @@ var tomorrowPm25 = "${tomorrowPm25Image}";
 	</ul>
 
 	<!-- 미세먼지,초미세먼지 사진 시험출력 -->
-<!-- 	<div class="flex-container"> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>어제 오전 미세먼지</h2> -->
-<%-- 			<img src="${yesterdayAm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>어제 오후 미세먼지</h2> -->
-<%-- 			<img src="${yesterdayPm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<div class="flex-container"> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>어제 오전 초미세먼지</h2> -->
-<%-- 			<img src="${yesterdayAm25Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>어제 오후 초미세먼지</h2> -->
-<%-- 			<img src="${yesterdayPm25Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<div class="flex-container"> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>오늘 오전 미세먼지</h2> -->
-<%-- 			<img src="${todayAm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>오늘 오후 미세먼지</h2> -->
-<%-- 			<img src="${todayPm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<div class="flex-container"> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>오늘 오전 초미세먼지</h2> -->
-<%-- 			<img src="${todayAm25Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>오늘 오후 초미세먼지</h2> -->
-<%-- 			<img src="${todayPm25Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<div class="flex-container"> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>내일 오전 미세먼지</h2> -->
-<%-- 			<img src="${tomorrowAm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>내일 오후 미세먼지</h2> -->
-<%-- 			<img src="${tomorrowPm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<div class="flex-container"> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>내일 오전 초미세먼지</h2> -->
-<%-- 			<img src="${tomorrowAm25Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 		<div class="flex-item"> -->
-<!-- 			<h2>내일 오후 초미세먼지</h2> -->
-<%-- 			<img src="${tomorrowPm25Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
+	<!-- 	<div class="flex-container"> -->
+	<!-- 		<div class="flex-item"> -->
+	<!-- 			<h2>어제 오전 미세먼지</h2> -->
+	<%-- 			<img src="${yesterdayAm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
+	<!-- 		</div> -->
+	<!-- 		<div class="flex-item"> -->
+	<!-- 			<h2>어제 오후 미세먼지</h2> -->
+	<%-- 			<img src="${yesterdayPm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
+	<!-- 		</div> -->
+	<!-- 	</div> -->
 
 
 
 
 	<!-- 		지역별 등급 출력 테스트 -->
-<!-- 	어제 미세먼지 : -->
-<%-- 	<c:forEach begin="0" end="37" step="1" var="index"> --%>
-<%-- 		<c:out value="${yesterday10Grades[index]}" /> --%>
-<%-- 	</c:forEach> --%>
-<!-- 	<br /> 오늘 미세먼지 : -->
-<%-- 	<c:forEach begin="0" end="37" step="1" var="index"> --%>
-<%-- 		<c:out value="${today10Grades[index]}" /> --%>
-<%-- 	</c:forEach> --%>
-<!-- 	<br /> 내일 미세먼지 : -->
-<%-- 	<c:forEach begin="0" end="37" step="1" var="index"> --%>
-<%-- 		<c:out value="${tomorrow10Grades[index]}" /> --%>
-<%-- 	</c:forEach> --%>
-<!-- 	<br /> 어제 초미세먼지 : -->
-<%-- 	<c:forEach begin="0" end="37" step="1" var="index"> --%>
-<%-- 		<c:out value="${yesterday25Grades[index]}" /> --%>
-<%-- 	</c:forEach> --%>
-<!-- 	<br /> 오늘 초미세먼지 : -->
-<%-- 	<c:forEach begin="0" end="37" step="1" var="index"> --%>
-<%-- 		<c:out value="${today25Grades[index]}" /> --%>
-<%-- 	</c:forEach> --%>
-<!-- 	<br /> 내일 초미세먼지 : -->
-<%-- 	<c:forEach begin="0" end="37" step="1" var="index"> --%>
-<%-- 		<c:out value="${tomorrow25Grades[index]}" /> --%>
-<%-- 	</c:forEach> --%>
-<!-- 	<br /> -->
+	<%-- 	<c:forEach begin="0" end="37" step="1" var="index"> --%>
+	<%-- 		<c:out value="${today10Grades[index]}" /> --%>
+	<%-- 	</c:forEach> --%>
 
 </body>
 </html>
