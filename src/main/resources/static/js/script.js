@@ -1,292 +1,292 @@
 
-var x = 61;
-var y = 126;
+var x = 60;
+var y = 127;
 const citiesByProvince = {
     '서울특별시': {
-        '종로구': {x: 60, y: 127},
-        '중구': {x: 60, y: 127},
-        '용산구': {x: 60, y: 126},
-        '성동구': {x: 61, y: 127},
-        '광진구': {x: 62, y: 126},
-        '동대문구': {x: 61, y: 127},
-        '중랑구': {x: 62, y: 128},
-        '성북구': {x: 61, y: 127},
-        '강북구': {x: 61, y: 128},
-        '도봉구': {x: 61, y: 129},
-        '노원구': {x: 61, y: 129},
-        '은평구': {x: 59, y: 127},
-        '서대문구': {x: 59, y: 127},
-        '마포구': {x: 59, y: 127},
-        '양천구': {x: 58, y: 126},
-        '강서구': {x: 58, y: 126},
-        '구로구': {x: 58, y: 125},
-        '금천구': {x: 59, y: 124},
-        '영등포구': {x: 58, y: 126},
-        '동작구': {x: 59, y: 125},
-        '관악구': {x: 59, y: 125},
-        '서초구': {x: 61, y: 125},
-        '강남구': {x: 61, y: 126},
-        '송파구': {x: 62, y: 126},
-        '강동구': {x: 62, y: 126}
+        '종로구': { x: 60, y: 127 },
+        '중구': { x: 60, y: 127 },
+        '용산구': { x: 60, y: 126 },
+        '성동구': { x: 61, y: 127 },
+        '광진구': { x: 62, y: 126 },
+        '동대문구': { x: 61, y: 127 },
+        '중랑구': { x: 62, y: 128 },
+        '성북구': { x: 61, y: 127 },
+        '강북구': { x: 61, y: 128 },
+        '도봉구': { x: 61, y: 129 },
+        '노원구': { x: 61, y: 129 },
+        '은평구': { x: 59, y: 127 },
+        '서대문구': { x: 59, y: 127 },
+        '마포구': { x: 59, y: 127 },
+        '양천구': { x: 58, y: 126 },
+        '강서구': { x: 58, y: 126 },
+        '구로구': { x: 58, y: 125 },
+        '금천구': { x: 59, y: 124 },
+        '영등포구': { x: 58, y: 126 },
+        '동작구': { x: 59, y: 125 },
+        '관악구': { x: 59, y: 125 },
+        '서초구': { x: 61, y: 125 },
+        '강남구': { x: 61, y: 126 },
+        '송파구': { x: 62, y: 126 },
+        '강동구': { x: 62, y: 126 }
     },
     '부산광역시': {
-        '중구': {x: 97, y: 74},
-        '서구': {x: 97, y: 74},
-        '동구': {x: 98, y: 75},
-        '영도구': {x: 98, y: 74},
-        '부산진구': {x: 97, y: 75},
-        '동래구': {x: 98, y: 76},
-        '남구': {x: 98, y: 75},
-        '북구': {x: 96, y: 76},
-        '해운대구': {x: 99, y: 75},
-        '사하구': {x: 96, y: 74},
-        '금정구': {x: 98, y: 77},
-        '강서구': {x: 96, y: 76},
-        '연제구': {x: 98, y: 76},
-        '수영구': {x: 99, y: 75},
-        '사상구': {x: 96, y: 75},
-        '기장군': {x: 100, y: 77}
+        '중구': { x: 97, y: 74 },
+        '서구': { x: 97, y: 74 },
+        '동구': { x: 98, y: 75 },
+        '영도구': { x: 98, y: 74 },
+        '부산진구': { x: 97, y: 75 },
+        '동래구': { x: 98, y: 76 },
+        '남구': { x: 98, y: 75 },
+        '북구': { x: 96, y: 76 },
+        '해운대구': { x: 99, y: 75 },
+        '사하구': { x: 96, y: 74 },
+        '금정구': { x: 98, y: 77 },
+        '강서구': { x: 96, y: 76 },
+        '연제구': { x: 98, y: 76 },
+        '수영구': { x: 99, y: 75 },
+        '사상구': { x: 96, y: 75 },
+        '기장군': { x: 100, y: 77 }
     },
     '대구광역시': {
-        '중구': {x: 89, y: 90},
-        '동구': {x: 90, y: 91},
-        '서구': {x: 88, y: 90},
-        '남구': {x: 89, y: 90},
-        '북구': {x: 89, y: 91},
-        '수성구': {x: 89, y: 90},
-        '달서구': {x: 88, y: 90},
-        '달성군': {x: 86, y: 88},
-        '군위군': {x: 88, y: 99}
+        '중구': { x: 89, y: 90 },
+        '동구': { x: 90, y: 91 },
+        '서구': { x: 88, y: 90 },
+        '남구': { x: 89, y: 90 },
+        '북구': { x: 89, y: 91 },
+        '수성구': { x: 89, y: 90 },
+        '달서구': { x: 88, y: 90 },
+        '달성군': { x: 86, y: 88 },
+        '군위군': { x: 88, y: 99 }
     },
     '인천광역시': {
-        '중구': {x: 54, y: 125},
-        '동구': {x: 54, y: 125},
-        '미추홀구': {x: 54, y: 124},
-        '연수구': {x: 55, y: 123},
-        '남동구': {x: 56, y: 124},
-        '부평구': {x: 55, y: 125},
-        '계양구': {x: 56, y: 126},
-        '서구': {x: 55, y: 126},
-        '강화군': {x: 51, y: 130},
-        '옹진군': {x: 54, y: 124}
+        '중구': { x: 54, y: 125 },
+        '동구': { x: 54, y: 125 },
+        '미추홀구': { x: 54, y: 124 },
+        '연수구': { x: 55, y: 123 },
+        '남동구': { x: 56, y: 124 },
+        '부평구': { x: 55, y: 125 },
+        '계양구': { x: 56, y: 126 },
+        '서구': { x: 55, y: 126 },
+        '강화군': { x: 51, y: 130 },
+        '옹진군': { x: 54, y: 124 }
     },
     '광주광역시': {
-        '동구': {x: 60, y: 74},
-        '서구': {x: 59, y: 74},
-        '남구': {x: 59, y: 73},
-        '북구': {x: 59, y: 75},
-        '광산구': {x: 57, y: 74}
+        '동구': { x: 60, y: 74 },
+        '서구': { x: 59, y: 74 },
+        '남구': { x: 59, y: 73 },
+        '북구': { x: 59, y: 75 },
+        '광산구': { x: 57, y: 74 }
     },
     '대전광역시': {
-        '동구': {x: 68, y: 100},
-        '중구': {x: 68, y: 100},
-        '서구': {x: 67, y: 100},
-        '유성구': {x: 67, y: 101},
-        '대덕구': {x: 68, y: 100}
+        '동구': { x: 68, y: 100 },
+        '중구': { x: 68, y: 100 },
+        '서구': { x: 67, y: 100 },
+        '유성구': { x: 67, y: 101 },
+        '대덕구': { x: 68, y: 100 }
     },
     '울산광역시': {
-        '중구': {x: 102, y: 84},
-        '남구': {x: 102, y: 84},
-        '동구': {x: 104, y: 83},
-        '북구': {x: 103, y: 85},
-        '울주군': {x: 101, y: 84}
+        '중구': { x: 102, y: 84 },
+        '남구': { x: 102, y: 84 },
+        '동구': { x: 104, y: 83 },
+        '북구': { x: 103, y: 85 },
+        '울주군': { x: 101, y: 84 }
     },
     '세종특별자치시': {
-        '세종특별자치시': {x: 66, y: 103}
+        '세종특별자치시': { x: 66, y: 103 }
     },
     '경기도': {
-        '수원시 장안구': {x: 60, y: 121},
-        '수원시 권선구': {x: 60, y: 120},
-        '수원시 팔달구': {x: 61, y: 121},
-        '수원시 영통구': {x: 61, y: 120},
-        '성남시 수정구': {x: 63, y: 124},
-        '성남시 중원구': {x: 63, y: 124},
-        '성남시 분당구': {x: 62, y: 123},
-        '의정부시': {x: 61, y: 130},
-        '안양시 만안구': {x: 59, y: 123},
-        '안양시 동안구': {x: 59, y: 123},
-        '부천시 원미구': {x: 57, y: 125},
-        '부천시 소사구': {x: 57, y: 125},
-        '부천시 오정구': {x: 57, y: 126},
-        '광명시': {x: 58, y: 125},
-        '평택시': {x: 62, y: 114},
-        '동두천시': {x: 61, y: 134},
-        '안산시 상록구': {x: 58, y: 121},
-        '안산시 단원구': {x: 57, y: 121},
-        '고양시 덕양구': {x: 57, y: 128},
-        '고양시 일산동구': {x: 56, y: 129},
-        '고양시 일산서구': {x: 56, y: 129},
-        '과천시': {x: 60, y: 124},
-        '구리시': {x: 62, y: 127},
-        '남양주시': {x: 64, y: 128},
-        '오산시': {x: 62, y: 118},
-        '시흥시': {x: 57, y: 123},
-        '군포시': {x: 59, y: 122},
-        '의왕시': {x: 60, y: 122},
-        '하남시': {x: 64, y: 126},
-        '용인시 처인구': {x: 64, y: 119},
-        '용인시 기흥구': {x: 62, y: 120},
-        '용인시 수지구': {x: 62, y: 121},
-        '파주시': {x: 56, y: 131},
-        '이천시': {x: 68, y: 121},
-        '안성시': {x: 65, y: 115},
-        '김포시': {x: 55, y: 128},
-        '화성시': {x: 57, y: 119},
-        '광주시': {x: 65, y: 123},
-        '양주시': {x: 61, y: 131},
-        '포천시': {x: 64, y: 134},
-        '여주시': {x: 71, y: 121},
-        '연천군': {x: 61, y: 138},
-        '가평군': {x: 69, y: 133},
-        '양평군': {x: 69, y: 125}
+        '수원시 장안구': { x: 60, y: 121 },
+        '수원시 권선구': { x: 60, y: 120 },
+        '수원시 팔달구': { x: 61, y: 121 },
+        '수원시 영통구': { x: 61, y: 120 },
+        '성남시 수정구': { x: 63, y: 124 },
+        '성남시 중원구': { x: 63, y: 124 },
+        '성남시 분당구': { x: 62, y: 123 },
+        '의정부시': { x: 61, y: 130 },
+        '안양시 만안구': { x: 59, y: 123 },
+        '안양시 동안구': { x: 59, y: 123 },
+        '부천시 원미구': { x: 57, y: 125 },
+        '부천시 소사구': { x: 57, y: 125 },
+        '부천시 오정구': { x: 57, y: 126 },
+        '광명시': { x: 58, y: 125 },
+        '평택시': { x: 62, y: 114 },
+        '동두천시': { x: 61, y: 134 },
+        '안산시 상록구': { x: 58, y: 121 },
+        '안산시 단원구': { x: 57, y: 121 },
+        '고양시 덕양구': { x: 57, y: 128 },
+        '고양시 일산동구': { x: 56, y: 129 },
+        '고양시 일산서구': { x: 56, y: 129 },
+        '과천시': { x: 60, y: 124 },
+        '구리시': { x: 62, y: 127 },
+        '남양주시': { x: 64, y: 128 },
+        '오산시': { x: 62, y: 118 },
+        '시흥시': { x: 57, y: 123 },
+        '군포시': { x: 59, y: 122 },
+        '의왕시': { x: 60, y: 122 },
+        '하남시': { x: 64, y: 126 },
+        '용인시 처인구': { x: 64, y: 119 },
+        '용인시 기흥구': { x: 62, y: 120 },
+        '용인시 수지구': { x: 62, y: 121 },
+        '파주시': { x: 56, y: 131 },
+        '이천시': { x: 68, y: 121 },
+        '안성시': { x: 65, y: 115 },
+        '김포시': { x: 55, y: 128 },
+        '화성시': { x: 57, y: 119 },
+        '광주시': { x: 65, y: 123 },
+        '양주시': { x: 61, y: 131 },
+        '포천시': { x: 64, y: 134 },
+        '여주시': { x: 71, y: 121 },
+        '연천군': { x: 61, y: 138 },
+        '가평군': { x: 69, y: 133 },
+        '양평군': { x: 69, y: 125 }
     },
     '충청북도': {
-        '청주시 상당구': {x: 69, y: 106},
-        '청주시 서원구': {x: 69, y: 107},
-        '청주시 흥덕구': {x: 67, y: 106},
-        '청주시 청원구': {x: 69, y: 107},
-        '충주시': {x: 76, y: 114},
-        '제천시': {x: 81, y: 118},
-        '보은군': {x: 73, y: 103},
-        '옥천군': {x: 71, y: 99},
-        '영동군': {x: 74, y: 97},
-        '증평군': {x: 71, y: 110},
-        '진천군': {x: 68, y: 111},
-        '괴산군': {x: 74, y: 111},
-        '음성군': {x: 72, y: 113},
-        '단양군': {x: 84, y: 115}
+        '청주시 상당구': { x: 69, y: 106 },
+        '청주시 서원구': { x: 69, y: 107 },
+        '청주시 흥덕구': { x: 67, y: 106 },
+        '청주시 청원구': { x: 69, y: 107 },
+        '충주시': { x: 76, y: 114 },
+        '제천시': { x: 81, y: 118 },
+        '보은군': { x: 73, y: 103 },
+        '옥천군': { x: 71, y: 99 },
+        '영동군': { x: 74, y: 97 },
+        '증평군': { x: 71, y: 110 },
+        '진천군': { x: 68, y: 111 },
+        '괴산군': { x: 74, y: 111 },
+        '음성군': { x: 72, y: 113 },
+        '단양군': { x: 84, y: 115 }
     },
     '충청남도': {
-        '천안시 동남구': {x: 63, y: 110},
-        '천안시 서북구': {x: 63, y: 112},
-        '공주시': {x: 63, y: 102},
-        '보령시': {x: 54, y: 100},
-        '아산시': {x: 60, y: 110},
-        '서산시': {x: 51, y: 110},
-        '논산시': {x: 62, y: 97},
-        '계룡시': {x: 65, y: 99},
-        '당진시': {x: 54, y: 112},
-        '금산군': {x: 69, y: 95},
-        '부여군': {x: 59, y: 99},
-        '서천군': {x: 55, y: 94},
-        '청양군': {x: 57, y: 103},
-        '홍성군': {x: 55, y: 106},
-        '예산군': {x: 58, y: 107},
-        '태안군': {x: 48, y: 109}
+        '천안시 동남구': { x: 63, y: 110 },
+        '천안시 서북구': { x: 63, y: 112 },
+        '공주시': { x: 63, y: 102 },
+        '보령시': { x: 54, y: 100 },
+        '아산시': { x: 60, y: 110 },
+        '서산시': { x: 51, y: 110 },
+        '논산시': { x: 62, y: 97 },
+        '계룡시': { x: 65, y: 99 },
+        '당진시': { x: 54, y: 112 },
+        '금산군': { x: 69, y: 95 },
+        '부여군': { x: 59, y: 99 },
+        '서천군': { x: 55, y: 94 },
+        '청양군': { x: 57, y: 103 },
+        '홍성군': { x: 55, y: 106 },
+        '예산군': { x: 58, y: 107 },
+        '태안군': { x: 48, y: 109 }
     },
     '전라북도': {
-        '전주시 완산구': {x: 63, y: 89},
-        '전주시 덕진구': {x: 63, y: 89},
-        '군산시': {x: 56, y: 92},
-        '익산시': {x: 60, y: 91},
-        '정읍시': {x: 58, y: 83},
-        '남원시': {x: 68, y: 80},
-        '김제시': {x: 59, y: 88},
-        '완주군': {x: 63, y: 89},
-        '진안군': {x: 68, y: 88},
-        '무주군': {x: 72, y: 93},
-        '장수군': {x: 70, y: 85},
-        '임실군': {x: 66, y: 84},
-        '순창군': {x: 63, y: 79},
-        '고창군': {x: 56, y: 80},
-        '부안군': {x: 56, y: 87}
+        '전주시 완산구': { x: 63, y: 89 },
+        '전주시 덕진구': { x: 63, y: 89 },
+        '군산시': { x: 56, y: 92 },
+        '익산시': { x: 60, y: 91 },
+        '정읍시': { x: 58, y: 83 },
+        '남원시': { x: 68, y: 80 },
+        '김제시': { x: 59, y: 88 },
+        '완주군': { x: 63, y: 89 },
+        '진안군': { x: 68, y: 88 },
+        '무주군': { x: 72, y: 93 },
+        '장수군': { x: 70, y: 85 },
+        '임실군': { x: 66, y: 84 },
+        '순창군': { x: 63, y: 79 },
+        '고창군': { x: 56, y: 80 },
+        '부안군': { x: 56, y: 87 }
     },
     '전라남도': {
-        '목포시': {x: 50, y: 67},
-        '여수시': {x: 73, y: 66},
-        '순천시': {x: 70, y: 70},
-        '나주시': {x: 56, y: 71},
-        '광양시': {x: 73, y: 70},
-        '담양군': {x: 61, y: 78},
-        '곡성군': {x: 66, y: 77},
-        '구례군': {x: 69, y: 75},
-        '고흥군': {x: 66, y: 62},
-        '보성군': {x: 62, y: 66},
-        '화순군': {x: 61, y: 72},
-        '장흥군': {x: 59, y: 64},
-        '강진군': {x: 57, y: 63},
-        '해남군': {x: 54, y: 61},
-        '영암군': {x: 56, y: 66},
-        '무안군': {x: 52, y: 71},
-        '함평군': {x: 52, y: 72},
-        '영광군': {x: 52, y: 77},
-        '장성군': {x: 57, y: 77},
-        '완도군': {x: 57, y: 56},
-        '진도군': {x: 48, y: 59},
-        '신안군': {x: 50, y: 66}
+        '목포시': { x: 50, y: 67 },
+        '여수시': { x: 73, y: 66 },
+        '순천시': { x: 70, y: 70 },
+        '나주시': { x: 56, y: 71 },
+        '광양시': { x: 73, y: 70 },
+        '담양군': { x: 61, y: 78 },
+        '곡성군': { x: 66, y: 77 },
+        '구례군': { x: 69, y: 75 },
+        '고흥군': { x: 66, y: 62 },
+        '보성군': { x: 62, y: 66 },
+        '화순군': { x: 61, y: 72 },
+        '장흥군': { x: 59, y: 64 },
+        '강진군': { x: 57, y: 63 },
+        '해남군': { x: 54, y: 61 },
+        '영암군': { x: 56, y: 66 },
+        '무안군': { x: 52, y: 71 },
+        '함평군': { x: 52, y: 72 },
+        '영광군': { x: 52, y: 77 },
+        '장성군': { x: 57, y: 77 },
+        '완도군': { x: 57, y: 56 },
+        '진도군': { x: 48, y: 59 },
+        '신안군': { x: 50, y: 66 }
     },
     '경상북도': {
-        '포항시 남구': {x: 102, y: 94},
-        '포항시 북구': {x: 102, y: 95},
-        '경주시': {x: 100, y: 91},
-        '김천시': {x: 80, y: 96},
-        '안동시': {x: 91, y: 106},
-        '구미시': {x: 84, y: 96},
-        '영주시': {x: 89, y: 111},
-        '영천시': {x: 95, y: 93},
-        '상주시': {x: 81, y: 102},
-        '문경시': {x: 81, y: 106},
-        '경산시': {x: 91, y: 90},
-        '의성군': {x: 90, y: 101},
-        '청송군': {x: 96, y: 103},
-        '영양군': {x: 97, y: 108},
-        '영덕군': {x: 102, y: 103},
-        '청도군': {x: 91, y: 86},
-        '고령군': {x: 83, y: 87},
-        '성주군': {x: 83, y: 91},
-        '칠곡군': {x: 85, y: 93},
-        '예천군': {x: 86, y: 107},
-        '봉화군': {x: 90, y: 113},
-        '울진군': {x: 102, y: 115},
-        '울릉군': {x: 127, y: 127}
+        '포항시 남구': { x: 102, y: 94 },
+        '포항시 북구': { x: 102, y: 95 },
+        '경주시': { x: 100, y: 91 },
+        '김천시': { x: 80, y: 96 },
+        '안동시': { x: 91, y: 106 },
+        '구미시': { x: 84, y: 96 },
+        '영주시': { x: 89, y: 111 },
+        '영천시': { x: 95, y: 93 },
+        '상주시': { x: 81, y: 102 },
+        '문경시': { x: 81, y: 106 },
+        '경산시': { x: 91, y: 90 },
+        '의성군': { x: 90, y: 101 },
+        '청송군': { x: 96, y: 103 },
+        '영양군': { x: 97, y: 108 },
+        '영덕군': { x: 102, y: 103 },
+        '청도군': { x: 91, y: 86 },
+        '고령군': { x: 83, y: 87 },
+        '성주군': { x: 83, y: 91 },
+        '칠곡군': { x: 85, y: 93 },
+        '예천군': { x: 86, y: 107 },
+        '봉화군': { x: 90, y: 113 },
+        '울진군': { x: 102, y: 115 },
+        '울릉군': { x: 127, y: 127 }
     },
     '경상남도': {
-        '창원시 의창구': {x: 90, y: 77},
-        '창원시 성산구': {x: 91, y: 76},
-        '창원시 마산합포구': {x: 89, y: 76},
-        '창원시 마산회원구': {x: 89, y: 76},
-        '창원시 진해구': {x: 91, y: 75},
-        '진주시': {x: 81, y: 75},
-        '통영시': {x: 87, y: 68},
-        '사천시': {x: 80, y: 71},
-        '김해시': {x: 95, y: 77},
-        '밀양시': {x: 92, y: 83},
-        '거제시': {x: 90, y: 69},
-        '양산시': {x: 97, y: 79},
-        '의령군': {x: 83, y: 78},
-        '함안군': {x: 86, y: 77},
-        '창녕군': {x: 87, y: 83},
-        '고성군': {x: 85, y: 71},
-        '남해군': {x: 77, y: 68},
-        '하동군': {x: 74, y: 73},
-        '산청군': {x: 76, y: 80},
-        '함양군': {x: 74, y: 82},
-        '거창군': {x: 77, y: 86},
-        '합천군': {x: 81, y: 84}
+        '창원시 의창구': { x: 90, y: 77 },
+        '창원시 성산구': { x: 91, y: 76 },
+        '창원시 마산합포구': { x: 89, y: 76 },
+        '창원시 마산회원구': { x: 89, y: 76 },
+        '창원시 진해구': { x: 91, y: 75 },
+        '진주시': { x: 81, y: 75 },
+        '통영시': { x: 87, y: 68 },
+        '사천시': { x: 80, y: 71 },
+        '김해시': { x: 95, y: 77 },
+        '밀양시': { x: 92, y: 83 },
+        '거제시': { x: 90, y: 69 },
+        '양산시': { x: 97, y: 79 },
+        '의령군': { x: 83, y: 78 },
+        '함안군': { x: 86, y: 77 },
+        '창녕군': { x: 87, y: 83 },
+        '고성군': { x: 85, y: 71 },
+        '남해군': { x: 77, y: 68 },
+        '하동군': { x: 74, y: 73 },
+        '산청군': { x: 76, y: 80 },
+        '함양군': { x: 74, y: 82 },
+        '거창군': { x: 77, y: 86 },
+        '합천군': { x: 81, y: 84 }
     },
-     '제주특별자치도': {
-        '제주시': {x: 53, y: 38},
-        '서귀포시': {x: 52, y: 33}
+    '제주특별자치도': {
+        '제주시': { x: 53, y: 38 },
+        '서귀포시': { x: 52, y: 33 }
     },
     '강원특별자치도': {
-        '춘천시': {x: 73, y: 134},
-        '원주시': {x: 76, y: 122},
-        '강릉시': {x: 92, y: 131},
-        '동해시': {x: 97, y: 127},
-        '태백시': {x: 95, y: 119},
-        '속초시': {x: 87, y: 141},
-        '삼척시': {x: 98, y: 125},
-        '홍천군': {x: 75, y: 130},
-        '횡성군': {x: 77, y: 125},
-        '영월군': {x: 86, y: 119},
-        '평창군': {x: 84, y: 123},
-        '정선군': {x: 89, y: 123},
-        '철원군': {x: 65, y: 139},
-        '화천군': {x: 72, y: 139},
-        '양구군': {x: 77, y: 139},
-        '인제군': {x: 80, y: 138},
-        '고성군': {x: 85, y: 145},
-        '양양군': {x: 88, y: 138}
+        '춘천시': { x: 73, y: 134 },
+        '원주시': { x: 76, y: 122 },
+        '강릉시': { x: 92, y: 131 },
+        '동해시': { x: 97, y: 127 },
+        '태백시': { x: 95, y: 119 },
+        '속초시': { x: 87, y: 141 },
+        '삼척시': { x: 98, y: 125 },
+        '홍천군': { x: 75, y: 130 },
+        '횡성군': { x: 77, y: 125 },
+        '영월군': { x: 86, y: 119 },
+        '평창군': { x: 84, y: 123 },
+        '정선군': { x: 89, y: 123 },
+        '철원군': { x: 65, y: 139 },
+        '화천군': { x: 72, y: 139 },
+        '양구군': { x: 77, y: 139 },
+        '인제군': { x: 80, y: 138 },
+        '고성군': { x: 85, y: 145 },
+        '양양군': { x: 88, y: 138 }
     }
     // 다른 시/도에 따른 구/군 정보 추가
 };
@@ -301,7 +301,7 @@ function updateCityOptions() {
 
     citySelect.innerHTML = '<option value="" selected disabled>구/군 선택</option>';
 
-     if (cities.length > 0) {
+    if (cities.length > 0) {
         cities.forEach(city => {
             const option = document.createElement('option');
             option.value = city;
@@ -320,6 +320,12 @@ function updateResult() {
     const province = provinceSelect.value;
     const city = citySelect.value || "";
     resultDiv.textContent = `${province} ${city}`;
+    // 선택된 도시의 좌표로 x와 y 업데이트
+    const selectedCityCoords = citiesByProvince[province][city];
+    if (selectedCityCoords) {
+        x = selectedCityCoords.x;
+        y = selectedCityCoords.y;
+    }
 }
 
 provinceSelect.addEventListener('change', updateCityOptions);
@@ -427,40 +433,58 @@ function getAfterTomorrowFormatted() {
 }
 
 var baseDateYesterday = getYesterday(); // 어제 날짜
+var baseDateToday = getTodayFormatted(); // 오늘 날짜 00.00 버전
 
-var baseDateToday = getTodayFormatted() // 오늘 날짜 00.00 버전
 
-$.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDateYesterday + "&base_time=0500&nx=" + x + "&ny=" + y,
-    function (data) {
-        console.log(data);
+// 버튼 클릭 시 API 호출
+document.getElementById('generateResult').addEventListener('click', function() {
+    // 기본값으로 오늘 날짜 설정
+    let baseDate = getToday();
 
-        let tmn_today = {},
-            tmx_today = {};
+    // API 호출
+    $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=" + x + "&ny=" + y, 
+    function (response) {
+        // 데이터 확인
+        console.log(response);
 
-        // 각 항목을 반복하면서
-        $.each(data.response.body.items.item, function (index, item) {
-            let date = item.fcstDate;
-            let value = item.fcstValue;
+        // 데이터 처리
+        let tmn_today = {};
+        let tmx_today = {};
 
-            if (date === getTomorrow()) {
-                // 카테고리가 'TMN' (최저 기온)인 경우
-                if (item.category == "TMN") {
-                    tmn_today[date] = parseInt(value); // 정수로 변환
+        // 데이터가 정상적으로 받아졌을 때 처리
+        if (response.response && response.response.body && response.response.body.items && response.response.body.items.item) {
+            // 각 항목을 반복하면서
+            $.each(response.response.body.items.item, function (index, item) {
+                let date = item.fcstDate;
+                let value = item.fcstValue;
+
+                if (date === getTomorrow()) {
+                    // 카테고리가 'TMN' (최저 기온)인 경우
+                    if (item.category == "TMN") {
+                        tmn_today[date] = parseInt(value); // 정수로 변환
+                    }
+                    // 카테고리가 'TMX' (최고 기온)인 경우
+                    else if (item.category == "TMX") {
+                        tmx_today[date] = parseInt(value); // 정수로 변환
+                    }
                 }
-                // 카테고리가 'TMX' (최고 기온)인 경우
-                else if (item.category == "TMX") {
-                    tmx_today[date] = parseInt(value); // 정수로 변환
-                }
-            }
-        });
+            });
+        }
+
+        // 처리된 데이터 확인
+        console.log("최저 기온:", tmn_today);
+        console.log("최고 기온:", tmx_today);
+
+        // 결과를 표시할 요소를 초기화
+        $('#results0').empty();
 
         // tmn_today과 tmx_today에 저장된 값을 결과에 표시
         $.each(tmn_today, function (date, value) {
             let content = "오늘 " + baseDateToday + "<br>" + value + "° / " + tmx_today[date] + "°";
             $('#results0').append('<p>' + content + '</p>');
         });
-
     });
+});
 
 
 var baseDate = getToday(); // 오늘 날짜
@@ -518,32 +542,32 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
 
         // 버튼 슬라이드
-               // 캐시 객체 생성
-var cache = {};
+        // 캐시 객체 생성
+        var cache = {};
 
-// 기온 및 날씨 정보를 가져오는 함수
-function getWeatherData() {
-    // 캐시 확인
-    if (cache.weatherData) {
-        // 캐시된 데이터가 있는 경우, 캐시된 데이터를 사용하여 페이지 업데이트
-        updatePage(cache.weatherData);
-    } else {
-        // 캐시된 데이터가 없는 경우, API 요청 보내기
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
-            function (data) {
-                var category = "TMP"; // 기온을 나타내는 category
+        // 기온 및 날씨 정보를 가져오는 함수
+        function getWeatherData() {
+            // 캐시 확인
+            if (cache.weatherData) {
+                // 캐시된 데이터가 있는 경우, 캐시된 데이터를 사용하여 페이지 업데이트
+                updatePage(cache.weatherData);
+            } else {
+                // 캐시된 데이터가 없는 경우, API 요청 보내기
+                $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+                    function (data) {
+                        var category = "TMP"; // 기온을 나타내는 category
 
-                // 데이터에서 원하는 category 값인 TMP를 필터링
-                var forecastData = data.response.body.items.item.filter(item => item.category === category);
+                        // 데이터에서 원하는 category 값인 TMP를 필터링
+                        var forecastData = data.response.body.items.item.filter(item => item.category === category);
 
-                // 캐시에 데이터 저장
-                cache.weatherData = forecastData;
+                        // 캐시에 데이터 저장
+                        cache.weatherData = forecastData;
 
-                // 페이지 업데이트
-                updatePage(forecastData);
-            });
-    }
-}
+                        // 페이지 업데이트
+                        updatePage(forecastData);
+                    });
+            }
+        }
         $(document).ready(function () {
             const container = $('#weatherDataContainer');
             const scrollLeft = $('#scrollLeft');
@@ -1092,26 +1116,26 @@ function getWeatherData() {
             });
 
         // 오전 오후 기온
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate+"&base_time=0630&nx=60&ny=127",
-        function (data) {
-            console.log(data);
-            let morningTemp, afternoonTemp;
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0630&nx=60&ny=127",
+            function (data) {
+                console.log(data);
+                let morningTemp, afternoonTemp;
 
-            // Loop through each item in the response
-            data.response.body.items.item.forEach(function (item) {
-                if (item.category === "T1H") {
-                    if (item.fcstTime === "0700") {
-                        morningTemp = item.fcstValue;
-                    } else if (item.fcstTime === "1200") {
-                        afternoonTemp = item.fcstValue;
+                // Loop through each item in the response
+                data.response.body.items.item.forEach(function (item) {
+                    if (item.category === "T1H") {
+                        if (item.fcstTime === "0700") {
+                            morningTemp = item.fcstValue;
+                        } else if (item.fcstTime === "1200") {
+                            afternoonTemp = item.fcstValue;
+                        }
                     }
-                }
-            });
+                });
 
-            // Display the morning and afternoon temperatures
-            $('#morningTemp').text("오전 기온: " + morningTemp + "℃");
-            $('#afternoonTemp').text("오후 기온: " + afternoonTemp + "℃");
-        });
+                // Display the morning and afternoon temperatures
+                $('#morningTemp').text("오전 기온: " + morningTemp + "℃");
+                $('#afternoonTemp').text("오후 기온: " + afternoonTemp + "℃");
+            });
 
         // 자외선
         // 등급을 숫자에서 문자열로 변환하는 함수

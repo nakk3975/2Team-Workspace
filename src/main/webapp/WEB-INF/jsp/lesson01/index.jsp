@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<!-- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> -->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,6 +13,22 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
+<script>
+  // 위에서 제공한 JavaScript 코드를 여기에 넣습니다.
+  function getUserLocation() {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+              let x = position.coords.latitude;
+              let y = position.coords.longitude;
+              fetchData(x, y);
+          });
+      } else {
+          alert("Geolocation is not supported by this browser.");
+      }
+  }
+
+  getUserLocation(); // 페이지 로드 시 사용자의 위치를 가져와서 API 호출
+</script>
 
 <body>
 
