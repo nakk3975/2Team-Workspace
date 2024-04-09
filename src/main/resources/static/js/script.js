@@ -1,4 +1,3 @@
-
 var x = 60;
 var y = 127;
 const citiesByProvince = {
@@ -290,49 +289,6 @@ const citiesByProvince = {
     }
     // 다른 시/도에 따른 구/군 정보 추가
 };
-
-const provinceSelect = document.getElementById('province');
-const citySelect = document.getElementById('city');
-const resultDiv = document.getElementById('resultValue');
-
-function updateCityOptions() {
-    const selectedProvince = provinceSelect.value;
-    const cities = Object.keys(citiesByProvince[selectedProvince]); //citiesByProvince[selectedProvince];
-
-    citySelect.innerHTML = '<option value="" selected disabled>구/군 선택</option>';
-
-    if (cities.length > 0) {
-        cities.forEach(city => {
-            const option = document.createElement('option');
-            option.value = city;
-            option.textContent = city;
-            citySelect.appendChild(option);
-        });
-        citySelect.disabled = false;
-    } else {
-        citySelect.disabled = true;
-    }
-
-    updateResult();
-}
-
-function updateResult() {
-    const province = provinceSelect.value;
-    const city = citySelect.value || "";
-    resultDiv.textContent = `${province} ${city}`;
-    // 선택된 도시의 좌표로 x와 y 업데이트
-    const selectedCityCoords = citiesByProvince[province][city];
-    if (selectedCityCoords) {
-        x = selectedCityCoords.x;
-        y = selectedCityCoords.y;
-    }
-}
-
-provinceSelect.addEventListener('change', updateCityOptions);
-citySelect.addEventListener('change', updateResult);
-
-updateCityOptions();
-
 // script.js 파일
 
 //어제 날짜
@@ -434,7 +390,7 @@ function getAfterTomorrowFormatted() {
 
 var baseDateYesterday = getYesterday(); // 어제 날짜
 var baseDateToday = getTodayFormatted(); // 오늘 날짜 00.00 버전
-
+var wApiKey = "SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D";
 
 // 버튼 클릭 시 API 호출
 document.getElementById('generateResult').addEventListener('click', function() {
@@ -442,7 +398,7 @@ document.getElementById('generateResult').addEventListener('click', function() {
     let baseDate = getToday();
 
     // API 호출
-    $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=" + x + "&ny=" + y, 
+    $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=" + x + "&ny=" + y, 
     function (response) {
         // 데이터 확인
         console.log(response);
@@ -493,7 +449,7 @@ var baseDateTomorrow = getTomorrowFormatted() // 내일 날짜 00.00 버전
 
 var baseDateAfterTomorrow = getAfterTomorrowFormatted() // 모레 날짜 00.00 버전
 
-$.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=55&ny=127",
+$.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx="+x+"&ny="+y,
     function (data) {
         console.log(data);
 
@@ -527,6 +483,59 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
                 }
             }
         });
+        
+		const provinceSelect = document.getElementById('province'); //지방
+		const citySelect = document.getElementById('city'); //도시
+		const resultDiv = document.getElementById('resultValue'); //결과값
+
+		function updateCityOptions() {
+		    const selectedProvince = provinceSelect.value;
+		    const cities = Object.keys(citiesByProvince[selectedProvince]); //citiesByProvince[selectedProvince];
+		
+		    citySelect.innerHTML = '<option value="" selected disabled>구/군 선택</option>';
+		
+		    if (cities.length > 0) {
+		        cities.forEach(city => {
+		            const option = document.createElement('option');
+		            option.value = city;
+		            option.textContent = city;
+		            citySelect.appendChild(option);
+		        });
+		        citySelect.disabled = false;
+		    } else {
+		        citySelect.disabled = true;
+		    }
+		
+			updateResult();    
+		}
+
+		function updateResult() {
+		    const province = provinceSelect.value;
+		    const city = citySelect.value || "";
+		
+		    // 도시가 선택되지 않았을 때는 함수 종료
+		    if (!province || !city) {
+		        return;
+		    }
+		
+		    resultDiv.textContent = `${province} ${city}`;
+		
+		    const selectedCityCoords = citiesByProvince[province][city];
+		    if (selectedCityCoords) {
+		        // 선택된 도시의 좌표로 x와 y 업데이트
+		        x = selectedCityCoords.x;
+		        y = selectedCityCoords.y;
+		        console.log(`x: ${x}, y: ${y}`); // 업데이트된 x와 y 값 콘솔에 출력
+		        getWeatherData(); // 새로운 x, y 값으로 날씨 정보 업데이트
+		    } else {
+		        console.error(`해당 도시의 좌표를 찾을 수 없습니다.`);
+		    }
+		}
+		
+		updateCityOptions();
+		
+		provinceSelect.addEventListener('change', updateCityOptions);
+		citySelect.addEventListener('change', updateResult);
 
         // tmn_today과 tmx_today에 저장된 값을 결과에 표시
         $.each(tmn_today, function (date, value) {
@@ -553,7 +562,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
                 updatePage(cache.weatherData);
             } else {
                 // 캐시된 데이터가 없는 경우, API 요청 보내기
-                $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+                $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey="+wApiKey+"pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx="+x+"&ny="+y,
                     function (data) {
                         var category = "TMP"; // 기온을 나타내는 category
 
@@ -574,6 +583,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             const scrollRight = $('#scrollRight');
 
             scrollLeft.click(function () {
+				
                 container.scrollLeft(container.scrollLeft() - 100);
             });
 
@@ -587,7 +597,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
         // 기온 및 날씨 정보를 가져오는 함수
         function getWeatherData() {
-            $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+            $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx="+x+"&ny="+y,
                 function (data) {
                     var category = "TMP"; // 기온을 나타내는 category
 
@@ -656,9 +666,10 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             container.insertBefore(graphContainer, container.childNodes[1]); // 그래프를 온도 뒤에 삽입
         }
 
+
         // 날씨 이미지를 표시하는 함수
         function showWeatherImage(span, fcstTime) {
-            $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+            $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx="+x+"&ny="+y,
                 function (data) {
                     var items = data.response.body.items.item;
                     var skyValue = null;
@@ -788,7 +799,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             const afterTomorrow = new Date();
             afterTomorrow.setDate(afterTomorrow.getDate() + 2);
 
-            const url = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + formatDate(today) + "&base_time=0500&nx=60&ny=127";
+            const url = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + formatDate(today) + "&base_time=0500&nx="+x+"&ny="+y;
 
             try {
                 const data = await fetchData(url);
@@ -849,7 +860,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
         var baseDateNineDay = getLaterDate(9); // 9일 후 날짜
         var baseDateTenDay = getLaterDate(10); // 10일 후 날짜
 
-        $.getJSON("https://apis.data.go.kr/1360000/MidFcstInfoService/getMidTa?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&regId=11B10101&tmFc=" + baseDate + "0600",
+        $.getJSON("https://apis.data.go.kr/1360000/MidFcstInfoService/getMidTa?serviceKey="+wApiKey+"&pageNo=1&numOfRows=10&dataType=JSON&regId=11B10101&tmFc=" + dDate + "0600",
             function (data) {
                 console.log(data);
 
@@ -883,7 +894,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
         // 3~7일 강수량
 
-        $.getJSON("https://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&regId=11B00000&tmFc=" + baseDate + "0600",
+        $.getJSON("https://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=10&dataType=JSON&regId=11B00000&tmFc=" + baseDate + "0600",
             function (data) {
 
                 let item = data.response.body.items.item[0];
@@ -923,7 +934,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             });
 
         // 실시간 기온
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0600&nx=60&ny=127",
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0600&nx="+x+"&ny="+y,
             function (data) {
                 console.log(data);
                 // 데이터에서 T1H 값을 찾아서 출력
@@ -943,7 +954,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
         // 어제의 평균 기온을 가져오는 AJAX 호출
         function getYesterdayAvgTa(t1hValue) {
-            $.getJSON("https://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&dataCd=ASOS&dateCd=DAY&startDt=" + baseDateYesterday + "&endDt=" + baseDateYesterday + "&stnIds=108",
+            $.getJSON("https://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList?serviceKey="+wApiKey+"&pageNo=1&numOfRows=10&dataType=JSON&dataCd=ASOS&dateCd=DAY&startDt=" + baseDateYesterday + "&endDt=" + baseDateYesterday + "&stnIds=108",
                 function (data) {
                     console.log(data);
                     var yesterdayAvgTa = parseFloat(data.response.body.items.item[0].avgTa); // 어제의 평균 기온
@@ -956,7 +967,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
         }
 
         // 날씨 흐림 비 맑음 등
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx="+x+"&ny="+y,
             function (data) {
                 var items = data.response.body.items.item;
                 var skyValue = null;
@@ -1066,7 +1077,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
 
         // 강수 습도
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0600&nx=60&ny=127",
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0600&nx="+x+"&ny="+y,
             function (data) {
                 // 습도와 1시간 강수량 데이터 찾기
                 var rehValue, rn1Value;
@@ -1100,7 +1111,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             else return "매우 나쁨";
         }
 
-        $.getJSON("https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&returnType=json&numOfRows=100&pageNo=1&sidoName=%EC%84%9C%EC%9A%B8&ver=1.7.2",
+        $.getJSON("https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey="+wApiKey+"&returnType=json&numOfRows=100&pageNo=1&sidoName=%EC%84%9C%EC%9A%B8&ver=1.7.2",
             function (data) {
                 let item = data.response.body.items[0];
 
@@ -1116,7 +1127,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             });
 
         // 오전 오후 기온
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0630&nx=60&ny=127",
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=1000&dataType=JSON&base_date=" + baseDate + "&base_time=0630&nx="+x+"&ny="+y,
             function (data) {
                 console.log(data);
                 let morningTemp, afternoonTemp;
@@ -1147,7 +1158,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
             else if (ultraviolet >= 11) return "매우높음";
         }
 
-        $.getJSON("https://apis.data.go.kr/1360000/LivingWthrIdxServiceV4/getUVIdxV4?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&areaNo=1100000000&time=" + baseDate,
+        $.getJSON("https://apis.data.go.kr/1360000/LivingWthrIdxServiceV4/getUVIdxV4?serviceKey="+wApiKey+"&pageNo=1&numOfRows=10&dataType=JSON&areaNo=1100000000&time=" + baseDate,
             function (data) {
                 console.log(data);
 
@@ -1251,7 +1262,7 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
 
         //풍속 풍향
-        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=SK%2BPRcZcmwLI1Ay0iY4upnwt8YM36JwLQ9lNFQebeaz7yXOCb0BmR6HdvFQgBR7YrCPgf%2FDfscztrpYzGxoc1g%3D%3D&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx=60&ny=127",
+        $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey="+wApiKey+"&pageNo=1&numOfRows=10&dataType=JSON&base_date=" + baseDate + "&base_time=0500&nx="+x+"&ny="+y,
             function (data) {
                 console.log(data);
 
@@ -1287,4 +1298,6 @@ $.getJSON("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFc
 
 
 
-    });
+    });    
+
+

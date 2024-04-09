@@ -47,14 +47,14 @@
 
     <div class="login-container">
       <div>
-        <a href="#">
-          <button class="login-button">로그인</button>
+        <a href="/user/signin/view">
+          <button class="login-button" >로그인</button>
         </a>
       </div>
       <div>
         <a href="#" class="login-option">아이디 찾기</a>
         <a href="#" class="login-option">비밀번호 찾기</a>
-        <a href="#" class="login-option">회원가입</a>
+        <a href="/user/signup/view" class="login-option">회원가입</a>
       </div>
     </div>
 
