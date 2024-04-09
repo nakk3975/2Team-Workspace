@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.net.URLEncoder"%>
+<%@ page import="com.google.gson.Gson"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -39,18 +40,39 @@ button {
 
 <!-- 차트 담을 div -->
 <style>
-    #chart-container-SO2,
-    #chart-container-CO,
-    #chart-container-NO2,
-    #chart-container-O3,
-    #chart-container-AQI {
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-        margin-right: 10px; /* 각 차트 사이의 간격 조정 */
-    }
+#chart-container-SO2, #chart-container-CO, #chart-container-NO2,
+	#chart-container-O3, #chart-container-AQI {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	margin-right: 10px; /* 각 차트 사이의 간격 조정 */
+}
 </style>
 
+
+<!-- 버튼스타일 -->
+<style>
+button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff; /* 파랑색 배경 */
+            color: #fff; /* 흰색 텍스트 */
+            margin: 5px;
+        }
+
+        /* 버튼 호버 효과 */
+        button:hover {
+            background-color: #0056b3; /* 진한 파랑색 배경 */
+        }
+
+        /* 버튼 클릭 효과 */
+        button:active {
+            background-color: #004080; /* 더 진한 파랑색 배경 */
+        }
+        </style>
 
 <style>
 .flex-container {
@@ -108,6 +130,8 @@ button {
 	</div>
 
 
+
+	<!-- 미세먼지 예측도 -->
 	<div>
 		<button onclick="updateImageDate('yesterday')">어제</button>
 		<button onclick="updateImageDate('today')">오늘</button>
@@ -122,7 +146,6 @@ button {
 		<button onclick="updateImageDust('25')">초미세먼지</button>
 	</div>
 
-	<!-- 미세먼지 사진 교체버튼 (꾸미기만 남음) -->
 	<script>
 		let todayAm10ImageUrl = "${todayAm10Image}";
 		let todayAm25ImageUrl = "${todayAm25Image}";
@@ -138,7 +161,7 @@ button {
 		let tomorrowPm25ImageUrl = "${tomorrowPm25Image}";
 
 		let imagePath = ""; // 초기 이미지 경로
-		let tdate = "today";
+		let tdate = "today"; // 기본값 오늘로 설정
 		let ttime = "Am"; // 기본값 오전으로 설정
 		let tdust = "10"; // 기본값 미세먼지로 설정
 
@@ -161,10 +184,6 @@ button {
 			imagePath = tdate + ttime + tdust + "ImageUrl";
 			document.getElementById("resultImage").src = eval(imagePath);
 		}
-
-		window.onload = function() {
-			updateResultImage();
-		};
 	</script>
 
 	<div>
@@ -172,127 +191,222 @@ button {
 	</div>
 
 
-<!-- 차트 작업중 -->
-<div id="chart-container-SO2" style="width: 100px; height: 100px;"></div>
-<div id="chart-container-CO" style="width: 100px; height: 100px;"></div>
-<div id="chart-container-NO2" style="width: 100px; height: 100px;"></div>
-<div id="chart-container-O3" style="width: 100px; height: 100px;"></div>
-<div id="chart-container-AQI" style="width: 100px; height: 100px;"></div>
 
-<div>
-    <!-- JSP 코드 -->
-    <% 
-    // 모델에서 데이터 가져오기
-    String[][] data = (String[][]) request.getAttribute("todayAirs"); 
-    %>
 
-    <% 
-    // 해당하는 지역의 데이터 인덱스 설정 
-    double SO2Data = Double.parseDouble(data[0][1]); 
-    double COData = Double.parseDouble(data[0][3]); 
-    double NO2Data = Double.parseDouble(data[0][5]); 
-    double O3Data = Double.parseDouble(data[0][7]); 
-    double AQIData = Double.parseDouble(data[0][13]);
-    String SO2Grade = data[0][0];
-    String COGrade = data[0][2];
-    String NO2Grade = data[0][4];
-    String O3Grade = data[0][6];
-    String AQIGrade = data[0][12];
-    
-    // 사용한 비율과 나머지 비율. 
-    double SO2Ratio = (double) SO2Data / 0.15 * 100; 
-    if (SO2Ratio >= 100) { 
-        SO2Ratio = 100; 
-    } 
-    double SO2Remain = 100 - SO2Ratio; 
-    
-    double CORatio = (double) COData / 15 * 100; 
-    if (CORatio >= 100) { 
-        CORatio = 100; 
-    } 
-    double CORemain = 100 - CORatio; 
+	<!-- 대기오염 정보 지역별 차트 및 미세먼지/초미세먼지 정보-->
+	<div id="chart-container-O3"></div>
+	<div id="chart-container-CO"></div>
+	<div id="chart-container-SO2"></div>
+	<div id="chart-container-NO2"></div>
+	<div id="chart-container-AQI"></div>
 
-    double NO2Ratio = (double) NO2Data / 0.2 * 100; 
-    if (NO2Ratio >= 100) { 
-        NO2Ratio = 100; 
-    } 
-    double NO2Remain = 100 - NO2Ratio; 
+	<div id="gradeTableContainer">
+	
+	</div>
+	<%
+	String[][] todayAirs = (String[][]) request.getAttribute("todayAirs");
+	String[][] dustGrades = (String[][]) request.getAttribute("dustGrades");
+	Gson gson = new Gson();
+	String jsonTodayAirs = gson.toJson(todayAirs);
+	String jsonDustGrades = gson.toJson(dustGrades);
+	%>
 
-    double O3Ratio = (double) O3Data / 0.15 * 100; 
-    if (O3Ratio >= 100) { 
-        O3Ratio = 100; 
-    } 
-    double O3Remain = 100 - O3Ratio; 
+	<div>
+		<button onclick="updateCharts(0);">서울</button>
+		<button onclick="updateCharts(1);">제주</button>
+		<button onclick="updateCharts(2);">전남</button>
+		<button onclick="updateCharts(3);">전북</button>
+		<button onclick="updateCharts(4);">광주</button>
+		<button onclick="updateCharts(5);">경남</button>
+		<button onclick="updateCharts(6);">경북</button>
+		<button onclick="updateCharts(7);">울산</button>
+		<button onclick="updateCharts(8);">대구</button>
+		<button onclick="updateCharts(9);">부산</button>
+		<button onclick="updateCharts(10);">충남</button>
+		<button onclick="updateCharts(11);">충북</button>
+		<button onclick="updateCharts(12);">세종</button>
+		<button onclick="updateCharts(13);">대전</button>
+		<button onclick="updateCharts(14);">강원</button>
+		<button onclick="updateCharts(15);">경기</button>
+		<button onclick="updateCharts(16);">인천</button>
+	</div>
 
-    double AQIRatio = (double) AQIData / 250 * 100; 
-    if (AQIRatio >= 100) { 
-        AQIRatio = 100; 
-    } 
-    double AQIRemain = 100 - AQIRatio; 
-    %>
+	<script>
+		function updateCharts(cityIndex) {
 
-    <button onclick="updateCharts()">서울</button>
-</div>
+			let airData = <%=jsonTodayAirs%>;
 
-<script>
-function updateCharts() {
-    updateChart('SO2', <%= SO2Ratio %>, <%= SO2Remain %>, '<%= SO2Grade %>');
-    updateChart('CO', <%= CORatio %>, <%= CORemain %>, '<%= COGrade %>');
-    updateChart('NO2', <%= NO2Ratio %>, <%= NO2Remain %>, '<%= NO2Grade %>');
-    updateChart('O3', <%= O3Ratio %>, <%= O3Remain %>, '<%= O3Grade %>');
-    updateChart('AQI', <%= AQIRatio %>, <%= AQIRemain %>, '<%= AQIGrade %>');
-}
+			let SO2Data = parseFloat(airData[cityIndex][1]);
+			let COData = parseFloat(airData[cityIndex][3]);
+			let NO2Data = parseFloat(airData[cityIndex][5]);
+			let O3Data = parseFloat(airData[cityIndex][7]);
+			let AQIData = parseFloat(airData[cityIndex][13]);
+			let SO2Grade = airData[cityIndex][0];
+			let COGrade = airData[cityIndex][2];
+			let NO2Grade = airData[cityIndex][4];
+			let O3Grade = airData[cityIndex][6];
+			let AQIGrade = airData[cityIndex][12];
 
-function updateChart(chemical, ratio, remain, grade) {
-    let option = {
-        legend: {
-            orient: 'vertical',
-            left: 10,
-            data: [chemical]
-        },
-        series: [{
-            name: chemical,
-            type: 'pie',
-            radius: ['50%', '70%'],
-            avoidLabelOverlap: false,
-            label: {
-                show: true,
-                position: 'center',
-                formatter: '{text|' + grade + '}',
-                rich: {
-                    text: {
-                        fontSize: 16,
-                        color: '#333',
-                        align: 'center',
-                        lineHeight: 24
-                    }
-                }
-            },
-            labelLine: {
-                show: false
-            },
-            data: [{
-                value: ratio,
-                name: '사용한 비율'
-            }, {
-                value: remain,
-                name: '나머지 비율',
-                itemStyle: {
-                    normal: {
-                        color: 'rgba(128, 128, 128, 0.5)'  // 옅은 회색으로 변경
-                    }
-                }
-            }]
-        }],
-        tooltip: null,
-        hover: null
-    };
+			let SO2Ratio = (SO2Data / 0.15) * 100;
+			if (SO2Ratio >= 100) {
+				SO2Ratio = 100;
+			}
+			let SO2Remain = 100 - SO2Ratio;
 
-    let dom = document.getElementById("chart-container-" + chemical);
-    let myChart = echarts.init(dom);
-    myChart.setOption(option);
-}
-</script>
+			let CORatio = (COData / 15) * 100;
+			if (CORatio >= 100) {
+				CORatio = 100;
+			}
+			let CORemain = 100 - CORatio;
+
+			let NO2Ratio = (NO2Data / 0.2) * 100;
+			if (NO2Ratio >= 100) {
+				NO2Ratio = 100;
+			}
+			let NO2Remain = 100 - NO2Ratio;
+
+			let O3Ratio = (O3Data / 0.15) * 100;
+			if (O3Ratio >= 100) {
+				O3Ratio = 100;
+			}
+			let O3Remain = 100 - O3Ratio;
+
+			let AQIRatio = (AQIData / 250) * 100;
+			console.log(AQIData);
+			if (AQIRatio >= 100) {
+				AQIRatio = 100;
+			}
+			let AQIRemain = 100 - AQIRatio;
+
+			updateChart('SO2', SO2Data, SO2Ratio, SO2Remain, SO2Grade);
+			updateChart('CO', COData, CORatio, CORemain, COGrade);
+			updateChart('NO2', NO2Data, NO2Ratio, NO2Remain, NO2Grade);
+			updateChart('O3', O3Data, O3Ratio, O3Remain, O3Grade);
+			updateChart('AQI', AQIData, AQIRatio, AQIRemain, AQIGrade);
+			updateGradeTable(cityIndex);
+		}
+
+		function updateChart(chemical, data, ratio, remain, grade) {
+
+			let gradeColor;
+			let otherColor;
+
+			if (grade == '좋음') {
+				gradeColor = '#32A1FF'; //파랑
+				otherColor = '#CEE5FD';
+			} else if (grade == '보통') {
+				gradeColor = '#00C73C'; //녹색
+				otherColor = '#C8F0D4';
+			} else if (grade == '나쁨') {
+				gradeColor = '#FDA60E'; //노랑
+				otherColor = '#FFDAB5';
+			} else {
+				gradeColor = '#E64746'; //빨강
+				otherColor = '#F4CCCC';
+			}
+
+			let option = {
+				legend : {
+					show : false,
+					orient : 'vertical',
+					left : 10,
+					data : [ chemical ]
+				},
+				series : [ {
+					name : chemical,
+					type : 'pie',
+					radius : [ '50%', '70%' ],
+					avoidLabelOverlap : false,
+					label : {
+						show : true,
+						position : 'center',
+						formatter : '{text|' + data + '}',
+						rich : {
+							text : {
+								fontSize : 16,
+								color : gradeColor,
+								align : 'center',
+								lineHeight : 24
+							}
+						}
+					},
+					labelLine : {
+						show : false
+					},
+					data : [ {
+						value : ratio,
+						name : '사용한 비율',
+						itemStyle : {
+							normal : {
+								color : gradeColor
+							}
+						}
+					}, {
+						value : remain,
+						name : '나머지 비율',
+						itemStyle : {
+							normal : {
+								color : otherColor
+							// 연한색으로 채움.
+							}
+						}
+					} ]
+				} ],
+			};
+
+			let dom = document.getElementById("chart-container-" + chemical);
+			let myChart = echarts.init(dom);
+			myChart.setOption(option);
+
+		}
+
+		function updateGradeTable(cityIndex) {
+
+			let dustData =<%=jsonDustGrades%>;
+
+			//사용하지 않는 도시 건너뛰기
+			if (cityIndex >= 17) {
+				cityIndex += 2;
+			} else if (cityIndex >= 14) {
+				cityIndex += 1;
+			}
+
+			let yesterday10Grade = dustData[0][2 * (cityIndex) + 1];
+			let today10Grade = dustData[1][2 * (cityIndex) + 1];
+			let tomorrow10Grade = dustData[2][2 * (cityIndex) + 1];
+			let yesterday25Grade = dustData[3][2 * (cityIndex) + 1];
+			let today25Grade = dustData[4][2 * (cityIndex) + 1];
+			let tomorrow25Grade = dustData[5][2 * (cityIndex) + 1];
+
+			let tableHtml = '<table border="1">' +
+		    '<tr>' +
+		    '<th> 등급 </th>' +
+		    '<th> 어제 </th>' +
+		    '<th> 오늘 </th>' +
+		    '<th> 내일 </th>' +
+		    '</tr>' +
+		    '<tr>' +
+		    '<td> 미세먼지 </td>' +
+		    '<td>' + yesterday10Grade + '</td>' +
+		    '<td>' + today10Grade + '</td>' +
+		    '<td>' + tomorrow10Grade + '</td>' +
+		    '</tr>' +
+		    '<tr>' +
+		    '<td> 초 미세먼지 </td>' +
+		    '<td>' + yesterday25Grade + '</td>' +
+		    '<td>' + today25Grade + '</td>' +
+		    '<td>' + tomorrow25Grade + '</td>' +
+		    '</tr>' +
+		    '</table>';
+
+			document.getElementById("gradeTableContainer").innerHTML = tableHtml;
+		}
+
+		window.onload = function() {
+			updateCharts(0);
+			updateResultImage();
+		};
+	</script>
 
 	<!-- 카카오 지도 실험 -->
 	<!-- 	<div id="map" style="width: 1000px; height: 1500px;">아니</div> -->
@@ -339,34 +453,6 @@ function updateChart(chemical, ratio, remain, grade) {
 	<!--         }); -->
 	<!--         polygon.setMap(map); -->
 	<!--     </script> -->
-
-
-
-
-	<ul>
-		<!-- 	금일 서울의 데이터 하나 시험출력 -->
-		<li>${todayAirs[0][0]}</li>
-	</ul>
-
-	<!-- 미세먼지,초미세먼지 사진 시험출력 -->
-	<!-- 	<div class="flex-container"> -->
-	<!-- 		<div class="flex-item"> -->
-	<!-- 			<h2>어제 오전 미세먼지</h2> -->
-	<%-- 			<img src="${yesterdayAm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-	<!-- 		</div> -->
-	<!-- 		<div class="flex-item"> -->
-	<!-- 			<h2>어제 오후 미세먼지</h2> -->
-	<%-- 			<img src="${yesterdayPm10Image}" alt="해당 시간대의 이미지가 아직 제공되지 않았습니다."> --%>
-	<!-- 		</div> -->
-	<!-- 	</div> -->
-
-
-
-
-	<!-- 		지역별 등급 출력 테스트 -->
-	<%-- 	<c:forEach begin="0" end="37" step="1" var="index"> --%>
-	<%-- 		<c:out value="${today10Grades[index]}" /> --%>
-	<%-- 	</c:forEach> --%>
 
 </body>
 </html>

@@ -102,21 +102,17 @@ public class FinedustController {
 			com.weather.finedust.dto.Item yesterday25 = dp.response.body.items.get(3);
 			com.weather.finedust.dto.Item today25 = dp.response.body.items.get(4);
 			com.weather.finedust.dto.Item tomorrow25 = dp.response.body.items.get(5);
-
+			
 			// index 0부터 지역,등급 번갈아나옴. : 서울, 제주, 전남, 전북, 광주, 경남, 경북, 울산, 대구, 부산, 충남, 충북, 세종,
-			// 대전, 영동, 영서, 경기남부, 경기북부, 인천 순. (예 : index1 : 서울의 등급) 파싱하여 배열로 넘김.
-			String[] yesterday10Grades = yesterday10.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] today10Grades = today10.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] tomorrow10Grades = tomorrow10.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] yesterday25Grades = yesterday25.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] today25Grades = today25.informGrade.split("\\s*(,|\\:)\\s*");
-			String[] tomorrow25Grades = tomorrow25.informGrade.split("\\s*(,|\\:)\\s*");
-			model.addAttribute("yesterday10Grades", yesterday10Grades);
-			model.addAttribute("today10Grades", today10Grades);
-			model.addAttribute("tomorrow10Grades", tomorrow10Grades);
-			model.addAttribute("yesterday25Grades", yesterday25Grades);
-			model.addAttribute("today25Grades", today25Grades);
-			model.addAttribute("tomorrow25Grades", tomorrow25Grades);
+			// 대전, 영동x, 영서, 경기남부, 경기북부x, 인천 순. (예 : index1 : 서울의 등급) 파싱하여 이차원배열로 넘김.
+			String[][] dustGrades = new String[6][];
+			dustGrades[0] = yesterday10.informGrade.split("\\s*(,|\\:)\\s*");
+			dustGrades[1] = today10.informGrade.split("\\s*(,|\\:)\\s*");
+			dustGrades[2] = tomorrow10.informGrade.split("\\s*(,|\\:)\\s*");
+			dustGrades[3] = yesterday25.informGrade.split("\\s*(,|\\:)\\s*");
+			dustGrades[4] = today25.informGrade.split("\\s*(,|\\:)\\s*");
+			dustGrades[5] = tomorrow25.informGrade.split("\\s*(,|\\:)\\s*");
+			model.addAttribute("dustGrades", dustGrades);
 
 			// [3] 사진 api 부분. > 17시 기준으로 데이터를 제공해줌. > 어제, 오늘, 내일 데이터를 받아오게 변경함.
 			// 10:미세먼지, 25:초미세먼지.
