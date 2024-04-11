@@ -67,10 +67,6 @@
 	String selectedDate = request.getParameter("date");
 	String selectedTime = request.getParameter("time");
 	
-	// 받은 값들 테스트 결과 출력
-    System.out.println("오늘 날짜 : " + formatToday);
-    System.out.println("어제 날짜 : " + formatYesterday);
-    System.out.println("10시간 전 : " + formatTime);
     System.out.println("현재 선택된 날짜 : " + selectedDate);
     System.out.println("현재 선택된 시간 : " + selectedTime);
 	
@@ -124,26 +120,6 @@
 				</div>
 				<hr>
 				<div>
-					<form action="/satellite/getSatelliteImages" method="get" id="satelliteImageForm">
-    					<!-- 날짜 선택 : 기본값으로 오늘 날짜 설정 -->
-    					<input type="hidden" name="date" value="<%=formatToday%>">
-    					
-    					<!-- 날짜 선택 : 기본값으로 현태 시간 설정 -->
-    					<input type="hidden" name="time" value="<%=formatTime%>">
-    					
-    					<!-- 미디어 타입 선택 : 기본값으로 ir105 설정-->
-    					<input type="hidden" name="mediaType" value="<%=infrared%>">
-					</form>
-					<form action="/satellite/getSatelliteImages" method="get" id="tenHourBefore">
-    					<!-- 날짜 선택 : 기본값으로 오늘 날짜 설정 -->
-    					<input type="hidden" name="date" value="<%=formatYesterday%>">
-    					
-    					<!-- 날짜 선택 : 기본값으로 현태 시간 설정 -->
-    					<input type="hidden" name="time" value="<%=formatTime%>">
-    					
-    					<!-- 미디어 타입 선택 : 기본값으로 ir105 설정-->
-    					<input type="hidden" name="mediaType" value="<%=infrared%>">
-					</form>
 					<form action="/satellite/getSatelliteImages" method="get" id="submitForm">
 						<select name="date" placeholder="날짜 선택">
 							<option value="<%=formatYesterday%>">어제(<%=formatYesterday%>)</option>
@@ -171,7 +147,7 @@
 				</div>
 				<div>
 					<div id="searchedDate">
-						<input type="text" value="<%=selectedDate %>.<%=selectedTime%>.<%=selectedMediaType %>.<%=formatTime%>">
+						<input type="text" value="<%=selectedDate %>.<%=selectedTime%>">
 						
 					</div>
 					<div class="searchButton">
@@ -212,10 +188,12 @@
 						<!-- 재생 멈춤 버튼 -->
 						<input class="buttonStyle" type="button" id="playButton" value="재생">
 						<input class="buttonStyle" type="button" id="stopButton" value="멈춤">
+						<hr>
 						
 						<!-- 위성 이미지 출력 div -->
 						<div id="satelliteImages" data-setss="${satellite.response.body.items.item.get(0).satImgCFile}">
-							<div id="alertMessage">위성 이미지의 최신 정보 제공 시간대는 현재 시간 기준 9시간 20분 전 입니다.</div>
+							<div id="alertMessage">조회 버튼을 눌러 조회하고싶은 시간대와 이미지 종류를 선택하십시오.</div>
+							<img id="defaultImage" src="/static/image/pet.png">
 							<img id="response" src="">
 						</div>
 					</div>
@@ -313,97 +291,20 @@
         if (matchedUrl) {
             // 이미지 URL이 존재하는 경우
             $('#response').attr('src', matchedUrl + "?timestamp=" + new Date().getTime());
+            $('#defaultImage').hide();
             $('#alertMessage').hide(); // 이미지가 있으므로 경고 메시지 숨김
         } else {
             // 이미지 URL이 없는 경우
             $('#response').hide(); // 기존 이미지 숨김
-            $('#alertMessage').text('오늘의 위성 이미지는 오전 9시 10분부터 제공합니다.').show(); // 경고 메시지 표시
-            alert("선택하신 시간대의 위성이미지가 아직 업데이트되지 않았습니다.\n더 이전 시간대를 선택해주세요."); // 사용자에게 경고 대화 상자 표시
+            $('#alertMessage').text('조회 버튼을 눌러 검색하실 시간대를 선택해주세요.').show(); // 경고 메시지 표시
+            alert("선택하신 시간대의 위성이미지가 아직 업데이트되지 않았습니다.\n다른 시간대를 선택해주세요."); // 사용자에게 경고 대화 상자 표시
         }
 	    
 	}
-	
-	// 폼 제출 후의 이미지 URL 업데이트
-	function defaultImageAfterSubmit() {
-    	// 현재 시간을 얻기 위한 Date 객체 생성
-    	var currentTime = new Date();
-
-    	// URL분리 작업
-	    var satImgCFile = $('#satelliteImages').data("setss");
-	    var urls = satImgCFile.split(",").map(function(url) {
-	        return url.trim().replace(/\[|\]/g, '');
-	    });
-
-    	var selectedDate, selectedTime;
-
-    	// 현재 시간이 9시 10분 이전이라면
-    	if (currentTime.getHours() < 9 || (currentTime.getHours() === 9 && currentTime.getMinutes() <= 20)) {
-    	    selectedDate = $('#tenHourBefore input[name="date"]').val(); // 사용자가 선택한 날짜
-    	    selectedTime = $('#tenHourBefore input[name="time"]').val(); // 사용자가 선택한 시간
-    	} else {
-        	selectedDate = $('#satelliteImageForm input[name="date"]').val(); // 사용자가 선택한 날짜
-        	selectedTime = $('#satelliteImageForm input[name="time"]').val(); // 사용자가 선택한 시간
-    	}
-
-    	console.log("테스트 : " + selectedDate + " " + selectedTime);
-
-    	var matchedUrl = urls.find(function(url) {
-            return url.includes(selectedDate + selectedTime);
-        });
-    	
-    	console.log(matchedUrl);
-
-    	if (matchedUrl) {
-        	// 이미지 URL이 존재하는 경우
-        	$('#response').attr('src', matchedUrl + "?timestamp=" + new Date().getTime());
-        	$('#alertMessage').hide(); // 이미지가 있으므로 경고 메시지 숨김
-    	} else {
-        	// 이미지 URL이 없는 경우
-        	$('#response').hide(); // 기존 이미지 숨김
-        	$('#alertMessage').text('선택하신 시간대의 위성 이미지는 오전 9시 10분부터 제공합니다.').show(); // 경고 메시지 표시
-    	}
-	}
-	
-	function autoSubmit() {
-	    // 현재 시간을 얻기 위한 Date 객체 생성
-	    var currentTime = new Date();
-	    
-	    // 'satelliteImageForm' 또는 'tenHourBefore' 폼 데이터 사용을 결정
-	    var formData;
-	    if(currentTime.getHours() < 9 || (currentTime.getHours() === 9 && currentTime.getMinutes() <= 20)) {
-	        formData = $("#tenHourBefore").serialize(); // 'tenHourBefore' 폼 데이터 사용
-	    } else {
-	        formData = $("#satelliteImageForm").serialize(); // 'satelliteImageForm' 폼 데이터 사용
-	    }
-
-	    // AJAX 폼 제출
-	    $.ajax({
-	        type: "GET",
-	        url: "/satellite/getSatelliteImages",
-	        data: formData, // 폼 데이터
-	        success: function(data) {
-	            if (sessionStorage.getItem("formSubmitted") !== "true") {
-	                // 최초 로드시 defaultImageAfterSubmit 호출
-	                defaultImageAfterSubmit();
-	                sessionStorage.setItem("formSubmitted", "true");
-	            } else {
-	                // 그 이후 로드시 loadImageAfterSubmit 호출
-	                loadImageAfterSubmit();
-	            }
-	            console.log("Success!", data);
-	        },
-	        error: function(xhr, status, error) {
-	            console.log("Error!", xhr, status, error);
-	        }
-	    });
-	}
 
     document.addEventListener("DOMContentLoaded", function() {
-        // 페이지 로드 시 폼 자동 제출 로직
-        autoSubmit();
+    	loadImageAfterSubmit();
     });
-    
-	
 </script>
 </body>
 </html>
