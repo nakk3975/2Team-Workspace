@@ -70,17 +70,6 @@ div {
   text-align: center;
 }
 
-.menu-bar:hover {
-  background-color: #F4EEEE
-}
-
-
-.menu-bar {
-  /* background-color: #74b7fa; */
-  border-right: 2px solid #E0E0E0;
-  /* 오른쪽 선만 설정 */
-  padding: 8px 50px 8px 50px;
-}
 
 #menuExcept {
   padding: 8px 70px 8px 70px;
@@ -97,6 +86,18 @@ div {
   margin-top: 20px;
   text-align: center;
   white-space: nowrap;
+}
+
+.menu-bar:hover {
+  background-color: #F4EEEE
+}
+
+
+.menu-bar {
+  /* background-color: #74b7fa; */
+  border-right: 2px solid #E0E0E0;
+  /* 오른쪽 선만 설정 */
+  padding: 8px 50px 8px 50px;
 }
 
 .mid-content-span {
@@ -165,7 +166,7 @@ div {
   height: 350px;
 }
 
-#rightBannersContentBot{
+#rightBannersContentBot {
   background-color: white;
   height: 400px;
 
@@ -204,13 +205,6 @@ div {
   margin-left: 100px;
 }
 
-.left_main_top_nav_menu{
-  /* display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin: 0; */
-}
 
 
 
@@ -233,15 +227,15 @@ div {
 
 #leftMainTopTop {
   margin-top: 20px;
-  border-top: 1px solid black;
+  border-top: 1px solid white;
   /* 위쪽 선만 설정 */
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid white;
   /* background-color: #3498DB; */
   height: 300px;
 
 }
 
-.left-main-top-top-img{
+.left-main-top-top-img {
   width: 110px;
   height: 110px;
   /* background-color: #0066cc; */
@@ -251,21 +245,44 @@ div {
   transform: translate(-50%, 30%);
 }
 
-.left-main-top-top-text{
+.left-main-top-top-text {
   position: relative;
   font-size: 50px;
   left: 40px;
   top: -45px;
 }
 
-#seoulInfo1{
+#flex1{
+  display: flex;
+  justify-content: center;
+}
+
+.temporary {
   position: relative;
-  right: -250px;
-  top: -150px;
+  font-size: 20px;
+  left: -200px;
+  top: -80px;
+}
+
+.temperature-change {
+  font-size: 20px;
+}
+
+.weather-info {
+  font-size: 20px;
 }
 
 
-.main-img-position1{
+#seoulInfo1 {
+  position: relative;
+  right: -250px;
+  top: -200px;
+}
+
+
+
+
+.main-img-position1 {
   position: relative;
   width: 800px;
   height: auto;
@@ -278,12 +295,176 @@ div {
 }
 
 #leftMainTopBot {
-  border-top: 1px solid black;
+  display: flex;
+  border-top: 1px solid white;
   /* 왼쪽 선만 설정 */
 }
 
+/* 날씨 그래프 임시 */
+ /* CSS 스타일링 */
+ #weatherDataContainer {
+  background-color: white;
+  position: relative;
+  /* 상대적 위치 지정 */
+  overflow-x: auto;
+  /* 가로 스크롤을 허용 */
+  white-space: nowrap;
+  /* 내용이 넘칠 경우 줄바꿈 방지 */
+  padding-bottom: 7px;
+  /* 가로 스크롤 뒷부분이 가려지는 것을 방지하기 위한 여분의 공간 */
+}
 
-#province{
+#weatherData {
+  display: flex;
+  flex-wrap: nowrap;
+  /* 가로 스크롤을 위해 flex-wrap을 nowrap으로 설정 */
+}
+
+.weatherItem {
+  padding: 5px 10px;
+  /* 5픽셀의 상단 및 하단 패딩, 10픽셀의 좌우 패딩 */
+  margin-right: 5px;
+  /* 각 요소 사이의 간격 설정 */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  /* 온도, 이미지, 시간을 세로로 배치 */
+  align-items: center;
+  /* 가운데 정렬 */
+  position: relative;
+  /* 상대적 위치 지정 */
+}
+
+.time {
+  order: 8;
+  /* 시간을 두 번째로 배치 */
+}
+
+.temperature {
+  order: 1;
+  /* 온도를 첫 번째로 배치 */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* 온도와 이미지 사이 간격 설정 */
+}
+
+.weatherImage {
+  width: 40px;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.graph {
+  width: 40px;
+  /* 그래프의 너비 지정 */
+  position: absolute;
+  /* 절대적 위치 지정 */
+  bottom: 50%;
+  /* 가운데 정렬 */
+  transform: translateY(50%);
+  /* 가운데 정렬 */
+}
+
+.graph-line {
+  width: 75px;
+  /* 그래프의 너비 지정 */
+  background-color: transparent;
+  /* 그래프의 배경색을 투명으로 설정 */
+  border-top: 1px solid #007bff;
+  /* 선 색상과 굵기 설정 */
+  margin: 0 2px;
+  /* 그래프 간격 조정 */
+  position: relative;
+  /* 상대적 위치 지정 */
+}
+
+.graph-circle {
+  /* 원의 지름 설정 */
+  height: 6px;
+  background-color: #007bff;
+  /* 원의 색상 설정 */
+  border-radius: 50%;
+  /* 원의 모양을 둥글게 설정 */
+  position: absolute;
+  /* 절대적 위치 지정 */
+  bottom: -3px;
+  /* 아래쪽으로 선의 두께의 반만큼 이동 */
+  left: 50%;
+  /* 가운데 정렬 */
+  transform: translateX(-50%);
+  /* 가운데 정렬 */
+}
+
+.graph {
+  margin-top: 5px;
+  /* 그래프의 위쪽 마진 */
+  margin-bottom: 25px;
+  /* 그래프의 아래쪽 마진 */
+  padding: 0 10px;
+  /* 그래프의 좌우 패딩 */
+}
+
+.temperature {
+  order: 1;
+  /* 온도를 첫 번째로 배치 */
+}
+
+.graph-container {
+  order: 2;
+  /* 그래프를 두 번째로 배치 */
+}
+
+.weatherImage {
+  order: 4;
+  /* 이미지를 세 번째로 배치 */
+}
+
+.date {
+  order: 5;
+  /* 날짜를 마지막으로 배치 */
+}
+
+/* 버튼 스타일 */
+#scrollButtons {
+  top: 50px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  /* 버튼을 다른 요소 위에 배치 */
+}
+
+#scrollLeft{
+  width: 200px;
+  height: 50px;
+  position: relative;
+  top: 75px;
+  border-radius: 50px;
+  border: none;
+}
+#scrollRight{
+  width: 200px;
+  height: 50px;
+  position: relative;
+  top: 75px;
+  border-radius: 50px;
+  border: none;
+}
+
+button {
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+/* 가로 스크롤 바를 숨김 */
+#weatherDataContainer::-webkit-scrollbar {
+  display: none;
+}
+/* 날씨 그래프 임시 끝 */
+
+#province {
   margin-left: 80px;
 }
 
@@ -327,21 +508,41 @@ div {
   height: 50px;
   background-color: white;
   border: 1px solid #ccc;
+  display: flex;
 }
 
-.results{
+.results {
   position: relative;
   top: -35px;
 }
 
-#koreaMap{
+.flex-container0,
+.flex-container1,
+.flex-container2{
+  display: flex;
+}
+
+.flex-container3,
+.flex-container4,
+.flex-container5,
+.flex-container6,
+.flex-container7,
+.flex-container8,
+.flex-container9{
+  display: flex;
+  position: relative;
+  top: -30px;
+}
+
+
+#koreaMap {
   position: relative;
   width: 400px;
   left: -47px;
   top: -170px;
 }
 
-.map-button{
+.map-button {
   background-color: #3498DB;
   color: white;
   border: none;
@@ -352,7 +553,7 @@ div {
   left: -30px;
 }
 
-#mapSeoul{
+#mapSeoul {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -363,7 +564,7 @@ div {
   border-radius: 50px;
 }
 
-#mapIncheon{
+#mapIncheon {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -374,7 +575,7 @@ div {
   border-radius: 50px;
 }
 
-#mapChuncheon{
+#mapChuncheon {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -385,7 +586,7 @@ div {
   border-radius: 50px;
 }
 
-#mapGangneung{
+#mapGangneung {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -396,7 +597,7 @@ div {
   border-radius: 50px;
 }
 
-#mapUlreungDokdo{
+#mapUlreungDokdo {
   border: 1px solid;
   width: 40px;
   height: 88px;
@@ -407,7 +608,7 @@ div {
   border-radius: 50px;
 }
 
-#mapSuwon{
+#mapSuwon {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -418,7 +619,7 @@ div {
   border-radius: 50px;
 }
 
-#mapCheongju{
+#mapCheongju {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -429,7 +630,7 @@ div {
   border-radius: 50px;
 }
 
-#mapAndong{
+#mapAndong {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -440,7 +641,7 @@ div {
   border-radius: 50px;
 }
 
-#mapPohang{
+#mapPohang {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -451,7 +652,7 @@ div {
   border-radius: 50px;
 }
 
-#mapDaejeon{
+#mapDaejeon {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -462,7 +663,7 @@ div {
   border-radius: 50px;
 }
 
-#mapJeonju{
+#mapJeonju {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -473,7 +674,7 @@ div {
   border-radius: 50px;
 }
 
-#mapDaegu{
+#mapDaegu {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -484,7 +685,7 @@ div {
   border-radius: 50px;
 }
 
-#mapUlsan{
+#mapUlsan {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -495,7 +696,7 @@ div {
   border-radius: 50px;
 }
 
-#mapBusan{
+#mapBusan {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -506,7 +707,7 @@ div {
   border-radius: 50px;
 }
 
-#mapGwangju{
+#mapGwangju {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -517,7 +718,7 @@ div {
   border-radius: 50px;
 }
 
-#mapMokpo{
+#mapMokpo {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -528,7 +729,7 @@ div {
   border-radius: 50px;
 }
 
-#mapYeosu{
+#mapYeosu {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -539,7 +740,7 @@ div {
   border-radius: 50px;
 }
 
-#mapJeju{
+#mapJeju {
   border: 1px solid;
   width: 40px;
   height: 70px;
@@ -550,7 +751,7 @@ div {
   border-radius: 50px;
 }
 
-.map-div-img{
+.map-div-img {
   margin: 0;
   text-decoration: none;
   font-size: 25px;
@@ -564,10 +765,10 @@ div {
   position: relative;
   left: 50%;
   transform: translate(-50%, -40%);
-  
+
 }
 
-.map-div-img-position1{
+.map-div-img-position1 {
   position: relative;
   top: -10px;
   left: -204px;
@@ -575,7 +776,7 @@ div {
   height: auto;
 }
 
-.map-div-img-position2{
+.map-div-img-position2 {
   position: relative;
   top: -65px;
   left: -204px;
@@ -583,13 +784,13 @@ div {
   height: auto;
 }
 
-.map-div-p{
+.map-div-p {
   position: relative;
   font-size: 0.5em;
   top: -5px;
 }
 
-.map-div-h6{
+.map-div-h6 {
   font-size: 0.5em;
   position: relative;
   top: -55px;
