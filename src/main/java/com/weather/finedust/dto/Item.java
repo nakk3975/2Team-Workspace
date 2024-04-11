@@ -25,5 +25,20 @@ public class Item {
     public String stationName;
     public String pm10Grade;
     public String o3Value;
+    
+    public Object imageUrl4;
+    public String informCode;
+    public Object imageUrl5;
+    public Object imageUrl6;
+    public Object actionKnack;
+    public String informCause;
+    public String informOverall;
+    public String informData;
+    public String informGrade;
+//    public String dataTime;
+    public Object imageUrl3;
+    public Object imageUrl2;
+    public Object imageUrl1;
+
 
 }

@@ -1,4 +1,4 @@
- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> 
+<!-- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> -->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,6 +13,22 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
+<script>
+  // 위에서 제공한 JavaScript 코드를 여기에 넣습니다.
+  function getUserLocation() {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+              let x = position.coords.latitude;
+              let y = position.coords.longitude;
+              fetchData(x, y);
+          });
+      } else {
+          alert("Geolocation is not supported by this browser.");
+      }
+  }
+
+  getUserLocation(); // 페이지 로드 시 사용자의 위치를 가져와서 API 호출
+</script>
 
 <body>
 
@@ -31,14 +47,14 @@
 
     <div class="login-container">
       <div>
-        <a href="#">
-          <button class="login-button">로그인</button>
+        <a href="/user/signin/view">
+          <button class="login-button" >로그인</button>
         </a>
       </div>
       <div>
         <a href="#" class="login-option">아이디 찾기</a>
         <a href="#" class="login-option">비밀번호 찾기</a>
-        <a href="#" class="login-option">회원가입</a>
+        <a href="/user/signup/view" class="login-option">회원가입</a>
       </div>
     </div>
 
@@ -74,13 +90,29 @@
               <span id="resultValue"></span>
               <select id="province">
                 <option value="서울특별시" selected>서울특별시</option>
+                <option value="부산광역시">부산광역시</option>
+                <option value="대구광역시">대구광역시</option>
+                <option value="인천광역시">인천광역시</option>
+                <option value="광주광역시">광주광역시</option>
+                <option value="대전광역시">대전광역시</option>
+                <option value="울산광역시">울산광역시</option>
+                <option value="세종특별자치시">세종특별자치시</option>
                 <option value="경기도">경기도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="제주특별자치도">제주특별자치도</option>
+                <option value="강원특별자치도">강원특별자치도</option>
+                
                 <!-- 다른 시/도 추가 -->
               </select>
               <select id="city" disabled>
-                <option value="" selected disabled>구/군 선택</option>
-                <!-- 각 시/도에 따른 구/군 추가 -->
-              </select>
+    			<option value="" selected disabled>구/군 선택</option>
+    			<!-- 각 시/도에 따른 구/군 추가는 자바스크립트로 처리 -->
+			  </select>
               <button id="generateResult">내 위치 검색</button>
 
             </div>
@@ -91,24 +123,76 @@
               <div class="left-main-top-top-img">
                 <img src="/static/image/weathericons.png" alt="" class="main-img-position1">
               </div>
+
+
+              <!-- 현재기온 어제기온비교 -->
               <div class="left-main-top-top-text">
-                9.9°
+                <!-- 현재 온도 -->
+                <div class="result-t1h"></div>
+
+                <div id="flex1">
+                  <!-- 어제 온도 비교 -->
+                  <div class="temperature-change"></div>
+                  <!-- 날씨상태 맑음 흐림 구름  -->
+                  <div class="weather-info"></div>
+                </div>
+
               </div>
 
-              <span class="resultUltrafineDust"></span>
-              <Br>
-              <span class="resultFineDust"></span>
-              <Br>
-              <span class="ultraviolet"></span>
+
+
+              <div class="temporary">
+                <!-- 체감온도 -->
+                <div id="seoulWeather"></div>
+                <!-- 강수량 -->
+                <div class="result-rn1"></div>
+                <!-- 습도 -->
+                <div class="result-reh"></div>
+
+                <!-- 초미세먼지 -->
+                <span class="resultUltrafineDust"></span>
+
+                <Br>
+                  <!-- 미세먼지 -->
+                <span class="resultFineDust"></span>
+                <Br>
+
+                <span class="ultraviolet"></span>
+
+              </div>
 
               <div id="seoulInfo1"></div>
 
             </div>
+
+
             <div id="leftMainTopMid">
-              버튼
+              <span class="mid-content-span">
+                <a href="#" class="menu-bar" id="midContentLink">날씨</a>
+              </span>
+              <span class="mid-content-span">
+                <a href="#" class="menu-bar" id="midContentLink">강수</a>
+              </span>
+              <span class="mid-content-span">
+                <a href="#" class="menu-bar" id="midContentLink">바람</a>
+              </span>
+              <span class="mid-content-span">
+                <a href="#" class="menu-bar" id="midContentLink">습도</a>
+              </span>
             </div>
+
+
             <div id="leftMainTopBot">
-              버튼 슬라이드
+              <div id="scrollButtons">
+              </div>
+              <button id="scrollLeft">◀</button>
+              <div id="weatherDataContainer">
+                <div id="weatherData">
+                    <!-- 여기에 날씨 데이터가 표시됩니다 -->
+                </div>
+                
+            </div>
+            <button id="scrollRight">▶</button>
             </div>
           </div>
 
@@ -121,45 +205,85 @@
                 <div class="row">
                   <div class="item">
                     <span class="results" id="results0"></span>
+                    <div class="flex-container0">
+                      <div id="forecastData1"></div>
+                      <div id="forecastData2"></div>
+                    </div>
                   </div>
                   <div class="item">
                     <span class="results" id="results1"></span>
+                    <div class="flex-container1">
+                      <div id="forecastData3"></div>
+                      <div id="forecastData4"></div>
+                    </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="item">
                     <span class="results" id="results2"></span>
+                    <div class="flex-container2">
+                      <div id="forecastData5"></div>
+                      <div id="forecastData6"></div>
+                    </div>
                   </div>
                   <div class="item">
                     <span id="results3"></span>
+                    <div class="flex-container3">
+                      <p id="rnSt3Am"></p>
+                      <p id="rnSt3Pm"></p>
+                    </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="item">
                     <span id="results4"></span>
+                    <div class="flex-container4">
+                      <p id="rnSt4Am"></p>
+                      <p id="rnSt4Pm"></p>
+                  </div>
                   </div>
                   <div class="item">
                     <span id="results5"></span>
+                    <div class="flex-container5">
+                      <p id="rnSt5Am"></p>
+                      <p id="rnSt5Pm"></p>
+                  </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="item">
                     <span id="results6"></span>
+                    <div class="flex-container6">
+                      <p id="rnSt6Am"></p>
+                      <p id="rnSt6Pm"></p>
+                  </div>
                   </div>
                   <div class="item">
                     <span id="results7"></span>
+                    <div class="flex-container7">
+                      <p id="rnSt7Am"></p>
+                      <p id="rnSt7Pm"></p>
+                  </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="item">
                     <span id="results8"></span>
+                    <div class="flex-container8">
+                      <p id="rnSt8Am"></p>
+                      <p id="rnSt8Pm"></p>
+                  </div>
                   </div>
                   <div class="item">
                     <span id="results9"></span>
+                    <div class="flex-container9">
+                      <p id="rnSt9Am"></p>
+                      <p id="rnSt9Pm"></p>
+                  </div>
                   </div>
                 </div>
 
@@ -193,7 +317,9 @@
                     <div class="map-div-img">
                       <img src="/static/image/weathericons.png" alt="" class="map-div-img-position2">
                     </div>
-                    <h6 class="map-div-h6">9.5°C</h6>
+                    <h6 class="map-div-h6">
+                      <div class="result-t1h"></div>
+                    </h6>
                   </div>
                 </div>
 
@@ -370,7 +496,18 @@
               </div>
             </div>
 
-            <div id="rightBannersContentMid">위치
+            <div id="rightBannersContentMid">서울 | 현재
+              <!-- 현재 온도 -->
+              <div class="result-t1h"></div>
+              <!-- 날씨 흐림 맑음 -->
+              <div class="weather-info"></div>
+              <!-- 강수량 -->
+              <div class="result-rn1"></div>
+              <!-- 체감온도 -->
+              <div id="seoulWeather2"></div>
+              <!-- 오전 오후 온도 -->
+              <p id="morningTemp"></p>
+              <p id="afternoonTemp"></p>
             </div>
 
             <div id="rightBannersContentBot">
@@ -382,9 +519,9 @@
               <div class="resultUltrafineDust"></div>
 
               <div class="resultFineDust"></div>
-              
+
               <div class="result-wsd"></div>
-              
+
               <div class="result-vec"></div>
 
             </div>
