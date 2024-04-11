@@ -51,8 +51,8 @@
     LocalTime tenMinutesAfter = time.plusMinutes(10);
     String formattedTenMinutesAfter = tenMinutesAfter.format(formatter);
 	
- 	// 9시간 10분 전의 시간을 계산
-    LocalTime nineHoursTenMinutesBefore = now.minusHours(9).minusMinutes(10);
+ 	// 9시간 20분 전의 시간을 계산
+    LocalTime nineHoursTenMinutesBefore = now.minusHours(9).minusMinutes(20);
     
     // 계산한 시간의 분을 10분 단위로 내림
     int minutes = nineHoursTenMinutesBefore.getMinute();
@@ -67,10 +67,6 @@
 	String selectedDate = request.getParameter("date");
 	String selectedTime = request.getParameter("time");
 	
-	// 받은 값들 테스트 결과 출력
-    System.out.println("오늘 날짜 : " + formatToday);
-    System.out.println("어제 날짜 : " + formatYesterday);
-    System.out.println("10시간 전 : " + formatTime);
     System.out.println("현재 선택된 날짜 : " + selectedDate);
     System.out.println("현재 선택된 시간 : " + selectedTime);
 	
@@ -124,26 +120,6 @@
 				</div>
 				<hr>
 				<div>
-					<form action="/satellite/getSatelliteImages" method="get" id="satelliteImageForm">
-    					<!-- 날짜 선택 : 기본값으로 오늘 날짜 설정 -->
-    					<input type="hidden" name="date" value="<%=formatToday%>">
-    					
-    					<!-- 날짜 선택 : 기본값으로 현태 시간 설정 -->
-    					<input type="hidden" name="time" value="<%=formatTime%>">
-    					
-    					<!-- 미디어 타입 선택 : 기본값으로 ir105 설정-->
-    					<input type="hidden" name="mediaType" value="<%=infrared%>">
-					</form>
-					<form action="/satellite/getSatelliteImages" method="get" id="tenHourBefore">
-    					<!-- 날짜 선택 : 기본값으로 오늘 날짜 설정 -->
-    					<input type="hidden" name="date" value="<%=formatYesterday%>">
-    					
-    					<!-- 날짜 선택 : 기본값으로 현태 시간 설정 -->
-    					<input type="hidden" name="time" value="<%=formatTime%>">
-    					
-    					<!-- 미디어 타입 선택 : 기본값으로 ir105 설정-->
-    					<input type="hidden" name="mediaType" value="<%=infrared%>">
-					</form>
 					<form action="/satellite/getSatelliteImages" method="get" id="submitForm">
 						<select name="date" placeholder="날짜 선택">
 							<option value="<%=formatYesterday%>">어제(<%=formatYesterday%>)</option>
@@ -171,7 +147,7 @@
 				</div>
 				<div>
 					<div id="searchedDate">
-						<input type="text" value="<%=selectedDate %>.<%=selectedTime%>.<%=selectedMediaType %>.<%=formatTime%>">
+						<input type="text" value="<%=selectedDate %>.<%=selectedTime%>">
 						
 					</div>
 					<div class="searchButton">
@@ -212,10 +188,12 @@
 						<!-- 재생 멈춤 버튼 -->
 						<input class="buttonStyle" type="button" id="playButton" value="재생">
 						<input class="buttonStyle" type="button" id="stopButton" value="멈춤">
+						<hr>
 						
 						<!-- 위성 이미지 출력 div -->
 						<div id="satelliteImages" data-setss="${satellite.response.body.items.item.get(0).satImgCFile}">
-							<div id="alertMessage">위성 이미지의 최신 정보 제공 시간대는 현재 시간 기준 9시간 10분 전 입니다.</div>
+							<div id="alertMessage">조회 버튼을 눌러 조회하고싶은 시간대와 이미지 종류를 선택하십시오.</div>
+							<img id="defaultImage" src="/static/image/pet.png">
 							<img id="response" src="">
 						</div>
 					</div>
@@ -313,60 +291,20 @@
         if (matchedUrl) {
             // 이미지 URL이 존재하는 경우
             $('#response').attr('src', matchedUrl + "?timestamp=" + new Date().getTime());
+            $('#defaultImage').hide();
             $('#alertMessage').hide(); // 이미지가 있으므로 경고 메시지 숨김
         } else {
             // 이미지 URL이 없는 경우
             $('#response').hide(); // 기존 이미지 숨김
-            $('#alertMessage').text('오늘의 위성 이미지는 오전 9시 10분부터 제공합니다.').show(); // 경고 메시지 표시
-            alert("선택하신 시간대의 위성이미지가 아직 업데이트되지 않았습니다.\n더 이전 시간대를 선택해주세요."); // 사용자에게 경고 대화 상자 표시
+            $('#alertMessage').text('조회 버튼을 눌러 검색하실 시간대를 선택해주세요.').show(); // 경고 메시지 표시
+            alert("선택하신 시간대의 위성이미지가 아직 업데이트되지 않았습니다.\n다른 시간대를 선택해주세요."); // 사용자에게 경고 대화 상자 표시
         }
 	    
 	}
-	
-	// 맨 처음 자동으로 디폴트 값의 폼 제출
-    function autoSubmit() {
-    	// 현재 시간을 얻기 위한 Date 객체 생성
-    	var currentTime = new Date();
-    	
-		// 만약 "formSubmitted"가 "true"가 아니라면(폼이 제출이 안되었다면)
-    	if (sessionStorage.getItem("formSubmitted") !== "true") {
-    		// 만약 현재 시간이 9시 10분 이전이라면,
-    		if(currentTime.getHours() < 9 || (currentTime.getHours() === 9 && currentTime.getMinutes() <= 10)) {
-    			// 폼을 자동으로 제출하고, 'formSubmitted'를 설정
-    	        // AJAX 폼 제출 예시
-    	        $.ajax({
-    	            type: "GET",
-    	            url: "/satellite/getSatelliteImages",
-    	            data: $("#tenHourBefore").serialize(), // 폼 데이터
-    	            success: function(data) {
-    	            	loadImageAfterSubmit();
-    	                sessionStorage.setItem("formSubmitted", "true");
-    	            }
-    	        });
-    		} else { // 만약 현재 시간이 9시 10분 이후라면,
-    			// 폼을 자동으로 제출하고, 'formSubmitted'를 설정
-    	        // AJAX 폼 제출 예시
-    	        $.ajax({
-    	            type: "GET",
-    	            url: "/satellite/getSatelliteImages",
-    	            data: $("#satelliteImageForm").serialize(), // 폼 데이터
-    	            success: function(data) {
-    	            	loadImageAfterSubmit();
-    	                sessionStorage.setItem("formSubmitted", "true");
-    	            }
-    	        });
-    		}
-        } else {
-        	loadImageAfterSubmit();
-        }
-	}
-	
+
     document.addEventListener("DOMContentLoaded", function() {
-        // 페이지 로드 시 폼 자동 제출 로직
-        autoSubmit();
+    	loadImageAfterSubmit();
     });
-    
-	
 </script>
 </body>
 </html>
