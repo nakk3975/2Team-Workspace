@@ -19,7 +19,6 @@ public class satelliteController {
 	@GetMapping("/getSatelliteImages")
 	public String getSatelliteImages(Model model,
 			@RequestParam(value = "date", required = false)String receivedDate,
-			@RequestParam(value = "time", required = false)String receivedTime,
 			@RequestParam(value = "mediaType", required = false)String mediaType) {
 		
 		// 인코딩 인증키
@@ -40,7 +39,6 @@ public class satelliteController {
 		}
 		
 		String s = restTemplate.getForObject(uri, String.class);
-		System.out.println("받아온 JSON : " + s);
 		
 		// 오브젝트 맵퍼 json 정렬화 후 반환문
 		ObjectMapper objectMapper = new ObjectMapper();

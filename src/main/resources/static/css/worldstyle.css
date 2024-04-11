@@ -1,9 +1,82 @@
 #wrap {
-	width:1200px;
+	width: 1200px;
 	margin: auto;
 }
 
-#map { 
+#map {
 	height: 600px;
-	width : 1000px;
+	width: 1100px;
+}
+
+#weeklyWeather {
+	display: none;
+}
+
+#nowTime {
+	text-align: center;
+	background-color: #f2f2f2;
+	border: 1px solid #dcdcdc;
+	border-radius: 8px;
+	padding: 10px;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+#nowWeather {
+	width: 1100px;
+	overflow: auto;
+	background-color: #e8f4fa;
+	border: 1px solid #cdddea;
+	border-radius: 5px;
+	padding:10px;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#weatherData {
+	display:flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.weather-temp {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.time-weather {
+	text-align: center;
+	font-size: 14px;
+	margin: 10px;
+}
+
+.now-weather-icon {
+	width: 50px; /* 원하는 너비 */
+	height: 50px; /* 원하는 높이 */
+}
+
+.weather-icon {
+	width: 40px; /* 원하는 너비 */
+	height: 40px; /* 원하는 높이 */
+}
+
+#weeklyForecast{
+	text-align: center;
+}
+
+.day-weather {
+    text-align: center;
+	background-color: #f2f2f2;
+	border: 1px solid #dcdcdc;
+	border-radius: 8px;
+	padding: 10px;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
