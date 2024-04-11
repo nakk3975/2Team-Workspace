@@ -7,28 +7,28 @@
 <html lang="ko">
 <head>
 
-<!-- 상오님이 만드신 상단부 css 일단 시험적용 -->
-<link rel="stylesheet" href="/static/css/getSatelliteImages.css"
-	type="text/css">
-
-<!-- 	카카오지도 -->
-<!-- <script type="text/javascript" -->
-<!-- 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd"></script> -->
-'
-
 <!-- jquery -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <!-- Echarts -->
 <script
 	src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<!-- 상단부 스타일 -->
+<link rel="stylesheet" href="/static/css/finedustStyle.css"
+	type="text/css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<!-- 카카오지도 -->
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd"></script>
 
 <!-- <script -->
 <!-- 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd&libraries=services,clusterer,drawing"></script> -->
 <!-- <script src="/static/js/drawPolygon.js"></script> -->
 
 
-<!-- 버튼 실험중 -->
 <style>
 /* 스타일링을 위한 간단한 CSS */
 button {
@@ -38,41 +38,30 @@ button {
 }
 </style>
 
-<!-- 차트 담을 div -->
-<style>
-#chart-container-SO2, #chart-container-CO, #chart-container-NO2,
-	#chart-container-O3, #chart-container-AQI {
-	display: inline-block;
-	width: 100px;
-	height: 100px;
-	margin-right: 10px; /* 각 차트 사이의 간격 조정 */
-}
-</style>
-
 
 <!-- 버튼스타일 -->
 <style>
 button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff; /* 파랑색 배경 */
-            color: #fff; /* 흰색 텍스트 */
-            margin: 5px;
-        }
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
+	background-color: #007bff; /* 파랑색 배경 */
+	color: #fff; /* 흰색 텍스트 */
+	margin: 5px;
+}
 
-        /* 버튼 호버 효과 */
-        button:hover {
-            background-color: #0056b3; /* 진한 파랑색 배경 */
-        }
+/* 버튼 호버 효과 */
+button:hover {
+	background-color: #0056b3; /* 진한 파랑색 배경 */
+}
 
-        /* 버튼 클릭 효과 */
-        button:active {
-            background-color: #004080; /* 더 진한 파랑색 배경 */
-        }
-        </style>
+/* 버튼 클릭 효과 */
+button:active {
+	background-color: #004080; /* 더 진한 파랑색 배경 */
+}
+</style>
 
 <style>
 .flex-container {
@@ -91,47 +80,48 @@ button {
 <title>우리 날씨 - 대기오염</title>
 </head>
 <body>
-
-
-	<!-- 상오님이 만드신 상단 부분 일단 적용 -->
-	<div class="navbar">
-		<div>
-			<a href="index.html"><img src="/static/image/logo.png" id="Logo"
-				alt="왼쪽 이미지"></a>
-		</div>
-		<div>
-			<h1>우리 날씨</h1>
-		</div>
-		<div class="login-container">
-			<div>
-				<a href="">
-					<button class="login-button">로그인</button>
-				</a>
+	<div id="pageBox">
+		<c:import url="/WEB-INF/jsp/include/header.jsp" />
+		<div id="contentBox">
+			<div id="mapBox" style="width: 600px; height: 650px;">
+				<div id="map" style="width: 100%; height: 100%;"></div>
+				<div id="resultImageContainer" style="display: none;">
+					<img id="resultImage" src="" alt="Result Image"
+						style="width: 600px; height: 650px;">
+				</div>
 			</div>
-			<div>
-				<a href="#" class="LoginOption">아이디 찾기</a> <a href="/"
-					class="LoginOption">비밀번호 찾기</a> <a href="/user/signup"
-					class="LoginOption">회원가입</a>
+			<div id="graphBox">
+				<div id="line10GraphBox"></div>
+				<div id="line25GraphBox"></div>
+				<div id="donutGraphBox">
+					<div id="chartContainerO3"></div>
+					<div id="chartContainerCO"></div>
+					<div id="chartContainerSO2"></div>
+					<div id="chartContainerNO2"></div>
+					<div id="chartContainerAQI"></div>
+				</div>
+				<div id="donutGraphExplainBox">
+					<div id="chartExplainSO2">
+						<span>SO2</span>
+					</div>
+					<div id="chartExplainCO">
+						<span>CO</span>
+					</div>
+					<div id="chartExplainNO2">
+						<span>NO2</span>
+					</div>
+					<div id="chartExplainO3">
+						<span>O3</span>
+					</div>
+					<div id="chartExplainAQI">
+						<span>AQI</span>
+					</div>
+				</div>
 			</div>
+			<div id="pictureBox"></div>
 		</div>
 	</div>
 
-	<div id="box">
-		<div id="top">
-			<div id="mid_content">
-				<span><a href="index.html" class="Menu">지역 날씨</a></span> <span><a
-					href="/" class="Menu">세계 날씨</a></span> <span><a href="/"
-					class="Menu">미세먼지</a></span> <span><a
-					href="/satellite/getSatelliteImages" class="Menu">위성영상</a></span> <span><a
-					href="/" class="Menu_except">날씨 앱</a></span>
-
-			</div>
-		</div>
-	</div>
-
-
-
-	<!-- 미세먼지 예측도 -->
 	<div>
 		<button onclick="updateImageDate('yesterday')">어제</button>
 		<button onclick="updateImageDate('today')">오늘</button>
@@ -146,70 +136,13 @@ button {
 		<button onclick="updateImageDust('25')">초미세먼지</button>
 	</div>
 
-	<script>
-		let todayAm10ImageUrl = "${todayAm10Image}";
-		let todayAm25ImageUrl = "${todayAm25Image}";
-		let todayPm10ImageUrl = "${todayPm10Image}";
-		let todayPm25ImageUrl = "${todayPm25Image}";
-		let yesterdayAm10ImageUrl = "${yesterdayAm10Image}";
-		let yesterdayAm25ImageUrl = "${yesterdayAm25Image}";
-		let yesterdayPm10ImageUrl = "${yesterdayPm10Image}";
-		let yesterdayPm25ImageUrl = "${yesterdayPm25Image}";
-		let tomorrowAm10ImageUrl = "${tomorrowAm10Image}";
-		let tomorrowAm25ImageUrl = "${tomorrowAm25Image}";
-		let tomorrowPm10ImageUrl = "${tomorrowPm10Image}";
-		let tomorrowPm25ImageUrl = "${tomorrowPm25Image}";
+	<button onclick="toggleView()">Toggle View</button>
 
-		let imagePath = ""; // 초기 이미지 경로
-		let tdate = "today"; // 기본값 오늘로 설정
-		let ttime = "Am"; // 기본값 오전으로 설정
-		let tdust = "10"; // 기본값 미세먼지로 설정
-
-		function updateImageDate(value) {
-			tdate = value;
-			updateResultImage();
-		}
-
-		function updateImageTime(value) {
-			ttime = value;
-			updateResultImage();
-		}
-
-		function updateImageDust(value) {
-			tdust = value;
-			updateResultImage();
-		}
-
-		function updateResultImage() {
-			imagePath = tdate + ttime + tdust + "ImageUrl";
-			document.getElementById("resultImage").src = eval(imagePath);
-		}
-	</script>
-
-	<div>
-		<img id="resultImage" src="" alt="Result Image">
-	</div>
-
-
-
+	<div id="info-box"
+		style="position: absolute; top: 10px; left: 10px; background-color: white; padding: 5px; border: 1px solid black; display: none;"></div>
 
 	<!-- 대기오염 정보 지역별 차트 및 미세먼지/초미세먼지 정보-->
-	<div id="chart-container-O3"></div>
-	<div id="chart-container-CO"></div>
-	<div id="chart-container-SO2"></div>
-	<div id="chart-container-NO2"></div>
-	<div id="chart-container-AQI"></div>
-
-	<div id="gradeTableContainer">
-	
-	</div>
-	<%
-	String[][] todayAirs = (String[][]) request.getAttribute("todayAirs");
-	String[][] dustGrades = (String[][]) request.getAttribute("dustGrades");
-	Gson gson = new Gson();
-	String jsonTodayAirs = gson.toJson(todayAirs);
-	String jsonDustGrades = gson.toJson(dustGrades);
-	%>
+	<div id="gradeTableContainer"></div>
 
 	<div>
 		<button onclick="updateCharts(0);">서울</button>
@@ -231,10 +164,93 @@ button {
 		<button onclick="updateCharts(16);">인천</button>
 	</div>
 
-	<script>
-		function updateCharts(cityIndex) {
+	<%
+	String[][] todayAirs = (String[][]) request.getAttribute("todayAirs");
+	String[][] dustGrades = (String[][]) request.getAttribute("dustGrades");
+	Gson gson = new Gson();
+	String jsonTodayAirs = gson.toJson(todayAirs);
+	String jsonDustGrades = gson.toJson(dustGrades);
+	%>
 
-			let airData = <%=jsonTodayAirs%>;
+	<script>
+		let polygons = [];
+
+		function toggleView() {
+			let mapContainer = document.getElementById('map');
+			let resultImageContainer = document
+					.getElementById('resultImageContainer');
+
+			if (mapContainer.style.display === 'none') {
+				mapContainer.style.display = 'block'; // 맵 보이기
+				resultImageContainer.style.display = 'none'; // 결과 이미지 숨기기
+
+				// 폴리곤 다시 지도에 추가
+				for (let i = 0; i < polygons.length; i++) {
+					polygons[i].setMap(map);
+				}
+			} else {
+				mapContainer.style.display = 'none'; // 맵 숨기기
+				resultImageContainer.style.display = 'block'; // 결과 이미지 보이기
+
+				// 폴리곤 숨기기
+				for (let i = 0; i < polygons.length; i++) {
+					polygons[i].setMap(null);
+				}
+			}
+		}
+
+		let todayAm10ImageUrl = "${todayAm10Image}";
+		let todayAm25ImageUrl = "${todayAm25Image}";
+		let todayPm10ImageUrl = "${todayPm10Image}";
+		let todayPm25ImageUrl = "${todayPm25Image}";
+		let yesterdayAm10ImageUrl = "${yesterdayAm10Image}";
+		let yesterdayAm25ImageUrl = "${yesterdayAm25Image}";
+		let yesterdayPm10ImageUrl = "${yesterdayPm10Image}";
+		let yesterdayPm25ImageUrl = "${yesterdayPm25Image}";
+		let tomorrowAm10ImageUrl = "${tomorrowAm10Image}";
+		let tomorrowAm25ImageUrl = "${tomorrowAm25Image}";
+		let tomorrowPm10ImageUrl = "${tomorrowPm10Image}";
+		let tomorrowPm25ImageUrl = "${tomorrowPm25Image}";
+
+		let imagePath = ""; // 초기 이미지 경로
+		let searchDate = "today"; // 기본값 오늘로 설정
+		let searchTime = "Am"; // 기본값 오전으로 설정
+		let searchDust = "10"; // 기본값 미세먼지로 설정
+	
+
+		function updateImageDate(value) {
+			searchDate = value;
+			updateResultImage();
+		}
+
+		function updateImageTime(value) {
+			searchTime = value;
+			updateResultImage();
+		}
+
+		function updateImageDust(value) {
+			searchDust = value;
+			updateResultImage();
+		}
+
+		let search;
+		
+		function updateResultImage() {
+			imagePath = searchDate + searchTime + searchDust + "ImageUrl";
+			search=searchDate + searchDust;
+			loadMapAndPolygons(search);
+			document.getElementById("resultImage").src = eval(imagePath);
+		}
+
+		let airData =
+	<%=jsonTodayAirs%>
+		;
+		let dustData =
+	<%=jsonDustGrades%>
+		;
+
+		//차트를 한번에 업데이트
+		function updateCharts(cityIndex) {
 
 			let SO2Data = parseFloat(airData[cityIndex][1]);
 			let COData = parseFloat(airData[cityIndex][3]);
@@ -247,6 +263,7 @@ button {
 			let O3Grade = airData[cityIndex][6];
 			let AQIGrade = airData[cityIndex][12];
 
+			//도넛 차트에서 칠할 비율을 계산
 			let SO2Ratio = (SO2Data / 0.15) * 100;
 			if (SO2Ratio >= 100) {
 				SO2Ratio = 100;
@@ -272,7 +289,6 @@ button {
 			let O3Remain = 100 - O3Ratio;
 
 			let AQIRatio = (AQIData / 250) * 100;
-			console.log(AQIData);
 			if (AQIRatio >= 100) {
 				AQIRatio = 100;
 			}
@@ -283,11 +299,12 @@ button {
 			updateChart('NO2', NO2Data, NO2Ratio, NO2Remain, NO2Grade);
 			updateChart('O3', O3Data, O3Ratio, O3Remain, O3Grade);
 			updateChart('AQI', AQIData, AQIRatio, AQIRemain, AQIGrade);
-			updateGradeTable(cityIndex);
 		}
 
+		//각 차트 업데이트하는 함수
 		function updateChart(chemical, data, ratio, remain, grade) {
-
+			
+			//차트 색 결정
 			let gradeColor;
 			let otherColor;
 
@@ -347,29 +364,20 @@ button {
 						itemStyle : {
 							normal : {
 								color : otherColor
-							// 연한색으로 채움.
 							}
 						}
 					} ]
 				} ],
 			};
 
-			let dom = document.getElementById("chart-container-" + chemical);
+			let dom = document.getElementById("chartContainer" + chemical);
 			let myChart = echarts.init(dom);
 			myChart.setOption(option);
 
 		}
 
+		//우선 시험삼아 만든 등급 테이블 
 		function updateGradeTable(cityIndex) {
-
-			let dustData =<%=jsonDustGrades%>;
-
-			//사용하지 않는 도시 건너뛰기
-			if (cityIndex >= 17) {
-				cityIndex += 2;
-			} else if (cityIndex >= 14) {
-				cityIndex += 1;
-			}
 
 			let yesterday10Grade = dustData[0][2 * (cityIndex) + 1];
 			let today10Grade = dustData[1][2 * (cityIndex) + 1];
@@ -378,81 +386,131 @@ button {
 			let today25Grade = dustData[4][2 * (cityIndex) + 1];
 			let tomorrow25Grade = dustData[5][2 * (cityIndex) + 1];
 
-			let tableHtml = '<table border="1">' +
-		    '<tr>' +
-		    '<th> 등급 </th>' +
-		    '<th> 어제 </th>' +
-		    '<th> 오늘 </th>' +
-		    '<th> 내일 </th>' +
-		    '</tr>' +
-		    '<tr>' +
-		    '<td> 미세먼지 </td>' +
-		    '<td>' + yesterday10Grade + '</td>' +
-		    '<td>' + today10Grade + '</td>' +
-		    '<td>' + tomorrow10Grade + '</td>' +
-		    '</tr>' +
-		    '<tr>' +
-		    '<td> 초 미세먼지 </td>' +
-		    '<td>' + yesterday25Grade + '</td>' +
-		    '<td>' + today25Grade + '</td>' +
-		    '<td>' + tomorrow25Grade + '</td>' +
-		    '</tr>' +
-		    '</table>';
+			//사용하지 않는 도시 건너뛰기
+			if (cityIndex >= 17) {
+				cityIndex += 2;
+			} else if (cityIndex >= 14) {
+				cityIndex += 1;
+			}
+
+			let tableHtml = '<table border="1">' + '<tr>' + '<th> 등급 </th>'
+					+ '<th> 어제 </th>' + '<th> 오늘 </th>' + '<th> 내일 </th>'
+					+ '</tr>' + '<tr>' + '<td> 미세먼지 </td>' + '<td>'
+					+ yesterday10Grade
+					+ '</td>'
+					+ '<td>'
+					+ today10Grade
+					+ '</td>'
+					+ '<td>'
+					+ tomorrow10Grade
+					+ '</td>'
+					+ '</tr>'
+					+ '<tr>'
+					+ '<td> 초 미세먼지 </td>'
+					+ '<td>'
+					+ yesterday25Grade
+					+ '</td>'
+					+ '<td>'
+					+ today25Grade
+					+ '</td>'
+					+ '<td>'
+					+ tomorrow25Grade + '</td>' + '</tr>' + '</table>';
 
 			document.getElementById("gradeTableContainer").innerHTML = tableHtml;
 		}
 
+		//카카오 지도 그리기.
+		function loadMapAndPolygons(search) {
+			let map = new kakao.maps.Map(document.getElementById('map'), {
+				center : new kakao.maps.LatLng(35.9078, 127.7669), // 대한민국의 중심 좌표
+				level : 13, // 기본 배율 (대한민국 전체가 보이도록 조정)
+				draggable : false, // 이동 기능 비활성화
+				scrollwheel : false, // 확대/축소 기능 비활성화
+				disableDoubleClickZoom : true
+			// 더블클릭으로 확대 기능 비활성화
+			});
+
+			// JSON 파일 로드
+			$.getJSON("/static/json/mapPolygon.json", function(data) {
+				// JSON 데이터에서 features 배열 추출
+				let features = data.features;
+
+				// 폴리곤 배열 초기화
+				let polygons = [];
+				
+				//오늘 미세먼지로 시험색상
+				let timeIndex;
+				if(search =='yesterday10'){
+					timeIndex=0;
+				}else if(search == 'today10'){
+					timeIndex=1;
+				}else if(search == 'tomorrow10'){
+					timeIndex=2;
+				}else if(search =='yesterday25'){
+					timeIndex=3;
+				}else if(search == 'today25'){
+					timeIndex=4;
+				}else if(search == 'tomorrow25'){
+					timeIndex=5;
+				}
+				console.log(timeIndex);
+				// 각 feature에 대해 폴리곤 생성
+				for (let i = 0; i < features.length; i++) {
+					let feature = features[i];
+					let coordinates = feature.geometry.coordinates[0]; // 다각형의 첫 번째 좌표 배열만 사용
+					let properties = feature.properties; // feature의 properties 가져오기
+					let index = properties.INDEX;
+					
+					let grade = dustData[timeIndex][2 * (index) + 1];
+					
+					if (grade == '좋음') {
+						gradeColor = '#32A1FF'; //파랑
+					} else if (grade == '보통') {
+						gradeColor = '#00C73C'; //녹색
+					} else if (grade == '나쁨') {
+						gradeColor = '#FDA60E'; //노랑
+					} else {
+						gradeColor = '#E64746'; //빨강
+					}
+					
+
+					// 폴리곤 좌표 배열 초기화
+					let polygonCoords = [];
+
+					// 각 좌표에 대해 폴리곤 좌표 배열에 추가
+					for (let j = 0; j < coordinates.length; j++) {
+						let coord = coordinates[j];
+						polygonCoords.push(new kakao.maps.LatLng(coord[1],
+								coord[0]));
+					}
+
+					// 폴리곤 생성
+					let fillColor = gradeColor;
+
+					let polygon = new kakao.maps.Polygon({
+						path : polygonCoords,
+						strokeWeight : 1,
+						strokeColor : '#000000',
+						strokeOpacity : 0.8,
+						strokeStyle : 'solid',
+						fillColor : fillColor, // 색상 설정
+						fillOpacity : 0.7
+					});
+
+					// 폴리곤 지도에 추가
+					polygon.setMap(map);
+
+					// 폴리곤 배열에 추가
+					polygons.push(polygon);
+				}
+			});
+		};
+
 		window.onload = function() {
 			updateCharts(0);
 			updateResultImage();
+			loadMapAndPolygons(search);
 		};
 	</script>
-
-	<!-- 카카오 지도 실험 -->
-	<!-- 	<div id="map" style="width: 1000px; height: 1500px;">아니</div> -->
-
-
-	<!-- 		<div id="map" style="width: 500px; height: 650px;"></div> -->
-
-	<!-- 	 <script> -->
-	<!--         var map = new kakao.maps.Map(document.getElementById('map'), { -->
-	<!--             center: new kakao.maps.LatLng(36, 128), -->
-	<!--             level: 13 -->
-	<!--         }); -->
-
-	<!--         var linePath = [ -->
-	<!--             new kakao.maps.LatLng(36.866300, 126.589798), -->
-	<!--             new kakao.maps.LatLng(34.865392, 127.590624), -->
-	<!--             new kakao.maps.LatLng(37.865930, 128.591635), -->
-	<!--             new kakao.maps.LatLng(36.867118, 129.591021), -->
-	<!--             new kakao.maps.LatLng(35.867472, 128.589993) -->
-	<!--         ]; -->
-
-	<!--         // 선 그리기 -->
-	<!--         var polyline = new kakao.maps.Polyline({ -->
-	<!--             path: linePath, -->
-	<!--             strokeWeight: 3, -->
-	<!--             strokeColor: '#39DE2A', -->
-	<!--             strokeOpacity: 0.8, -->
-	<!--             strokeStyle: 'solid' -->
-	<!--         }); -->
-	<!--         polyline.setMap(map); -->
-
-	<!--         // 선의 좌표 가져오기 -->
-	<!--         var lineCoords = polyline.getPath(); -->
-
-	<!--         // 폴리곤 만들기 -->
-	<!--         var polygon = new kakao.maps.Polygon({ -->
-	<!--             path: lineCoords, -->
-	<!--             strokeWeight: 3, -->
-	<!--             strokeColor: '#39DE2A', -->
-	<!--             strokeOpacity: 0.8, -->
-	<!--             strokeStyle: 'solid', -->
-	<!--             fillColor: '#A2FF99', -->
-	<!--             fillOpacity: 0.7 -->
-	<!--         }); -->
-	<!--         polygon.setMap(map); -->
-	<!--     </script> -->
-
 </body>
 </html>
