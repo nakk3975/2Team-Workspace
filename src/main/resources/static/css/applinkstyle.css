@@ -1,0 +1,21 @@
+@charset "UTF-8";
+#wrap {
+	width:1200px;
+	margin: auto;
+}
+
+#loginForm {
+	text-align: center;	
+}
+
+#loginBtn {
+  background: url("/static/image/signin.png") no-repeat;
+  width: 228px;
+  height: 37px;
+}
+
+#loginBtn:active {
+  background: url("/static/image/signin_click.png") no-repeat;
+  width: 228px;
+  height: 37px;
+}
