@@ -93,26 +93,7 @@ public class FinedustController {
 
 			// [2] 지역별 어제~내일 미세먼지, 초미세먼지 예보.
 			URI uri = new URI(UrlMaker.dustForecastUrl(yesterday));
-			FineDustDto dp = restTemplate.getForObject(uri, FineDustDto.class);
 
-			// api 내 순서대로 오늘 미세먼지, 내일 미세먼지, 모래 미세먼지, 오늘 초미세먼지, 내일 초미세먼지, 모래 초미세먼지 정보가 주어짐.
-			com.weather.finedust.dto.Item yesterday10 = dp.response.body.items.get(0);
-			com.weather.finedust.dto.Item today10 = dp.response.body.items.get(1);
-			com.weather.finedust.dto.Item tomorrow10 = dp.response.body.items.get(2);
-			com.weather.finedust.dto.Item yesterday25 = dp.response.body.items.get(3);
-			com.weather.finedust.dto.Item today25 = dp.response.body.items.get(4);
-			com.weather.finedust.dto.Item tomorrow25 = dp.response.body.items.get(5);
-			
-			// index 0부터 지역,등급 번갈아나옴. : 서울, 제주, 전남, 전북, 광주, 경남, 경북, 울산, 대구, 부산, 충남, 충북, 세종,
-			// 대전, 영동x, 영서, 경기남부, 경기북부x, 인천 순. (예 : index1 : 서울의 등급) 파싱하여 이차원배열로 넘김.
-			String[][] dustGrades = new String[6][];
-			dustGrades[0] = yesterday10.informGrade.split("\\s*(,|\\:)\\s*");
-			dustGrades[1] = today10.informGrade.split("\\s*(,|\\:)\\s*");
-			dustGrades[2] = tomorrow10.informGrade.split("\\s*(,|\\:)\\s*");
-			dustGrades[3] = yesterday25.informGrade.split("\\s*(,|\\:)\\s*");
-			dustGrades[4] = today25.informGrade.split("\\s*(,|\\:)\\s*");
-			dustGrades[5] = tomorrow25.informGrade.split("\\s*(,|\\:)\\s*");
-			model.addAttribute("dustGrades", dustGrades);
 
 			// [3] 사진 api 부분. > 17시 기준으로 데이터를 제공해줌. > 어제, 오늘, 내일 데이터를 받아오게 변경함.
 			// 10:미세먼지, 25:초미세먼지.

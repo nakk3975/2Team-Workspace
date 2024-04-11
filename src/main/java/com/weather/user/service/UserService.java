@@ -36,4 +36,21 @@ public class UserService {
 	public int selectLoginId(String id) {
 		return userMapper.selectId(id);
 	}
+	
+	// 비밀번호 찾기
+	public UserDTO passwordSearch(String loginId, String email) {
+		return userMapper.selectPasswordSearch(loginId, email);
+	}
+	
+	// 비밀번호 변경
+	public int updatePassword(int id, String password) {
+		// 비밀번호 암호화
+		String encodePassword = encoder.encode(password);
+		return userMapper.updatePassword(id, encodePassword);
+	}
+	
+	// 아이디 찾기
+	public UserDTO selectId(String name, String email) {
+		return userMapper.selectIdByUser(name, email);
+	}
 }
