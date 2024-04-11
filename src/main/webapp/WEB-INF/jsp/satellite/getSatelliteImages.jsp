@@ -51,8 +51,8 @@
     LocalTime tenMinutesAfter = time.plusMinutes(10);
     String formattedTenMinutesAfter = tenMinutesAfter.format(formatter);
 	
- 	// 9시간 10분 전의 시간을 계산
-    LocalTime nineHoursTenMinutesBefore = now.minusHours(9).minusMinutes(10);
+ 	// 9시간 20분 전의 시간을 계산
+    LocalTime nineHoursTenMinutesBefore = now.minusHours(9).minusMinutes(20);
     
     // 계산한 시간의 분을 10분 단위로 내림
     int minutes = nineHoursTenMinutesBefore.getMinute();
@@ -215,7 +215,7 @@
 						
 						<!-- 위성 이미지 출력 div -->
 						<div id="satelliteImages" data-setss="${satellite.response.body.items.item.get(0).satImgCFile}">
-							<div id="alertMessage">위성 이미지의 최신 정보 제공 시간대는 현재 시간 기준 9시간 10분 전 입니다.</div>
+							<div id="alertMessage">위성 이미지의 최신 정보 제공 시간대는 현재 시간 기준 9시간 20분 전 입니다.</div>
 							<img id="response" src="">
 						</div>
 					</div>
@@ -323,44 +323,81 @@
 	    
 	}
 	
-	// 맨 처음 자동으로 디폴트 값의 폼 제출
-    function autoSubmit() {
+	// 폼 제출 후의 이미지 URL 업데이트
+	function defaultImageAfterSubmit() {
     	// 현재 시간을 얻기 위한 Date 객체 생성
     	var currentTime = new Date();
+
+    	// URL분리 작업
+	    var satImgCFile = $('#satelliteImages').data("setss");
+	    var urls = satImgCFile.split(",").map(function(url) {
+	        return url.trim().replace(/\[|\]/g, '');
+	    });
+
+    	var selectedDate, selectedTime;
+
+    	// 현재 시간이 9시 10분 이전이라면
+    	if (currentTime.getHours() < 9 || (currentTime.getHours() === 9 && currentTime.getMinutes() <= 20)) {
+    	    selectedDate = $('#tenHourBefore input[name="date"]').val(); // 사용자가 선택한 날짜
+    	    selectedTime = $('#tenHourBefore input[name="time"]').val(); // 사용자가 선택한 시간
+    	} else {
+        	selectedDate = $('#satelliteImageForm input[name="date"]').val(); // 사용자가 선택한 날짜
+        	selectedTime = $('#satelliteImageForm input[name="time"]').val(); // 사용자가 선택한 시간
+    	}
+
+    	console.log("테스트 : " + selectedDate + " " + selectedTime);
+
+    	var matchedUrl = urls.find(function(url) {
+            return url.includes(selectedDate + selectedTime);
+        });
     	
-		// 만약 "formSubmitted"가 "true"가 아니라면(폼이 제출이 안되었다면)
-    	if (sessionStorage.getItem("formSubmitted") !== "true") {
-    		// 만약 현재 시간이 9시 10분 이전이라면,
-    		if(currentTime.getHours() < 9 || (currentTime.getHours() === 9 && currentTime.getMinutes() <= 10)) {
-    			// 폼을 자동으로 제출하고, 'formSubmitted'를 설정
-    	        // AJAX 폼 제출 예시
-    	        $.ajax({
-    	            type: "GET",
-    	            url: "/satellite/getSatelliteImages",
-    	            data: $("#tenHourBefore").serialize(), // 폼 데이터
-    	            success: function(data) {
-    	            	loadImageAfterSubmit();
-    	                sessionStorage.setItem("formSubmitted", "true");
-    	            }
-    	        });
-    		} else { // 만약 현재 시간이 9시 10분 이후라면,
-    			// 폼을 자동으로 제출하고, 'formSubmitted'를 설정
-    	        // AJAX 폼 제출 예시
-    	        $.ajax({
-    	            type: "GET",
-    	            url: "/satellite/getSatelliteImages",
-    	            data: $("#satelliteImageForm").serialize(), // 폼 데이터
-    	            success: function(data) {
-    	            	loadImageAfterSubmit();
-    	                sessionStorage.setItem("formSubmitted", "true");
-    	            }
-    	        });
-    		}
-        } else {
-        	loadImageAfterSubmit();
-        }
+    	console.log(matchedUrl);
+
+    	if (matchedUrl) {
+        	// 이미지 URL이 존재하는 경우
+        	$('#response').attr('src', matchedUrl + "?timestamp=" + new Date().getTime());
+        	$('#alertMessage').hide(); // 이미지가 있으므로 경고 메시지 숨김
+    	} else {
+        	// 이미지 URL이 없는 경우
+        	$('#response').hide(); // 기존 이미지 숨김
+        	$('#alertMessage').text('선택하신 시간대의 위성 이미지는 오전 9시 10분부터 제공합니다.').show(); // 경고 메시지 표시
+    	}
 	}
 	
+	function autoSubmit() {
+	    // 현재 시간을 얻기 위한 Date 객체 생성
+	    var currentTime = new Date();
+	    
+	    // 'satelliteImageForm' 또는 'tenHourBefore' 폼 데이터 사용을 결정
+	    var formData;
+	    if(currentTime.getHours() < 9 || (currentTime.getHours() === 9 && currentTime.getMinutes() <= 20)) {
+	        formData = $("#tenHourBefore").serialize(); // 'tenHourBefore' 폼 데이터 사용
+	    } else {
+	        formData = $("#satelliteImageForm").serialize(); // 'satelliteImageForm' 폼 데이터 사용
+	    }
+
+	    // AJAX 폼 제출
+	    $.ajax({
+	        type: "GET",
+	        url: "/satellite/getSatelliteImages",
+	        data: formData, // 폼 데이터
+	        success: function(data) {
+	            if (sessionStorage.getItem("formSubmitted") !== "true") {
+	                // 최초 로드시 defaultImageAfterSubmit 호출
+	                defaultImageAfterSubmit();
+	                sessionStorage.setItem("formSubmitted", "true");
+	            } else {
+	                // 그 이후 로드시 loadImageAfterSubmit 호출
+	                loadImageAfterSubmit();
+	            }
+	            console.log("Success!", data);
+	        },
+	        error: function(xhr, status, error) {
+	            console.log("Error!", xhr, status, error);
+	        }
+	    });
+	}
+
     document.addEventListener("DOMContentLoaded", function() {
         // 페이지 로드 시 폼 자동 제출 로직
         autoSubmit();
