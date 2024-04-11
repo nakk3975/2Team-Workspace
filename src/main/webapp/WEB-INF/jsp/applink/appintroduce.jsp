@@ -18,9 +18,17 @@
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section class="contents d-flex justify-content-center">
 			<div class="join">
-				<div class="text-center">
+				<div class="text-center" id = "appDesign">
 					<h3>날씨 앱</h3>
-					
+					<hr>
+					<img id="MV" src="/static/image/Mayweather.jpg" alt="Mayweather Image">
+					<h3 class = "heSay">"In my life, was Best choice, the Weather App" - Mayweather</h3>
+					<h3 class="heSay">"내 인생, 최고의 선택, 그것은 웨더 앱" - 메이웨더</h3>
+					<hr>
+					<a>메이웨더 앱을 설치할 수 있는 링크입니다.</a>
+					<hr>
+					<a>모바일에서도 해당 서비스를 받아보시기 바랍니다.</a>
+					<hr>
 					<a href="">대충 링크</a>
 				</div>
 			</div>
