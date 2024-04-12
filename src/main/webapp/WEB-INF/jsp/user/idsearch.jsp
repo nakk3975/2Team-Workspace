@@ -22,8 +22,8 @@
 		<div class="join d-flex justify-content-center mt-4">
 			<div class="join-box my-4">
 				<h1 class="text-center mb-5">우리 날씨</h1>
-				<div class="d-flex justify-content-between">
-					<div id="idSearch" class="text-center pr-3">
+				<div class="d-flex justify-content-around item-align-center">
+					<div id="idSearch" class="text-center">
 						<h3>아이디 찾기</h3>
 						<div class="text-secondary text-center">찾으시려는 계정의 이름과 이메일을 <br>입력해 주세요.</div>
 						<br>
@@ -35,7 +35,7 @@
 						<button type="button" id="idSearchBtn" class="btn btn-primary btn-block mt-3">아이디 찾기</button>
 					</div>
 					
-					<div id="passwordSearch" class="text-center pl-3">
+					<div id="passwordSearch" class="text-center">
 						<h3>비밀번호 찾기</h3>
 						<div class="text-secondary text-center">찾으시려는 계정의 아이디와 이메일을 <br>입력해 주세요.</div>
 						<br>

@@ -1,4 +1,4 @@
-package com.weather.test;
+package com.weather.main.contoller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/weather")
-public class TestController {
+public class MainController {
 
-	@GetMapping("/main")
+	@GetMapping("/main/view")
 	public String home() {
-		return "lesson01/index";
+		return "main/index";
 	}
 }

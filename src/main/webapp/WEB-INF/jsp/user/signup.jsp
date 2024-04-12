@@ -32,7 +32,7 @@
 					<input type="password" placeholder="비밀번호 확인" id="passwordConfirmInput" class="form-control mt-3">
 					<input type="text" placeholder="이름" id="nameInput" class="form-control mt-3">
 					<input type="text" placeholder="이메일" id="emailInput" class="form-control mt-3">
-					<input type="text" placeholder="주소" id="adressInput" class="form-control mt-3">
+					<input type="text" placeholder="주소(구 까지 입력 ex.수원시 권선구)" id="adressInput" class="form-control mt-3">
 					<button type="button" id="joinBtn" class="btn btn-primary btn-block mt-3">가입</button>
 					
 					

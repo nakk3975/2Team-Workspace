@@ -80,4 +80,9 @@ public class UserController {
 	public String myPage() {
 		return "user/mypage";
 	}
+	
+	@GetMapping("popup/view")
+	public String popup() {
+		return "user/adresspopup";
+	}
 }
