@@ -40,10 +40,10 @@
 	<div id="top">
     	<nav id="midContent main-menu col-8 pt-3">
 			<ul class="nav justify-content-around bg-warning">
-				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">지역날씨</a></li>
+				<li class="nav-item"><a href="/weather/main/view" class="nav-link font-weight-bold">지역날씨</a></li>
 				<li class="nav-item"><a href="/weather/world/view" class="nav-link font-weight-bold">세계날씨</a></li>
 				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">미세먼지</a></li>
-				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">위성영상</a></li>
+				<li class="nav-item"><a href="/satellite/getSatelliteImages" class="nav-link font-weight-bold">위성영상</a></li>
 				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">날씨 앱</a></li>
 			</ul>
 		</nav>
