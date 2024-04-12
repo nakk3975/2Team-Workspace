@@ -86,7 +86,7 @@
 
 	<div class="navbar">
 		<div>
-			<a href="index.html"><img src="/static/image/logo.png" id="Logo"
+			<a href="/weather/main/view"><img src="/static/image/logo.png" id="Logo"
 				alt="왼쪽 이미지"></a>
 		</div>
 		<div>
