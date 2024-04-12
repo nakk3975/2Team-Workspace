@@ -97,7 +97,7 @@
 				<a href=""><button class="login-button">로그인</button></a>
 			</div>
 			<div>
-				<a href="#" class="LoginOption">아이디 찾기</a> <a href="/"
+				<a href="/user/signin/view" class="LoginOption">아이디 찾기</a> <a href="/"
 					class="LoginOption">비밀번호 찾기</a> <a href="/user/signup"
 					class="LoginOption">회원가입</a>
 			</div>
