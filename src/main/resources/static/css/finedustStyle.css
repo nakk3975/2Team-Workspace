@@ -4,53 +4,108 @@
 }
 
 #contentBox {
-	width: 1200px; /* 너비 설정 */
-	height: 650px; /* 높이 설정 */
-	position: relative; /* 상대 위치 지정 */
-	margin: 0 auto; /* 좌우 마진을 auto로 설정하여 가운데 정렬 */
+	width: 1200px;
+	height: 650px;
+	position: relative;
+	margin: 0 auto;
 }
 
 #mapBox {
-	width: 50%; /* 너비 설정 */
-	height: 100%; /* 높이 설정 */
-	float: left; /* 왼쪽으로 플로팅 */
-	background-color: #ffffff; /* 배경색 설정 */
-	display: flex; /* 외부 div를 플렉스 박스로 설정합니다. */
-	justify-content: center; /* 내부 요소들을 수평 중앙에 정렬합니다. */
-	align-items: center; /* 내부 요소들을 수직 중앙에 정렬합니다. */
+	width: 600px;
+	height: 650px;
+	position: relative;
+	float: left;
+	background-color: #ffffff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+}
+
+#menuButton {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 3;
+}
+
+#regionPopupButtons {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 3;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	z-index: 1;
 }
 
 #graphBox {
-	width: 50%; /* 너비 설정 */
-	height: 100%; /* 높이 설정 */
-	float: right; /* 왼쪽으로 플로팅 */
-	background-color: #e0e0e0; /* 배경색 설정 */
+	width: 50%;
+	height: 100%;
+	float: right;
+	justify-content: center;
 }
 
-#line10GraphBox {
-	width: 100%; /* 너비 설정 */
-	height: 20%; /* 높이 설정 */
-	background-color: #c0c0c0; /* 배경색 설정 */
+#buttonBox {
+	position: absolute;
+	top: 75px;
+	left: 10px;
+	width: 320px;
+	height: 150px;
+	gap: 5px;
+	z-index: 3;
+	display: none;
 }
 
-#line25GraphBox {
-	width: 100%; /* 너비 설정 */
-	height: 30%; /* 높이 설정 */
-	background-color: #c0cfc0; /* 배경색 설정 */
+.buttonGroup {
+	display: flex;
+	flex-direction: row;
+	margin-right: 10px;
 }
 
-#donutGraphBox {
-	width: 100%; /* 너비 설정 */
-	height: 20%; /* 높이 설정 */
-	display : flex;
-	justify-content: center; /* 내부 요소들을 수평 중앙에 정렬합니다. */
+.buttonGroup button {
+	margin-right: 5px;
 }
 
-#donutGraphExplainBox{
-	width: 100%; /* 너비 설정 */
-	height: 30%; /* 높이 설정 */
-	display : flex;
-	justify-content: center; /* 내부 요소들을 수평 중앙에 정렬합니다. */
+#regionButtonBox {
+	position: relative;
+	width: 100%;
+	height: 10%;
+	z-index: 999;
+}
+
+#dustGraphBox {
+	width: 100%;
+	height: 25%;
+	display: flex;
+	justify-content: center;
+}
+
+#dustGraphExplainBox {
+	width: 75%;
+	height: 5%;
+	display: flex;
+	justify-content: center;
+	justify-content: space-around;
+	margin-left: 14%;
+}
+
+#otherGraphBox {
+	width: 100%;
+	height: 15%;
+	display: flex;
+	justify-content: center;
+}
+
+#otherGraphExplainBox {
+	width: 100%;
+	height: 5%;
+	display: flex;
+	justify-content: center;
 }
 
 #chartContainerSO2, #chartContainerCO, #chartContainerNO2,
@@ -58,14 +113,51 @@
 	display: inline-block;
 	width: 100px;
 	height: 100px;
-	margin-right: 10px; /* 각 차트 사이의 간격 조정 */
+	margin-right: 10px;
 }
 
-#chartExplainSO2, #chartExplainCO, #chartExplainNO2,
-	#chartExplainO3, #chartExplainAQI {
+#chartExplainSO2, #chartExplainCO, #chartExplainNO2, #chartExplainO3,
+	#chartExplainAQI {
 	display: inline-block;
 	width: 100px;
 	height: 100px;
 	margin-right: 10px;
 	text-align: center;
-} 
+}
+
+#chartContainerdust10, #chartContainerdust25 {
+	display: inline-block;
+	width: 180px;
+	height: 180px;
+	margin-left: 20px;
+	margin-right: 20px;
+	text-align: center;
+}
+
+#regionButtons {
+	position: absolute;
+	top: 75px;
+	left: 10px;
+	width: 320px;
+	height: 150px;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 5px;
+	display: none;
+	background-color: white;
+}
+
+#regionButtons button {
+	width: 100%;
+	padding: 5px;
+	margin: 2px 2px;
+}
+
+#resultImageContainer {
+	display: none;
+	position: relative;
+}
+
+#resultImage {
+	width: 600px;
+	height: 650px;
+}
