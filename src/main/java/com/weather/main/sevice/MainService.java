@@ -19,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 public class MainService {
 	private static final String NAVER_API_KEY_ID = "vzqhpvb94n";
 	private static final String NAVER_API_KEY = "Zs4cJbU5Iw5m7D5791rqP1A4R54WiSi0B1wcXCd1";
-	private static final String NAVER_API_URL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=";
 
 	private static final String WEATHER_API_KEY = "Uw6gaLxXT6Kse3SbXODEh3jf7z4UQQ5UWXm0qQflrhIHEXFvNGRRi%2BWrU1BQu8rhdkUYKwr7vvQnAfhhhSxkjw%3D%3D";
 
@@ -49,14 +48,14 @@ public class MainService {
 			throw new IllegalArgumentException("Invalid city: " + city);
 		}
 
-		String WEATHER_API_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst";
+		String WEATHER_API_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
 		String baseDate = base_date;
 		String baseTime = base_time;
 		String pageNo = "1";
 		String numOfRows = "1000";
 		String dataType = "json";
-		
-		WEATHER_API_URL += "?ServiceKey=" + WEATHER_API_KEY;
+
+		WEATHER_API_URL += "?serviceKey=" + WEATHER_API_KEY;
 		WEATHER_API_URL += "&pageNo=" + pageNo;
 		WEATHER_API_URL += "&numOfRows=" + numOfRows;
 		WEATHER_API_URL += "&dataType=" + dataType;
@@ -70,12 +69,13 @@ public class MainService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-		ResponseEntity<String> response = restTemplate.exchange(uri	, HttpMethod.GET, entity, String.class);
-		
+		ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
+
 		return response.getBody();
 	}
 
 	public String getCityLocation(String city) {
+		String NAVER_API_URL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=";
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("X-NCP-APIGW-API-KEY-ID", NAVER_API_KEY_ID);
@@ -84,8 +84,7 @@ public class MainService {
 
 		ResponseEntity<String> response = restTemplate.exchange(NAVER_API_URL + city, HttpMethod.GET, entity,
 				String.class);
-
+		
 		return response.getBody();
 	}
-
 }
