@@ -4,92 +4,53 @@
 }
 
 #contentBox {
-	width: 1200px;
-	height: 650px;
-	position: relative;
-	margin: 0 auto;
+	width: 1200px; /* 너비 설정 */
+	height: 650px; /* 높이 설정 */
+	position: relative; /* 상대 위치 지정 */
+	margin: 0 auto; /* 좌우 마진을 auto로 설정하여 가운데 정렬 */
 }
 
 #mapBox {
-	width: 600px;
-	height: 650px;
-	position : relative;
-	float: left;
-	background-color: #ffffff;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index : 1;
-}
-
-#menuButton {
-    position: absolute;
-    top: 10px; /* 상단 여백 조정 */
-    left: 10px; /* 좌측 여백 조정 */
-    z-index: 3; /* 다른 요소 위로 표시되도록 설정 */
-}
-
-#map{
-	width: 100%;
-	height: 100%;
-	position : relative;
-	z-index : 1;
-}
-
-#buttonBox {
-	position: absolute;
-	top: 30px;
-	left : 2px;
-	border: 1px solid #ccc;
-	width: 320px;
-	height: 150px;
-	gap: 5px;
-	z-index: 3;
-	display : none;
-}
-
-.buttonGroup {
-    display: flex;
-    flex-direction: row;
-    margin-right: 10px; /* 각 그룹 사이에 간격을 줍니다. */
-}
-
-.buttonGroup button {
-    margin-right: 5px; /* 각 버튼 사이에 간격을 줍니다. */
+	width: 50%; /* 너비 설정 */
+	height: 100%; /* 높이 설정 */
+	float: left; /* 왼쪽으로 플로팅 */
+	background-color: #ffffff; /* 배경색 설정 */
+	display: flex; /* 외부 div를 플렉스 박스로 설정합니다. */
+	justify-content: center; /* 내부 요소들을 수평 중앙에 정렬합니다. */
+	align-items: center; /* 내부 요소들을 수직 중앙에 정렬합니다. */
 }
 
 #graphBox {
-	width: 50%;
-	height: 100%;
-	float: right;
-	background-color: #e0e0e0;
+	width: 50%; /* 너비 설정 */
+	height: 100%; /* 높이 설정 */
+	float: right; /* 왼쪽으로 플로팅 */
+	background-color: #e0e0e0; /* 배경색 설정 */
 }
 
-#dustBox {
-	position : relative;
-	width: 100%;
-	height: 30%;
-	background-color: #c0c0c0;
+#line10GraphBox {
+	width: 100%; /* 너비 설정 */
+	height: 20%; /* 높이 설정 */
+	background-color: #c0c0c0; /* 배경색 설정 */
 }
 
 #line25GraphBox {
-	width: 100%;
-	height: 30%;
-	background-color: #c0cfc0;
+	width: 100%; /* 너비 설정 */
+	height: 30%; /* 높이 설정 */
+	background-color: #c0cfc0; /* 배경색 설정 */
 }
 
 #donutGraphBox {
-	width: 100%;
-	height: 30%;
+	width: 100%; /* 너비 설정 */
+	height: 20%; /* 높이 설정 */
 	display : flex;
-	justify-content: center;
+	justify-content: center; /* 내부 요소들을 수평 중앙에 정렬합니다. */
 }
 
 #donutGraphExplainBox{
-	width: 100%;
-	height: 10%;
+	width: 100%; /* 너비 설정 */
+	height: 30%; /* 높이 설정 */
 	display : flex;
-	justify-content: center;
+	justify-content: center; /* 내부 요소들을 수평 중앙에 정렬합니다. */
 }
 
 #chartContainerSO2, #chartContainerCO, #chartContainerNO2,
@@ -97,7 +58,7 @@
 	display: inline-block;
 	width: 100px;
 	height: 100px;
-	margin-right: 10px;
+	margin-right: 10px; /* 각 차트 사이의 간격 조정 */
 }
 
 #chartExplainSO2, #chartExplainCO, #chartExplainNO2,
@@ -108,31 +69,3 @@
 	margin-right: 10px;
 	text-align: center;
 } 
-
-#regionButtons {
-	position: absolute;
-	bottom: 2px;
-	left : 2px;
-	border: 1px solid #ccc;
-	width: 320px;
-	height: 150px;
-	grid-template-columns: repeat(6, 1fr);
-	gap: 5px;
-	display : none;
-}
-
-#regionButtons button {
-	width: 100%;
-	padding: 5px;
-	margin: 2px 2px;
-}
-
-#resultImageContainer{
-	display:none;
-	position : relative;
-}
-
-#resultImage {
-    width: 600px;
-    height: 650px;
-}

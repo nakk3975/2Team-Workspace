@@ -83,59 +83,15 @@ button:active {
 	<div id="pageBox">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<div id="contentBox">
-			<div id="mapBox">
-				<button id="menuButton" onclick="openMenuPopup()">리모컨</button>
-				<div id="buttonBox">
-					<div class="buttonGroup">
-						<button onclick="updateImageDust('10')">미세먼지</button>
-						<button onclick="updateImageDust('25')">초미세먼지</button>
-					</div>
-					<div class="buttonGroup">
-						<button onclick="updateImageDate('yesterday')">어제</button>
-						<button onclick="updateImageDate('today')">오늘</button>
-						<button onclick="updateImageDate('tomorrow')">내일</button>
-					</div>
-					<div class="buttonGroup">
-						<button onclick="updateImageTime('Am')">오전</button>
-						<button onclick="updateImageTime('Pm')">오후</button>
-					</div>
-					<div class="buttonGroup">
-						<button class="toggleButton" onclick="toggleView()">자세히</button>
-					</div>
-				</div>
-				<div id="map"></div>
-				<div id="resultImageContainer">
-					<img id="resultImage" src="" alt="Result Image">
+			<div id="mapBox" style="width: 600px; height: 650px;">
+				<div id="map" style="width: 100%; height: 100%;"></div>
+				<div id="resultImageContainer" style="display: none;">
+					<img id="resultImage" src="" alt="Result Image"
+						style="width: 600px; height: 650px;">
 				</div>
 			</div>
-
 			<div id="graphBox">
-				<div id="dustBox">
-					<button onclick="openRegionPopup()">지역선택</button>
-					<div id="regionButtons">
-						<button onclick="updateCharts(14);">강원</button>
-						<button onclick="updateCharts(15);">경기</button>
-						<button onclick="updateCharts(5);">경남</button>
-						<button onclick="updateCharts(6);">경북</button>
-						<button onclick="updateCharts(4);">광주</button>
-						<button onclick="updateCharts(8);">대구</button>
-						<button onclick="updateCharts(13);">대전</button>
-						<button onclick="updateCharts(9);">부산</button>
-						<button onclick="updateCharts(0);">서울</button>
-						<button onclick="updateCharts(12);">세종</button>
-						<button onclick="updateCharts(7);">울산</button>
-						<button onclick="updateCharts(16);">인천</button>
-						<button onclick="updateCharts(2);">전남</button>
-						<button onclick="updateCharts(3);">전북</button>
-						<button onclick="updateCharts(1);">제주</button>
-						<button onclick="updateCharts(10);">충남</button>
-						<button onclick="updateCharts(11);">충북</button>
-					</div>
-					<div id="donutGraphBox">
-						<div id="chartContainerdust10"></div>
-						<div id="chartContainerdust25"></div>
-					</div>
-				</div>
+				<div id="line10GraphBox"></div>
 				<div id="line25GraphBox"></div>
 				<div id="donutGraphBox">
 					<div id="chartContainerO3"></div>
@@ -145,20 +101,20 @@ button:active {
 					<div id="chartContainerAQI"></div>
 				</div>
 				<div id="donutGraphExplainBox">
-					<div id="chartExplainO3">
-						<span>오존</span>
+					<div id="chartExplainSO2">
+						<span>SO2</span>
 					</div>
 					<div id="chartExplainCO">
-						<span>일산화탄소</span>
-					</div>
-					<div id="chartExplainSO2">
-						<span>아황산가스</span>
+						<span>CO</span>
 					</div>
 					<div id="chartExplainNO2">
-						<span>이산화질소</span>
+						<span>NO2</span>
+					</div>
+					<div id="chartExplainO3">
+						<span>O3</span>
 					</div>
 					<div id="chartExplainAQI">
-						<span>통합대기</span>
+						<span>AQI</span>
 					</div>
 				</div>
 			</div>
@@ -166,9 +122,47 @@ button:active {
 		</div>
 	</div>
 
+	<div>
+		<button onclick="updateImageDate('yesterday')">어제</button>
+		<button onclick="updateImageDate('today')">오늘</button>
+		<button onclick="updateImageDate('tomorrow')">내일</button>
+	</div>
+	<div>
+		<button onclick="updateImageTime('Am')">오전</button>
+		<button onclick="updateImageTime('Pm')">오후</button>
+	</div>
+	<div>
+		<button onclick="updateImageDust('10')">미세먼지</button>
+		<button onclick="updateImageDust('25')">초미세먼지</button>
+	</div>
+
+	<button onclick="toggleView()">Toggle View</button>
+
+	<div id="info-box"
+		style="position: absolute; top: 10px; left: 10px; background-color: white; padding: 5px; border: 1px solid black; display: none;"></div>
+
 	<!-- 대기오염 정보 지역별 차트 및 미세먼지/초미세먼지 정보-->
 	<div id="gradeTableContainer"></div>
 
+	<div>
+		<button onclick="updateCharts(0);">서울</button>
+		<button onclick="updateCharts(1);">제주</button>
+		<button onclick="updateCharts(2);">전남</button>
+		<button onclick="updateCharts(3);">전북</button>
+		<button onclick="updateCharts(4);">광주</button>
+		<button onclick="updateCharts(5);">경남</button>
+		<button onclick="updateCharts(6);">경북</button>
+		<button onclick="updateCharts(7);">울산</button>
+		<button onclick="updateCharts(8);">대구</button>
+		<button onclick="updateCharts(9);">부산</button>
+		<button onclick="updateCharts(10);">충남</button>
+		<button onclick="updateCharts(11);">충북</button>
+		<button onclick="updateCharts(12);">세종</button>
+		<button onclick="updateCharts(13);">대전</button>
+		<button onclick="updateCharts(14);">강원</button>
+		<button onclick="updateCharts(15);">경기</button>
+		<button onclick="updateCharts(16);">인천</button>
+	</div>
 
 	<%
 	String[][] todayAirs = (String[][]) request.getAttribute("todayAirs");
@@ -181,33 +175,7 @@ button:active {
 	<script>
 		let polygons = [];
 
-		function openRegionPopup() {
-			let regionPopup = document.getElementById("regionButtons");
-			if (regionPopup.style.display === "grid") {
-				regionPopup.style.display = "none";
-			} else {
-				regionPopup.style.display = "grid";
-			}
-		}
-
-		function openMenuPopup() {
-			let menuPopup = document.getElementById("buttonBox");
-			if (menuPopup.style.display === "grid") {
-				menuPopup.style.display = "none";
-			} else {
-				menuPopup.style.display = "grid";
-			}
-		}
-
 		function toggleView() {
-
-			let button = document.activeElement;
-			if (button.innerText === "자세히") {
-				button.innerText = "간단히";
-			} else {
-				button.innerText = "자세히";
-			}
-
 			let mapContainer = document.getElementById('map');
 			let resultImageContainer = document
 					.getElementById('resultImageContainer');
@@ -248,6 +216,7 @@ button:active {
 		let searchDate = "today"; // 기본값 오늘로 설정
 		let searchTime = "Am"; // 기본값 오전으로 설정
 		let searchDust = "10"; // 기본값 미세먼지로 설정
+	
 
 		function updateImageDate(value) {
 			searchDate = value;
@@ -265,10 +234,10 @@ button:active {
 		}
 
 		let search;
-
+		
 		function updateResultImage() {
 			imagePath = searchDate + searchTime + searchDust + "ImageUrl";
-			search = searchDate + searchDust;
+			search=searchDate + searchDust;
 			loadMapAndPolygons(search);
 			document.getElementById("resultImage").src = eval(imagePath);
 		}
@@ -287,15 +256,11 @@ button:active {
 			let COData = parseFloat(airData[cityIndex][3]);
 			let NO2Data = parseFloat(airData[cityIndex][5]);
 			let O3Data = parseFloat(airData[cityIndex][7]);
-			let dust10Data = parseFloat(airData[cityIndex][9]);
-			let dust25Data = parseFloat(airData[cityIndex][11]);
 			let AQIData = parseFloat(airData[cityIndex][13]);
 			let SO2Grade = airData[cityIndex][0];
 			let COGrade = airData[cityIndex][2];
 			let NO2Grade = airData[cityIndex][4];
 			let O3Grade = airData[cityIndex][6];
-			let dust10Grade = airData[cityIndex][8];
-			let dust25Grade = airData[cityIndex][10];
 			let AQIGrade = airData[cityIndex][12];
 
 			//도넛 차트에서 칠할 비율을 계산
@@ -329,35 +294,16 @@ button:active {
 			}
 			let AQIRemain = 100 - AQIRatio;
 
-			let dust10Ratio = (dust10Data / 150) * 100;
-			if (dust10Ratio >= 100) {
-				dust10Ratio = 100;
-			}
-			let dust10Remain = 100 - dust10Ratio;
-
-			let dust25Ratio = (dust25Data / 75) * 100;
-			if (dust25Ratio >= 100) {
-				dust25Ratio = 100;
-			}
-			let dust25Remain = 100 - dust25Ratio;
-
 			updateChart('SO2', SO2Data, SO2Ratio, SO2Remain, SO2Grade);
 			updateChart('CO', COData, CORatio, CORemain, COGrade);
 			updateChart('NO2', NO2Data, NO2Ratio, NO2Remain, NO2Grade);
 			updateChart('O3', O3Data, O3Ratio, O3Remain, O3Grade);
 			updateChart('AQI', AQIData, AQIRatio, AQIRemain, AQIGrade);
-			updateChart('dust10', dust10Data, dust10Ratio, dust10Remain,
-					dust10Grade);
-			updateChart('dust25', dust25Data, dust25Ratio, dust25Remain,
-					dust25Grade);
-
-			let regionPopup = document.getElementById("regionButtons");
-			regionPopup.style.display = "none";
 		}
 
 		//각 차트 업데이트하는 함수
 		function updateChart(chemical, data, ratio, remain, grade) {
-
+			
 			//차트 색 결정
 			let gradeColor;
 			let otherColor;
@@ -491,31 +437,32 @@ button:active {
 
 				// 폴리곤 배열 초기화
 				let polygons = [];
-
+				
 				//오늘 미세먼지로 시험색상
 				let timeIndex;
-				if (search == 'yesterday10') {
-					timeIndex = 0;
-				} else if (search == 'today10') {
-					timeIndex = 1;
-				} else if (search == 'tomorrow10') {
-					timeIndex = 2;
-				} else if (search == 'yesterday25') {
-					timeIndex = 3;
-				} else if (search == 'today25') {
-					timeIndex = 4;
-				} else if (search == 'tomorrow25') {
-					timeIndex = 5;
+				if(search =='yesterday10'){
+					timeIndex=0;
+				}else if(search == 'today10'){
+					timeIndex=1;
+				}else if(search == 'tomorrow10'){
+					timeIndex=2;
+				}else if(search =='yesterday25'){
+					timeIndex=3;
+				}else if(search == 'today25'){
+					timeIndex=4;
+				}else if(search == 'tomorrow25'){
+					timeIndex=5;
 				}
+				console.log(timeIndex);
 				// 각 feature에 대해 폴리곤 생성
 				for (let i = 0; i < features.length; i++) {
 					let feature = features[i];
 					let coordinates = feature.geometry.coordinates[0]; // 다각형의 첫 번째 좌표 배열만 사용
 					let properties = feature.properties; // feature의 properties 가져오기
 					let index = properties.INDEX;
-
+					
 					let grade = dustData[timeIndex][2 * (index) + 1];
-
+					
 					if (grade == '좋음') {
 						gradeColor = '#32A1FF'; //파랑
 					} else if (grade == '보통') {
@@ -525,6 +472,7 @@ button:active {
 					} else {
 						gradeColor = '#E64746'; //빨강
 					}
+					
 
 					// 폴리곤 좌표 배열 초기화
 					let polygonCoords = [];
