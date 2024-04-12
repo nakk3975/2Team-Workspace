@@ -14,6 +14,7 @@
     text-align: center;
     background-color: #fff;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 .label {
@@ -22,7 +23,11 @@
     font-weight: bold;
 }
 
+#rain {
+	font-size: 11px;
+}
+
 #mapDetail {
-	height: 300px;
 	width:100%;
+	background-color: #F5F4F0;
 }

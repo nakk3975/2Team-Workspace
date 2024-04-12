@@ -93,8 +93,17 @@ cities.forEach(function(city) {
 					// 현재 날짜와 시간을 가져오기
 					let now = new Date();
 					let base_date = now.getFullYear().toString() + (now.getMonth() + 1).toString().padStart(2, '0') + now.getDate().toString().padStart(2, '0');  // 'YYYYMMDD' 형식의 오늘 날짜
-					let hours = now.getHours();
-					let base_time = (hours < 10 ? '0' : '') + hours + '00';  // 정각시를 'HH00' 형식으로
+
+					// API 제공 시간에 맞춰 base_time 설정
+					let baseTimes = [2, 5, 8, 11, 14, 17, 20, 23];
+					let currentHour = now.getHours();
+					let base_time;
+					for (let i = baseTimes.length - 1; i >= 0; i--) {
+						if (currentHour >= baseTimes[i]) {
+							base_time = (baseTimes[i] < 10 ? '0' : '') + baseTimes[i] + '00';
+							break;
+						}
+					}
 
 					// 클릭한 지역의 날씨 정보를 가져오기
 					$.ajax({
@@ -104,20 +113,47 @@ cities.forEach(function(city) {
 							var weatherJson = JSON.parse(weatherData);
 							var weatherInfo = {};
 							for (var i = 0; i < weatherJson.response.body.items.item.length; i++) {
-								weatherInfo[weatherJson.response.body.items.item[i].category] = weatherJson.response.body.items.item[i].obsrValue;
+								weatherInfo[weatherJson.response.body.items.item[i].category] = weatherJson.response.body.items.item[i].fcstValue;
 							}
 
 							// 16방위를 한글로 변환
 							var direction = Math.floor((Number(weatherInfo.VEC) + 22.5 * 0.5) / 22.5);
 							var directionNames = ["북", "북북동", "동북동", "동", "동남동", "남남동", "남", "남남서", "서남서", "서", "서북서", "북북서", "북"];
 							var directionName = directionNames[direction];
+
+							// 하늘 상태와 강수 형태를 한글로 변환
+							var skyStatus = { '1': '맑음', '3': '구름많음', '4': '흐림' }[weatherInfo.SKY];
+							var ptyStatus = { '0': '없음', '1': '비', '2': '비/눈', '3': '눈', '4': '소나기', '5': '빗방울', '6': '빗방울눈날림', '7': '눈날림' }[weatherInfo.PTY];
+
+							// 강수량이 없는 경우 '0mm'로 설정
+							var rainfall = weatherInfo.RN1 || '0';
+							var weather;
+							if(weatherInfo.SKY == '1') {
+								weather = "/static/image/맑은하늘.png";
+							} else if(weatherInfo.SKY == '3') {
+								weather = "/static/image/구름_많음.png";
+							} else if(weatherInfo.SKY == '4') {
+								weather = "/static/image/흐림.png";
+							} else if(weatherInfo.PTY == '1') {
+								weather = "/static/image/폭우.png";
+							} else if(weatherInfo.PTY == '2') {
+								weather = "/static/image/눈발.png";
+							} else if(weatherInfo.PTY == '3') {
+								weather = "/static/image/눈발.png";
+							} else if(weatherInfo.PTY == '4') {
+								weather = "/static/image/폭우.png";
+							}
 							// 날씨 정보를 mapDetail div에 표시하기
 							$('#mapDetail').html(
-								'<p>현재 기온: ' + weatherInfo.T1H + '℃</p>' +
-								'<p>강수량: ' + weatherInfo.RN1 + 'mm</p>' +
-								'<p>습도: ' + weatherInfo.REH + '%</p>' +
-								'<p>풍속: ' + weatherInfo.WSD + 'm/s</p>' +
-								'<p>풍향: ' + directionName + '°</p>'
+								'<div class="text-center">' +
+									'<h3>' + city + '</h3>' +
+									'<img src="' + weather + '" width="120px;">' + weatherInfo.TMP + '℃ <p id="rain" class="text-secondary">강수량 ' + rainfall + 'mm</p>' +
+									'<div class="mt-3">최저기온 ' + weatherInfo.TMN + '℃ / 최고기온 ' + weatherInfo.TMX + '℃ </div>' +
+									'<div id="wind" class="d-flex justify-content-around mt-3">' + 
+										'<div>풍향 ' + directionName + '</div>' +
+										'<div> 풍속 ' + weatherInfo.WSD + 'm/s</div>' +
+									'</div>' +
+								'</div>'
 							);
 						},
 						error: function() {
