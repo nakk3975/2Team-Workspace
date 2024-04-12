@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +17,7 @@
 </head>
 <body>
 	<div id="wrap">
+		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section class="contents d-flex justify-content-center">
 			<div class="join d-flex justify-content-center mt-4">
 				<div class="join-box my-4">
@@ -30,6 +32,7 @@
 					<input type="password" placeholder="비밀번호 확인" id="passwordConfirmInput" class="form-control mt-3">
 					<input type="text" placeholder="이름" id="nameInput" class="form-control mt-3">
 					<input type="text" placeholder="이메일" id="emailInput" class="form-control mt-3">
+					<input type="text" placeholder="주소" id="adressInput" class="form-control mt-3">
 					<button type="button" id="joinBtn" class="btn btn-primary btn-block mt-3">가입</button>
 					
 					
@@ -41,6 +44,7 @@
 			</div>
 			
 		</section>
+		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
 	</div>
 	
 	<script src="/static/js/form.js"></script>
