@@ -24,45 +24,6 @@
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd"></script>
 
-<!-- <script -->
-<!-- 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd&libraries=services,clusterer,drawing"></script> -->
-<!-- <script src="/static/js/drawPolygon.js"></script> -->
-
-
-<style>
-/* 스타일링을 위한 간단한 CSS */
-button {
-	margin: 5px;
-	padding: 10px;
-	cursor: pointer;
-}
-</style>
-
-
-<!-- 버튼스타일 -->
-<style>
-button {
-	padding: 10px 20px;
-	font-size: 16px;
-	cursor: pointer;
-	border: none;
-	border-radius: 5px;
-	background-color: #007bff; /* 파랑색 배경 */
-	color: #fff; /* 흰색 텍스트 */
-	margin: 5px;
-}
-
-/* 버튼 호버 효과 */
-button:hover {
-	background-color: #0056b3; /* 진한 파랑색 배경 */
-}
-
-/* 버튼 클릭 효과 */
-button:active {
-	background-color: #004080; /* 더 진한 파랑색 배경 */
-}
-</style>
-
 <style>
 .flex-container {
 	display: flex;
@@ -107,12 +68,15 @@ button:active {
 				<div id="map"></div>
 				<div id="resultImageContainer">
 					<img id="resultImage" src="" alt="Result Image">
-
 				</div>
 			</div>
 			<div id="graphBox">
 				<div id="regionButtonBox">
 					<button id="regionPopupButtons" onclick="openRegionPopup()">지역선택</button>
+					<div id="graphTitle">
+						<span>현재 대기 상태</span>
+					</div>
+
 					<div id="regionButtons">
 						<button onclick="updateCharts(14);">강원</button>
 						<button onclick="updateCharts(15);">경기</button>
@@ -173,7 +137,14 @@ button:active {
 						<span>통합대기</span>
 					</div>
 				</div>
+
+				<div id="gradeTableBox">
+					<img src="/static/image/gradeTable.jpg" id="gradeTable" alt="등급표">
+				</div>
 			</div>
+		</div>
+		<div id="sourceExplainBox">
+			<span>자료 출처 - 에어코리아</span>
 		</div>
 	</div>
 
@@ -220,18 +191,16 @@ button:active {
 					.getElementById('resultImageContainer');
 
 			if (mapContainer.style.display === 'none') {
-				mapContainer.style.display = 'block'; // 맵 보이기
-				resultImageContainer.style.display = 'none'; // 결과 이미지 숨기기
+				mapContainer.style.display = 'block';
+				resultImageContainer.style.display = 'none';
 
-				// 폴리곤 다시 지도에 추가
 				for (let i = 0; i < polygons.length; i++) {
 					polygons[i].setMap(map);
 				}
 			} else {
-				mapContainer.style.display = 'none'; // 맵 숨기기
-				resultImageContainer.style.display = 'block'; // 결과 이미지 보이기
+				mapContainer.style.display = 'none';
+				resultImageContainer.style.display = 'block';
 
-				// 폴리곤 숨기기
 				for (let i = 0; i < polygons.length; i++) {
 					polygons[i].setMap(null);
 				}
@@ -251,11 +220,10 @@ button:active {
 		let tomorrowPm10ImageUrl = "${tomorrowPm10Image}";
 		let tomorrowPm25ImageUrl = "${tomorrowPm25Image}";
 
-		let imagePath = ""; // 초기 이미지 경로
-		let searchDate = "today"; // 기본값 오늘로 설정
-		let searchTime = "Am"; // 기본값 오전으로 설정
-		let searchDust = "10"; // 기본값 미세먼지로 설정
-
+		let imagePath = "";
+		let searchDate = "today";
+		let searchTime = "Am";
+		let searchDust = "10";
 		function updateImageDate(value) {
 			searchDate = value;
 			updateResultImage();
@@ -369,7 +337,6 @@ button:active {
 		//각 차트 업데이트하는 함수
 		function updateChart(chemical, data, ratio, remain, grade) {
 
-			//차트 색 결정
 			let gradeColor;
 			let otherColor;
 			let textSize;
@@ -451,23 +418,18 @@ button:active {
 		//카카오 지도 그리기.
 		function loadMapAndPolygons(search) {
 			let map = new kakao.maps.Map(document.getElementById('map'), {
-				center : new kakao.maps.LatLng(35.9078, 127.7669), // 대한민국의 중심 좌표
-				level : 13, // 기본 배율 (대한민국 전체가 보이도록 조정)
-				draggable : false, // 이동 기능 비활성화
-				scrollwheel : false, // 확대/축소 기능 비활성화
+				center : new kakao.maps.LatLng(35.9078, 127.7669),
+				level : 13,
+				draggable : false,
+				scrollwheel : false,
 				disableDoubleClickZoom : true
-			// 더블클릭으로 확대 기능 비활성화
 			});
 
 			// JSON 파일 로드
 			$.getJSON("/static/json/mapPolygon.json", function(data) {
-				// JSON 데이터에서 features 배열 추출
 				let features = data.features;
-
-				// 폴리곤 배열 초기화
 				let polygons = [];
 
-				//오늘 미세먼지로 시험색상
 				let timeIndex;
 				if (search == 'yesterday10') {
 					timeIndex = 0;
@@ -482,11 +444,11 @@ button:active {
 				} else if (search == 'tomorrow25') {
 					timeIndex = 5;
 				}
-				// 각 feature에 대해 폴리곤 생성
+
 				for (let i = 0; i < features.length; i++) {
 					let feature = features[i];
-					let coordinates = feature.geometry.coordinates[0]; // 다각형의 첫 번째 좌표 배열만 사용
-					let properties = feature.properties; // feature의 properties 가져오기
+					let coordinates = feature.geometry.coordinates[0];
+					let properties = feature.properties;
 					let index = properties.INDEX;
 
 					let grade = dustData[timeIndex][2 * (index) + 1];
@@ -501,17 +463,14 @@ button:active {
 						gradeColor = '#E64746'; //빨강
 					}
 
-					// 폴리곤 좌표 배열 초기화
 					let polygonCoords = [];
 
-					// 각 좌표에 대해 폴리곤 좌표 배열에 추가
 					for (let j = 0; j < coordinates.length; j++) {
 						let coord = coordinates[j];
 						polygonCoords.push(new kakao.maps.LatLng(coord[1],
 								coord[0]));
 					}
 
-					// 폴리곤 생성
 					let fillColor = gradeColor;
 
 					let polygon = new kakao.maps.Polygon({
@@ -520,14 +479,11 @@ button:active {
 						strokeColor : '#000000',
 						strokeOpacity : 0.8,
 						strokeStyle : 'solid',
-						fillColor : fillColor, // 색상 설정
+						fillColor : fillColor,
 						fillOpacity : 0.7
 					});
 
-					// 폴리곤 지도에 추가
 					polygon.setMap(map);
-
-					// 폴리곤 배열에 추가
 					polygons.push(polygon);
 				}
 			});
