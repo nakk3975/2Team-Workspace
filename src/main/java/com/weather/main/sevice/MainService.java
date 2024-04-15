@@ -21,7 +21,23 @@ public class MainService {
 	private static final String NAVER_API_KEY = "Zs4cJbU5Iw5m7D5791rqP1A4R54WiSi0B1wcXCd1";
 
 	private static final String WEATHER_API_KEY = "Uw6gaLxXT6Kse3SbXODEh3jf7z4UQQ5UWXm0qQflrhIHEXFvNGRRi%2BWrU1BQu8rhdkUYKwr7vvQnAfhhhSxkjw%3D%3D";
+	
 
+    public String searchAddressToCoordinate(String address) {
+    	String NAVER_API_URL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=" + address;
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-NCP-APIGW-API-KEY-ID", NAVER_API_KEY_ID);
+		headers.set("X-NCP-APIGW-API-KEY", NAVER_API_KEY);
+		
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+
+		ResponseEntity<String> response = restTemplate.exchange(NAVER_API_URL + city, HttpMethod.GET, entity,
+				String.class);
+
+        return response.getBody();
+    }
+	
 	public String getWeatherByCity(String city, String base_date, String base_time)
 			throws UnsupportedEncodingException, URISyntaxException {
 		// 각 도시의 격자 값 매핑

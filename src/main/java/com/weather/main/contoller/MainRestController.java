@@ -18,6 +18,11 @@ public class MainRestController {
 	@Autowired
     private MainService mainService;
 
+	@GetMapping("/searchAddress")
+	public String searchAddressToCoordinate(@RequestParam("address") String address) {
+		return mainService.searchAddressToCoordinate(address);
+	}
+	
 	// 지역별 정보
     @GetMapping("/getCityLocation")
     public String getCityLocation(@RequestParam("city") String city) {

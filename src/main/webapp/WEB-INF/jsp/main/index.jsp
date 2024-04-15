@@ -91,7 +91,23 @@
 		    }
 		});
 
-
+		$("#searchButton").click(function(){
+			var city = $("#citySelect").val();
+		    var district = $("#districtSelect").val();
+		    var address = city + " " + district;
+		    $.ajax({
+		        url: "/searchAddressToCoordinate",  // Spring Controller의 URL
+		        type: "GET",
+		        data: { "address": address },
+		        success: function(result){
+		            // 성공 시 처리 로직
+		            console.log(result);
+		        },
+		        error: function(){
+		            alert("지역 좌표 불러오기 실패");
+		        }
+		    });
+		});
 	
 	</script>
 </body>

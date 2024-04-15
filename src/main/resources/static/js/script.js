@@ -118,7 +118,7 @@ cities.forEach(function(city) {
 
 							// 16방위를 한글로 변환
 							var direction = Math.floor((Number(weatherInfo.VEC) + 22.5 * 0.5) / 22.5);
-							var directionNames = ["북", "북북동", "동북동", "동", "동남동", "남남동", "남", "남남서", "서남서", "서", "서북서", "북북서", "북"];
+							var directionNames = ["북", "북북동", "동북동", "동", "동동남", "동남", "남동남", "남", "남남서", "서남서", "서", "서서북", "서북", "북서북", "북", "북북동", "북"];
 							var directionName = directionNames[direction];
 
 							// 하늘 상태와 강수 형태를 한글로 변환
@@ -148,8 +148,8 @@ cities.forEach(function(city) {
 								'<div class="text-center">' +
 									'<h3>' + city + '</h3>' +
 									'<img src="' + weather + '" width="120px;">' + weatherInfo.TMP + '℃ <p id="rain" class="text-secondary">강수량 ' + rainfall + 'mm</p>' +
-									'<div class="mt-3">최저기온 ' + weatherInfo.TMN + '℃ / 최고기온 ' + weatherInfo.TMX + '℃ </div>' +
-									'<div id="wind" class="d-flex justify-content-around mt-3">' + 
+									'<div class="mt-3">최저 ' + weatherInfo.TMN + '℃ / 최고 ' + weatherInfo.TMX + '℃ </div>' +
+									'<div id="wind" class="d-flex justify-content-around mt-3" width="40%">' + 
 										'<div>풍향 ' + directionName + '</div>' +
 										'<div> 풍속 ' + weatherInfo.WSD + 'm/s</div>' +
 									'</div>' +
@@ -168,5 +168,3 @@ cities.forEach(function(city) {
 		}
 	});
 });
-
-
