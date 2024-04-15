@@ -8,16 +8,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.UnknownContentTypeException;
 
 import com.weather.finedust.dto.FineDustDto;
 
-import lombok.AllArgsConstructor;
-
 @RequestMapping("/finedust/*")
-@AllArgsConstructor
 @Controller
 public class FinedustController {
+
+	// 동적 코딩을 위한 날짜 포맷
+	LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+	LocalDateTime today = LocalDateTime.now();
+	LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+	LocalDateTime twoDaysAgo = LocalDateTime.now().minusDays(2);
 
 	// 각종 오염물질 등급을 숫자에서 단어로 변경.
 	private String grade(String x) {
@@ -36,16 +41,16 @@ public class FinedustController {
 
 	@GetMapping("/airPollution")
 	public void fineDust(Model model) {
+		todayAir(model, 0);
+		dustForecast(model, 0);
+		forecastPicture(model);
+	}
+
+	
+	//금일 대기 정보 api.
+	private void todayAir(Model model, int keyIndex) {
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-
-			// 동적 코딩을 위한 날짜 포맷
-			LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
-			LocalDateTime today = LocalDateTime.now();
-			LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
-			LocalDateTime twoDaysAgo = LocalDateTime.now().minusDays(2);
-
-			// [1] 금일 정보 api 부분. 사용할 데이터만 이차원 배열 형태로 보냄.
 			// 0:서울, 1:제주, 2:전남, 3:전북, 4:광주, 5:경남, 6:경북, 7:울산, 8:대구, 9:부산, 10:충남, 11:충북,
 			// 12:세종, 13:대전, 14:강원, 15:경기, 16:인천
 			String[] cities = { "서울", "제주", "전남", "전북", "광주", "경남", "경북", "울산", "대구", "부산", "충남", "충북", "세종", "대전",
@@ -54,7 +59,7 @@ public class FinedustController {
 			String[][] todayAirs = new String[17][14];
 
 			for (int i = 0; i < 17; i++) {
-				URI uri = new URI(UrlMaker.todayAirUrl(cities[i]));
+				URI uri = new URI(UrlMaker.todayAirUrl(cities[i], keyIndex));
 				FineDustDto dc = restTemplate.getForObject(uri, FineDustDto.class);
 
 				// 그 도시별 중앙에 가까운 곳의 정보를 가져오나, 만약 불가능 할 경우 차선책을 가져옴.
@@ -74,7 +79,7 @@ public class FinedustController {
 
 					boolean isNull = false;
 					for (String x : informs) {
-						if (x == null) {
+						if (x == null || x.equals("-")) {
 							isNull = true;
 							break;
 						}
@@ -90,10 +95,24 @@ public class FinedustController {
 			}
 			// 금일 데이터를 모델에 추가
 			model.addAttribute("todayAirs", todayAirs);
+		} catch (HttpStatusCodeException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (UnknownContentTypeException e) {
+			if (keyIndex < 4) {
+				todayAir(model, keyIndex + 1);
+			} else {
+				throw e;
+			}
+		}
+	}
 
-			
-			// [2] 지역별 어제~내일 미세먼지, 초미세먼지 예보.
-			URI uri = new URI(UrlMaker.dustForecastUrl(yesterday));
+	//어제~내일의 미세먼지, 초미세먼지 정보 api
+	private void dustForecast(Model model, int keyIndex) {
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			URI uri = new URI(UrlMaker.dustForecastUrl(yesterday, keyIndex));
 			FineDustDto dp = restTemplate.getForObject(uri, FineDustDto.class);
 
 			// api 내 순서대로 오늘 미세먼지, 내일 미세먼지, 모래 미세먼지, 오늘 초미세먼지, 내일 초미세먼지, 모래 초미세먼지 정보가 주어짐.
@@ -105,7 +124,7 @@ public class FinedustController {
 			com.weather.finedust.dto.Item tomorrow25 = dp.response.body.items.get(5);
 
 			// index 0부터 지역,등급 번갈아나옴. : 서울, 제주, 전남, 전북, 광주, 경남, 경북, 울산, 대구, 부산, 충남, 충북, 세종,
-			// 대전, 영동, 영서, 경기남부, 경기북부, 인천 순. (예 : index1 : 서울의 등급) 파싱하여 배열로 넘김.
+			// 대전, 영동, 영서, 경기남부, 경기북부, 인천 순. (예 : index0 : 서울, 1 : 서울의 '등급') 파싱하여 배열로 넘김.
 			String[][] dustGrades = new String[6][];
 			dustGrades[0] = yesterday10.informGrade.split("\\s*(,|\\:)\\s*");
 			dustGrades[1] = today10.informGrade.split("\\s*(,|\\:)\\s*");
@@ -114,10 +133,23 @@ public class FinedustController {
 			dustGrades[4] = today25.informGrade.split("\\s*(,|\\:)\\s*");
 			dustGrades[5] = tomorrow25.informGrade.split("\\s*(,|\\:)\\s*");
 			model.addAttribute("dustGrades", dustGrades);
-			
-			
+		} catch (HttpStatusCodeException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}catch (UnknownContentTypeException e) {
+			if (keyIndex < 4) {
+				dustForecast(model, keyIndex + 1);
+			} else {
+				throw e;
+			}
+		}
+	}
 
-			// [3] 사진 api 부분. > 17시 기준으로 데이터를 제공해줌. > 어제, 오늘, 내일 데이터를 받아오게 변경함.
+	//에어코리아에서 자체 제공하는 미세먼지, 초미세먼지 예측도(어제~내일의 오전/오후)
+	private void forecastPicture(Model model) {
+		try {
+			// [3] 사진 api 부분. 17시 기준으로 데이터를 제공.
 			// 10:미세먼지, 25:초미세먼지.
 			String yesterdayAm10Image = UrlMaker.dustPictureUrl(twoDaysAgo, twoDaysAgo, twoDaysAgo, "am", 10);
 			String yesterdayPm10Image = UrlMaker.dustPictureUrl(twoDaysAgo, twoDaysAgo, yesterday, "pm", 10);
@@ -145,9 +177,8 @@ public class FinedustController {
 			model.addAttribute("tomorrowPm10Image", tomorrowPm10Image);
 			model.addAttribute("tomorrowAm25Image", tomorrowAm25Image);
 			model.addAttribute("tomorrowPm25Image", tomorrowPm25Image);
-
-		} catch (URISyntaxException e) {
-
+		} catch (HttpStatusCodeException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -22,16 +22,29 @@ button:active {
 	margin: auto;
 }
 
+#titleBox{
+	width : 1200px;
+	height : 50px;
+	text-align : center;
+	font-size : 24px;
+}
+
+#title{
+	margin-top : 5px;
+	display: inline-block;
+}
+
 #contentBox {
 	width: 1200px;
 	height: 650px;
 	position: relative;
 	margin: 0 auto;
+	border: 1px solid black;
 }
 
 #mapBox {
-	width: 600px;
-	height: 650px;
+	width: 598px;
+	height: 648px;
 	position: relative;
 	float: left;
 	background-color: #ffffff;
@@ -43,16 +56,18 @@ button:active {
 
 #menuButton {
 	position: absolute;
-	top: 10px;
+	top: 8px;
 	left: 10px;
-	z-index: 3;
+	z-index: 10;
+	border-radius: 5px;
 }
 
 #regionPopupButtons {
 	position: absolute;
 	top: 10px;
 	left: 10px;
-	z-index: 3;
+	z-index: 10;
+	border-radius: 5px;
 }
 
 #map {
@@ -63,7 +78,7 @@ button:active {
 }
 
 #graphBox {
-	width: 50%;
+	width: 48%;
 	height: 100%;
 	float: right;
 	justify-content: center;
@@ -88,6 +103,7 @@ button:active {
 
 .buttonGroup button {
 	margin-right: 5px;
+	border-radius: 5px;
 }
 
 #regionButtonBox {
@@ -164,12 +180,14 @@ button:active {
 	gap: 5px;
 	display: none;
 	background-color: white;
+	
 }
 
 #regionButtons button {
 	width: 100%;
 	padding: 5px;
 	margin: 2px 2px;
+	border-radius: 5px;
 }
 
 #resultImageContainer {
@@ -200,5 +218,27 @@ button:active {
 
 #sourceExplainBox{
 	text-align : right;
-	border-top: 1px solid black;
+}
+
+#mapInfo{
+	position: absolute;
+    top: 8px;
+    right: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    z-index: 9999;
+}
+
+#whiteBox{
+	position: absolute;
+	width : 200px;
+	height : 40px;
+    top: 9px;
+    left: 10px;
+    background-color: #fff;
+    padding: 10px;
+    z-index: 5;
+    display : none;
 }
