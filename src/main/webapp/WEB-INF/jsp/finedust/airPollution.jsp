@@ -5,82 +5,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
-<head>
 
+<head>
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <!-- Echarts -->
-<script
-	src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-<!-- 상단부 스타일 -->
-<link rel="stylesheet" href="/static/css/finedustStyle.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-
+<script	src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <!-- 카카오지도 -->
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd"></script>
-
-<!-- <script -->
-<!-- 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd&libraries=services,clusterer,drawing"></script> -->
-<!-- <script src="/static/js/drawPolygon.js"></script> -->
-
-
-<style>
-/* 스타일링을 위한 간단한 CSS */
-button {
-	margin: 5px;
-	padding: 10px;
-	cursor: pointer;
-}
-</style>
-
-
-<!-- 버튼스타일 -->
-<style>
-button {
-	padding: 10px 20px;
-	font-size: 16px;
-	cursor: pointer;
-	border: none;
-	border-radius: 5px;
-	background-color: #007bff; /* 파랑색 배경 */
-	color: #fff; /* 흰색 텍스트 */
-	margin: 5px;
-}
-
-/* 버튼 호버 효과 */
-button:hover {
-	background-color: #0056b3; /* 진한 파랑색 배경 */
-}
-
-/* 버튼 클릭 효과 */
-button:active {
-	background-color: #004080; /* 더 진한 파랑색 배경 */
-}
-</style>
-
-<style>
-.flex-container {
-	display: flex;
-	justify-content: space-around; /* 이미지들을 가운데로 정렬 */
-	gap: 20px; /* 각 이미지 사이의 간격 */
-}
-
-.flex-item {
-	text-align: center;
-}
-</style>
-
+<script type="text/javascript"src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2a73f16f9f1ea4f2552915a06073cfd"></script>
+<!-- 상단부 스타일 -->
+<link rel="stylesheet" href="/static/css/finedustStyle.css"	type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"	crossorigin="anonymous">
 
 <meta charset="UTF-8">
 <title>우리 날씨 - 대기오염</title>
 </head>
-<body>
 
+<body>
 	<div id="pageBox">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<div id="contentBox">
@@ -106,13 +48,16 @@ button:active {
 				</div>
 				<div id="map"></div>
 				<div id="resultImageContainer">
-					<img id="resultImage" src="" alt="Result Image">
-
+					<img id="resultImage" src="" alt="이미지가 아직 없습니다.">
 				</div>
 			</div>
 			<div id="graphBox">
 				<div id="regionButtonBox">
 					<button id="regionPopupButtons" onclick="openRegionPopup()">지역선택</button>
+					<div id="graphTitle">
+						<span>현재 대기 상태</span>
+					</div>
+
 					<div id="regionButtons">
 						<button onclick="updateCharts(14);">강원</button>
 						<button onclick="updateCharts(15);">경기</button>
@@ -173,21 +118,34 @@ button:active {
 						<span>통합대기</span>
 					</div>
 				</div>
+
+				<div id="gradeTableBox">
+					<img src="/static/image/airGradeTable.jpg" id="gradeTable" alt="등급표">
+				</div>
 			</div>
 		</div>
+		<div id="sourceExplainBox">
+			<span>자료 출처 - 에어코리아</span>
+		</div>
 	</div>
+	
+	<c:import url="/WEB-INF/jsp/include/footer.jsp" />
+	
 
-	<%
-	String[][] todayAirs = (String[][]) request.getAttribute("todayAirs");
-	String[][] dustGrades = (String[][]) request.getAttribute("dustGrades");
-	Gson gson = new Gson();
-	String jsonTodayAirs = gson.toJson(todayAirs);
-	String jsonDustGrades = gson.toJson(dustGrades);
-	%>
+
+	
 
 	<script>
-		let polygons = [];
+		//사용할 api 데이터 Json 형태로 만듦
+		<%
+		String[][] todayAirs = (String[][]) request.getAttribute("todayAirs");
+		String[][] dustGrades = (String[][]) request.getAttribute("dustGrades");
+		Gson gson = new Gson();
+		String jsonTodayAirs = gson.toJson(todayAirs);
+		String jsonDustGrades = gson.toJson(dustGrades);
+		%>
 
+		//지역 선택버튼 팝업
 		function openRegionPopup() {
 			let regionPopup = document.getElementById("regionButtons");
 			if (regionPopup.style.display === "grid") {
@@ -197,6 +155,7 @@ button:active {
 			}
 		}
 
+		//지도 위 메뉴버튼 팝업
 		function openMenuPopup() {
 			let menuPopup = document.getElementById("buttonBox");
 			if (menuPopup.style.display === "grid") {
@@ -205,7 +164,11 @@ button:active {
 				menuPopup.style.display = "grid";
 			}
 		}
-
+		
+		
+		let polygons = [];
+		
+		//에어코리아에서 제공하는 예측도와, 에어코리아에서 제공하는 데이터를 기반으로 그린 폴리곤 지도를 토글하는 기능
 		function toggleView() {
 
 			let button = document.activeElement;
@@ -220,24 +183,23 @@ button:active {
 					.getElementById('resultImageContainer');
 
 			if (mapContainer.style.display === 'none') {
-				mapContainer.style.display = 'block'; // 맵 보이기
-				resultImageContainer.style.display = 'none'; // 결과 이미지 숨기기
+				mapContainer.style.display = 'block';
+				resultImageContainer.style.display = 'none';
 
-				// 폴리곤 다시 지도에 추가
 				for (let i = 0; i < polygons.length; i++) {
 					polygons[i].setMap(map);
 				}
 			} else {
-				mapContainer.style.display = 'none'; // 맵 숨기기
-				resultImageContainer.style.display = 'block'; // 결과 이미지 보이기
+				mapContainer.style.display = 'none';
+				resultImageContainer.style.display = 'block';
 
-				// 폴리곤 숨기기
 				for (let i = 0; i < polygons.length; i++) {
 					polygons[i].setMap(null);
 				}
 			}
 		}
 
+		//에어코리아에서 제공하는 예측도 api
 		let todayAm10ImageUrl = "${todayAm10Image}";
 		let todayAm25ImageUrl = "${todayAm25Image}";
 		let todayPm10ImageUrl = "${todayPm10Image}";
@@ -251,21 +213,25 @@ button:active {
 		let tomorrowPm10ImageUrl = "${tomorrowPm10Image}";
 		let tomorrowPm25ImageUrl = "${tomorrowPm25Image}";
 
-		let imagePath = ""; // 초기 이미지 경로
-		let searchDate = "today"; // 기본값 오늘로 설정
-		let searchTime = "Am"; // 기본값 오전으로 설정
-		let searchDust = "10"; // 기본값 미세먼지로 설정
-
+		//버튼에 따라 변수들이 바뀌고, 이 변수값들을 합쳐 불러올 이미지를 지정.
+		let imagePath = "";
+		let searchDate = "today";
+		let searchTime = "Am";
+		let searchDust = "10";
+		
+		//어제, 오늘, 내일 버튼
 		function updateImageDate(value) {
 			searchDate = value;
 			updateResultImage();
 		}
 
+		//오전, 오후 버튼
 		function updateImageTime(value) {
 			searchTime = value;
 			updateResultImage();
 		}
-
+		
+		//미세먼지, 초미세먼지 버튼
 		function updateImageDust(value) {
 			searchDust = value;
 			updateResultImage();
@@ -273,6 +239,7 @@ button:active {
 
 		let search;
 
+		//위의 버튼값을 토대로 불러올 이미지를 결정.
 		function updateResultImage() {
 			imagePath = searchDate + searchTime + searchDust + "ImageUrl";
 			search = searchDate + searchDust;
@@ -280,12 +247,10 @@ button:active {
 			document.getElementById("resultImage").src = eval(imagePath);
 		}
 
-		let airData =
-	<%=jsonTodayAirs%>
-		;
-		let dustData =
-	<%=jsonDustGrades%>
-		;
+		
+		//airData : 금일 대기정보 api, dustData : 어제~내일의 미세먼지, 초미세먼지 등급예보 api.
+		let airData =<%=jsonTodayAirs%>;
+		let dustData =<%=jsonDustGrades%>;
 
 		//차트를 한번에 업데이트
 		function updateCharts(cityIndex) {
@@ -305,7 +270,7 @@ button:active {
 			let dust25Grade = airData[cityIndex][10];
 			let AQIGrade = airData[cityIndex][12];
 
-			//도넛 차트에서 칠할 비율을 계산
+			//도넛 차트에서 칠할 비율을 계산. remain은 남은부분. 연한색으로 칠하기위해 따로 저장
 			let SO2Ratio = (SO2Data / 0.15) * 100;
 			if (SO2Ratio >= 100) {
 				SO2Ratio = 100;
@@ -348,38 +313,36 @@ button:active {
 			}
 			let dust25Remain = 100 - dust25Ratio;
 
+			//각 차트를 업데이트
 			updateChart('SO2', SO2Data, SO2Ratio, SO2Remain, SO2Grade);
 			updateChart('CO', COData, CORatio, CORemain, COGrade);
 			updateChart('NO2', NO2Data, NO2Ratio, NO2Remain, NO2Grade);
 			updateChart('O3', O3Data, O3Ratio, O3Remain, O3Grade);
 			updateChart('AQI', AQIData, AQIRatio, AQIRemain, AQIGrade);
-			updateChart('dust10', dust10Data, dust10Ratio, dust10Remain,
-					dust10Grade);
-			updateChart('dust25', dust25Data, dust25Ratio, dust25Remain,
-					dust25Grade);
-			console.log(dust10Data);
-			console.log(dust25Data);
-			console.log(dust10Grade);
-			console.log(dust25Grade);
+			updateChart('dust10', dust10Data, dust10Ratio, dust10Remain, dust10Grade);
+			updateChart('dust25', dust25Data, dust25Ratio, dust25Remain, dust25Grade);
 
+			//지역을 선택하면, 지역선택창이 닫히도록함.
 			let regionPopup = document.getElementById("regionButtons");
 			regionPopup.style.display = "none";
 		}
 
+		
 		//각 차트 업데이트하는 함수
 		function updateChart(chemical, data, ratio, remain, grade) {
 
-			//차트 색 결정
 			let gradeColor;
 			let otherColor;
 			let textSize;
 
+			//미세먼지, 초미세먼지 라벨 글씨크기를 크게만듦.
 			if (chemical === 'dust10' || chemical === 'dust25') {
 				textSize = 30;
 			} else {
 				textSize = 16;
 			}
 
+			//api에서 얻은 등급에 따라 도넛 그래프의 색을 지정
 			if (grade == '좋음') {
 				gradeColor = '#32A1FF'; //파랑
 				otherColor = '#CEE5FD';
@@ -394,6 +357,7 @@ button:active {
 				otherColor = '#F4CCCC';
 			}
 
+			//그래프 생성
 			let option = {
 				legend : {
 					show : false,
@@ -445,29 +409,24 @@ button:active {
 			let dom = document.getElementById("chartContainer" + chemical);
 			let myChart = echarts.init(dom);
 			myChart.setOption(option);
-
 		}
 
 		//카카오 지도 그리기.
 		function loadMapAndPolygons(search) {
 			let map = new kakao.maps.Map(document.getElementById('map'), {
-				center : new kakao.maps.LatLng(35.9078, 127.7669), // 대한민국의 중심 좌표
-				level : 13, // 기본 배율 (대한민국 전체가 보이도록 조정)
-				draggable : false, // 이동 기능 비활성화
-				scrollwheel : false, // 확대/축소 기능 비활성화
+				center : new kakao.maps.LatLng(35.9078, 127.7669),
+				level : 13,
+				draggable : false,
+				scrollwheel : false,
 				disableDoubleClickZoom : true
-			// 더블클릭으로 확대 기능 비활성화
 			});
 
-			// JSON 파일 로드
+			// 지역별로 그린 폴리곤 좌표 배열을 담은 JSON 파일 불러오기.
 			$.getJSON("/static/json/mapPolygon.json", function(data) {
-				// JSON 데이터에서 features 배열 추출
 				let features = data.features;
-
-				// 폴리곤 배열 초기화
 				let polygons = [];
 
-				//오늘 미세먼지로 시험색상
+				//각 폴리곤을 칠할때 참조할 데이터 배열 dustData의 index를 결정
 				let timeIndex;
 				if (search == 'yesterday10') {
 					timeIndex = 0;
@@ -482,11 +441,13 @@ button:active {
 				} else if (search == 'tomorrow25') {
 					timeIndex = 5;
 				}
-				// 각 feature에 대해 폴리곤 생성
+
 				for (let i = 0; i < features.length; i++) {
 					let feature = features[i];
-					let coordinates = feature.geometry.coordinates[0]; // 다각형의 첫 번째 좌표 배열만 사용
-					let properties = feature.properties; // feature의 properties 가져오기
+					let coordinates = feature.geometry.coordinates[0];
+					
+					//json 파일 내 properties에서 각 도시별로 지정한 index를 불러옴.
+					let properties = feature.properties;
 					let index = properties.INDEX;
 
 					let grade = dustData[timeIndex][2 * (index) + 1];
@@ -501,38 +462,31 @@ button:active {
 						gradeColor = '#E64746'; //빨강
 					}
 
-					// 폴리곤 좌표 배열 초기화
 					let polygonCoords = [];
 
-					// 각 좌표에 대해 폴리곤 좌표 배열에 추가
 					for (let j = 0; j < coordinates.length; j++) {
 						let coord = coordinates[j];
-						polygonCoords.push(new kakao.maps.LatLng(coord[1],
-								coord[0]));
+						polygonCoords.push(new kakao.maps.LatLng(coord[1],coord[0]));
 					}
 
-					// 폴리곤 생성
-					let fillColor = gradeColor;
-
+					//폴리곤을 생성 후 등급에 따라 색을 칠함.
 					let polygon = new kakao.maps.Polygon({
 						path : polygonCoords,
 						strokeWeight : 1,
 						strokeColor : '#000000',
 						strokeOpacity : 0.8,
 						strokeStyle : 'solid',
-						fillColor : fillColor, // 색상 설정
+						fillColor : gradeColor,
 						fillOpacity : 0.7
 					});
 
-					// 폴리곤 지도에 추가
 					polygon.setMap(map);
-
-					// 폴리곤 배열에 추가
 					polygons.push(polygon);
 				}
 			});
 		};
 
+		//서울기준 도넛그래프, 오늘오전 미세먼지 예측도, 오늘오전 미세먼지 폴리곤지도를 페이지 로딩시 불러옴.
 		window.onload = function() {
 			updateCharts(0);
 			updateResultImage();
