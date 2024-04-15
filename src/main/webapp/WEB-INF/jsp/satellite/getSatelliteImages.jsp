@@ -10,10 +10,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="/static/css/getSatelliteImages.css"
-	type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/echarts@latest/dist/echarts.min.js"></script>
+<link rel="stylesheet" href="/static/css/getSatelliteImages.css" type="text/css">
 <title>우리 날씨 - 위성 이미지</title>
 
 </head>
@@ -84,36 +85,7 @@
 	String selectedMediaType = request.getParameter("mediaType");
 	%>
 
-	<div class="navbar">
-		<div>
-			<a href="/weather/main/view"><img src="/static/image/logo.png" id="Logo"
-				alt="왼쪽 이미지"></a>
-		</div>
-		<div>
-			<h1>우리 날씨</h1>
-		</div>
-		<div class="login-container">
-			<div>
-				<a href=""><button class="login-button">로그인</button></a>
-			</div>
-			<div>
-				<a href="/user/signin/view" class="LoginOption">아이디 찾기</a> <a href="/"
-					class="LoginOption">비밀번호 찾기</a> <a href="/user/signup"
-					class="LoginOption">회원가입</a>
-			</div>
-		</div>
-	</div>
-
-	<div id="box">
-		<div id="top">
-			<div id="mid_content">
-				<span><a href="index.html" class="Menu">지역 날씨</a></span> <span><a
-					href="/" class="Menu">세계 날씨</a></span> <span><a href="/"
-					class="Menu">미세먼지</a></span> <span><a
-					href="/satellite/getSatelliteImages" class="Menu">위성영상</a></span> <span><a
-					href="/" class="Menu_except">날씨 앱</a></span>
-
-			</div>
+	<c:import url="/WEB-INF/jsp/include/header.jsp" />
 
 			<div id="main">
 				<div id="main_title">
@@ -217,17 +189,15 @@
 				<!-- 위성 이미지 출력 div -->
 				<div id="satelliteImages"
 					data-setss="${satellite.response.body.items.item.get(0).satImgCFile}">
-					<div id="alertMessage">조회 버튼을 눌러 조회하고싶은 시간대와 이미지 종류를 선택하십시오.</div>
+					<div id="alertMessage">조회 버튼을 눌러 조회하고싶은 시간대와 이미지 종류를 선택하십시오.<br>현재 시간 기준 9시간 10분 전(<%=formatTime %>)까지의 정보만 제공됩니다.</div>
 					<br>
-					<img id="defaultImage" src="/static/image/pet.png">
+					<img id="defaultImage" src="/static/image/Satellite.png">
 					<img id="response" src="">
 				</div>
 			</div>
 		</div>
 	</div>
-	<div id="bot">
-		<pre>@Error404: Team Not Found Corp.</pre>
-	</div>
+	<c:import url="/WEB-INF/jsp/include/footer.jsp" />
 	<script>	
 	$(document).ready(function() {
 		// 조회 버튼 클릭 시 이미지 URL 업데이트
@@ -236,6 +206,7 @@
 	   	    event.preventDefault();
 	   	
 	   	 	$('#submitForm').submit();
+	   	 	
 	    });
 		
 	 	// 어제 버튼 클릭 시 이미지 URL 업데이트
@@ -308,24 +279,20 @@
    		var selectedDate = "<%=selectedDate%>"; // 사용자가 선택한 날짜
    		var selectedTime = "<%=selectedTime%>"; // 사용자가 선택한 시간
 
-			var matchedUrl = urls.find(function(url) {
-				return url.includes(selectedDate + selectedTime);
-			});
+		var matchedUrl = urls.find(function(url) {
+			return url.includes(selectedDate + selectedTime);
+		});
 
-			if (matchedUrl) {
-				$('#response').attr('src', matchedUrl + "?timestamp=" + new Date().getTime());
-				$('#defaultImage').hide();
-				$('#alertMessage').hide(); // 이미지가 있으므로 경고 메시지 숨김
-			} else {
-				$('#response').hide(); // 기존 이미지 숨김
-				$('#alertMessage').text('조회 버튼을 눌러 검색하실 시간대를 선택해주세요.').show(); // 경고 메시지 표시
-				// 첫 페이지 로드 시에는 경고 대화 상자가 표시되지 않도록 조건 추가
-				if (selectedDate && selectedTime) {
-					alert("선택하신 시간대의 위성이미지가 아직 업데이트되지 않았습니다.\n다른 시간대를 선택해주세요.");
-				}
-			}
-
-		}
+	    if (matchedUrl) {
+	        $('#response').attr('src', matchedUrl + "?timestamp=" + new Date().getTime());
+	        $('#defaultImage').hide();
+	        $('#alertMessage').hide(); // 이미지가 있으므로 경고 메시지 숨김
+	    } else if(!selectedDate || !selectedTime){
+	        // 날짜와 시간이 설정되지 않았을 경우, 초기 경고창과 메시지를 표시하지 않음
+		    $('#response').hide();
+	        $('#alertMessage').text('조회 버튼을 눌러 검색하실 시간대를 선택해주세요.\n현재 시간 기준 9시간 10분 전(' + nineTenMinusTime +')의 이미지가 최신 정보입니다.').show(); // 경고 메시지 표시
+	    }
+	}
 
 		document.addEventListener("DOMContentLoaded", function() {
 			loadImageAfterSubmit();
