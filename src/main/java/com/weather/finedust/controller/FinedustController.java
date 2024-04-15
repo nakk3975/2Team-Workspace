@@ -45,7 +45,7 @@ public class FinedustController {
 			LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
 			LocalDateTime twoDaysAgo = LocalDateTime.now().minusDays(2);
 
-			// [1] 금일 정보 api 부분. 이차원 배열 형태로 보냄.
+			// [1] 금일 정보 api 부분. 사용할 데이터만 이차원 배열 형태로 보냄.
 			// 0:서울, 1:제주, 2:전남, 3:전북, 4:광주, 5:경남, 6:경북, 7:울산, 8:대구, 9:부산, 10:충남, 11:충북,
 			// 12:세종, 13:대전, 14:강원, 15:경기, 16:인천
 			String[] cities = { "서울", "제주", "전남", "전북", "광주", "경남", "경북", "울산", "대구", "부산", "충남", "충북", "세종", "대전",
