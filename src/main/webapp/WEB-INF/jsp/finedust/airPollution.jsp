@@ -140,7 +140,7 @@
 	
 
 	<script>
-		//사용할 api 데이터 Json 형태로 만듦
+		//사용할 api 데이터 Json 형태로 만듦 (ajax 를 사용하지 않고, 자바 내장 Future 클래스를 사용하여 배열로 만들어 넘겼음.)
 		<%
 		String[][] todayAirs = (String[][]) request.getAttribute("todayAirs");
 		String[][] dustGrades = (String[][]) request.getAttribute("dustGrades");
@@ -228,14 +228,14 @@
 			}
 			
 			if(searchDust == '10'){
-				dustInfo ='미세먼지';
+				dustInfo ='미세먼지 ';
 			}else{
-				dustInfo ='초미세먼지';
+				dustInfo ='초미세먼지 ';
 			}
 			
 			let info = dateInfo + timeInfo + dustInfo;
 			
-			mapInfo.innerHTML = "<span>"+info+"</span>"
+			mapInfo.innerHTML = "<span>"+info+"예측도"+"</span>"
 		}
 		
 		
