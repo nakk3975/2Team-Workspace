@@ -1,8 +1,7 @@
 package com.weather.finedust.controller;
-
 public class AirGradeCalculator {
-	
-	public static String calculateSO2Grade(double value) {
+
+    public static String calculateSO2Grade(double value) {
         if (value <= 0.020) {
             return "좋음";
         } else if (value <= 0.050) {
