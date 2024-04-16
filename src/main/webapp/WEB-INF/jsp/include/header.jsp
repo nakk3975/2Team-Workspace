@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<head>
+	<link rel="stylesheet" href="/static/css/style.css" type="text/css">
+</head>
 <header class="navbar">
 	<div>
       <!-- 왼쪽 이미지 -->
@@ -39,12 +42,12 @@
 <div id="box">
 	<div id="top">
     	<nav id="midContent main-menu col-8 pt-3">
-			<ul class="nav justify-content-around bg-warning">
-				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">지역날씨</a></li>
+			<ul class="nav justify-content-around">
+				<li class="nav-item"><a href="/weather/main/view" class="nav-link font-weight-bold">지역날씨</a></li>
 				<li class="nav-item"><a href="/weather/world/view" class="nav-link font-weight-bold">세계날씨</a></li>
 				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">미세먼지</a></li>
 				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">위성영상</a></li>
-				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">날씨 앱</a></li>
+				<li class="nav-item"><a href="/app/introduce" class="nav-link font-weight-bold">날씨 앱</a></li>
 			</ul>
 		</nav>
 	</div>

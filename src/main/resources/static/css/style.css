@@ -63,13 +63,23 @@ div {
 }
 
 #box {
-  /* background-color: brown; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+	background-color:  rgba(135, 206, 235, 0.4);
+	
 }
 
+#box a:visited {
+    color: #0000FF/* 방문한 링크의 색상 */;
+}
+
+/* 클릭한 링크 */
+#box a:active {
+    color: #0000FF/* 클릭한 링크의 색상 */;
+}
+
+/* 마우스를 올린 링크 */
+#box a:hover {
+    color: rgba(0, 102, 204, 0.4);/* 마우스를 올린 링크의 색상 */;
+}
 
 #menuExcept {
   padding: 8px 70px 8px 70px;
@@ -804,3 +814,4 @@ button {
   position: relative;
   top: -5px;
 } */
+

@@ -75,9 +75,24 @@ public class UserController {
 		
 		return "redirect:/user/signin/view";
 	}
-	
+	// 마이페이지 진입
 	@GetMapping("/myPage/view")
-	public String myPage() {
+	public String myPage(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.getAttribute("userId");
+		session.getAttribute("userName");
+		session.getAttribute("userEmail");
 		return "user/mypage";
+	}
+	// 마이페이지 수정 페이지 진입
+	@GetMapping("/myPage/modify")
+	public String myPageModify(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.getAttribute("userNo");
+		session.getAttribute("userId");
+		session.getAttribute("userName");
+		session.getAttribute("userEmail");
+		
+		return "user/mypageModify";
 	}
 }
