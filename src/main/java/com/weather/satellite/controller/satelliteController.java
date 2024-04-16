@@ -19,7 +19,7 @@ public class satelliteController {
 	@GetMapping("/getSatelliteImages")
 	public String getSatelliteImages(Model model,
 			@RequestParam(value = "date", required = false)String receivedDate,
-			@RequestParam(value = "mediaType", required = false)String mediaType) {
+			@RequestParam(value = "media_type", required = false)String mediaType) {
 		
 		// 인코딩 인증키
 		String API_KEY = "SW%2B5pKGzSgxkkJeryeK9fDYT4XzTiNTgsgOqTRrx3xuxsO4kT7vcDilIqs7VmmkTGVsXAv919McNuZIbnc3uGw%3D%3D";
