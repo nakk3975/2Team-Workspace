@@ -1602,7 +1602,7 @@
 			"CTPRVN_CD": "41",
 			"CTP_ENG_NM": "Gyeonggi-do",
 			"SIG_KOR_NM": "경기",
-			"INDEX": "16"
+			"INDEX": "15"
 		}
 	}, {
 		"type": "Feature",
@@ -4184,7 +4184,7 @@
 			"CTPRVN_CD": "28",
 			"CTP_ENG_NM": "Incheon",
 			"SIG_KOR_NM": "인천",
-			"INDEX": "18"
+			"INDEX": "16"
 		}
 	}, {
 		"type": "Feature",

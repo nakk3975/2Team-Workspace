@@ -35,7 +35,6 @@ public class Item {
     public String informOverall;
     public String informData;
     public String informGrade;
-//    public String dataTime;
     public Object imageUrl3;
     public Object imageUrl2;
     public Object imageUrl1;
