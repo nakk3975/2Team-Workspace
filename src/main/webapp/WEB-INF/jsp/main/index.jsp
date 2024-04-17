@@ -1,19 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>우리 날씨</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
-   	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/echarts@latest/dist/echarts.min.js"></script>
-	<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=vzqhpvb94n"></script>
-	
-	<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@latest/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=vzqhpvb94n"></script>
+
+<link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
@@ -22,26 +22,32 @@
 		<section class="d-flex mt-3">
 			<article class="col-9">
 				<div>
-					<div id="day">
-						
-					</div>
 					<div id="week">
 						<h4>주간 예보</h4>
-						<div id="location">
-							<select id="citySelect">
-	                            <!-- 도시 옵션은 스크립트에서 동적으로 추가됩니다 -->
-	                        </select>
-	                        <select id="districtSelect">
-	                            <!-- 구 옵션은 스크립트에서 동적으로 추가됩니다 -->
-	                        </select>
-	                        <button id="searchButton">조회</button>
+						<div id="location" class="d-flex">
+							<select id="citySelect" class="form-control" style="width: 80%">
+								<!-- 도시 옵션은 스크립트에서 동적으로 추가됩니다 -->
+							</select> <select id="districtSelect" class="form-control"
+								style="width: 80%">
+								<!-- 구 옵션은 스크립트에서 동적으로 추가됩니다 -->
+							</select>
+							<button id="searchButton" class="btn btn-primary">조회</button>
+						</div>
+						<div id="weeklyWeather">
+							<div id="nowTime">
+								
+							</div>
+							<div id="nowWeather">
+							</div>
+							<div id="weeklyForecast">
+							</div>
 						</div>
 					</div>
 				</div>
 			</article>
 			<aside class="col-3">
 				<h4 class="text-center">전국 날씨</h4>
-				<div id="map" style="width:100%;height:350px;"></div>
+				<div id="map" style="width: 100%; height: 350px;"></div>
 				<div id="mapDetail" class="mt-3 pt-2 pb-2"></div>
 			</aside>
 		</section>
@@ -90,8 +96,269 @@
 		        $('#districtSelect').append(new Option(defaultDistricts[i], defaultDistricts[i]));
 		    }
 		});
+		
+		function getFutureDate(dayOffset) {
+		    let date = new Date();
+		    date.setDate(date.getDate() + dayOffset);
+		    let month = date.getMonth() + 1; // JavaScript의 getMonth()는 0부터 시작합니다.
+		    let day = date.getDate();
+		    let dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()]; // JavaScript의 getDay()는 일요일부터 시작합니다.
+		    return month + "/" + day + "(" + dayOfWeek + ")";
+		}
 
+		function getWeatherIcon(weather) {
+		    // 눈발, 흐림, 구름_많음, 폭우, 맑은하늘
+			// - 맑음
+			// - 구름많음, 구름많고 비, 구름많고 눈, 구름많고 비/눈, 구름많고 소나기
+			// - 흐림, 흐리고 비, 흐리고 눈, 흐리고 비/눈, 흐리고 소나기
 
+		    if (weather === "맑음") {
+		        return "/static/image/맑은하늘.png";
+		    } else if (weather === "구름많음") {
+		        return "/static/image/구름_많음.png";
+		    } else if (weather == "흐림") {
+		        return "/static/image/흐림.png";
+		    } else if(weather == "구름많고 비" || weather == "구름많고 비/눈" || weather == "구름많고 소나기"){
+		        return "/static/image/폭우.png";
+		    } else {
+		    	return "/static/image/눈발.png";
+		    }
+		}
+		
+		$("#searchButton").click(function(){
+			var city = $("#citySelect").val();
+		    var district = $("#districtSelect").val();
+		    var address = city + " " + district;
+		    $("#weeklyWeather").show();
+		    $.ajax({		        url: "/weather/searchAddress",
+		        type: "GET",
+		        data: {"address": address},
+		        success: function(data){
+		        	var json = JSON.parse(data);
+
+		            // 위도와 경도를 가져옵니다.
+		            var latlng = {
+		                _lat: json.addresses[0].y,
+		                _lng: json.addresses[0].x
+		            };
+
+		            // 위도와 경도를 격자 좌표로 변환합니다.
+		            var grid = returnLatLng(latlng);
+		            
+		         	// 현재 날짜와 시간을 가져오기
+					let now = new Date();
+					let base_date = now.getFullYear().toString() + (now.getMonth() + 1).toString().padStart(2, '0') + now.getDate().toString().padStart(2, '0');  // 'YYYYMMDD' 형식의 오늘 날짜
+
+					// API 제공 시간에 맞춰 base_time 설정
+					let baseTimes = [2, 5, 8, 11, 14, 17, 20, 23];
+					let currentHour = now.getHours();
+					let base_time;
+					for (let i = baseTimes.length - 1; i >= 0; i--) {
+						if (currentHour >= baseTimes[i]) {
+							base_time = (baseTimes[i] < 10 ? '0' : '') + baseTimes[i] + '00';
+							break;
+						}
+					}
+
+					$.ajax({
+					    url: "/weather/midTa",
+					    type: "GET",
+					    data:{"city":city, "base_date":base_date},
+					    success: function(data) {
+					    	let taJson = JSON.parse(data);
+					        let taItems = taJson.response.body.items.item;
+				            
+					        $.ajax({
+							    url: "/weather/mid",
+							    type: "GET",
+							    data:{"city":city, "base_date":base_date},
+							    success: function(data) {
+							    	let midJson = JSON.parse(data);
+							        let midItems = midJson.response.body.items.item;
+				                    let taItem = taItems[0];
+				                    let midItem = midItems[0];
+				                    for(let i = 3; i <= 7; i++) {
+				                        let dateDisplay = getFutureDate(i); // i일 후의 날짜를 가져옵니다.
+				                        let forecastDiv = $("<div class='day-weather'>");
+				                        forecastDiv.append($("<div>").text(dateDisplay));
+
+				                        forecastDiv.append($("<img>").attr("src", getWeatherIcon(midItem["wf"+i+"Am"])).addClass("now-weather-icon"));
+				                        forecastDiv.append($("<img>").attr("src", getWeatherIcon(midItem["wf"+i+"Pm"])).addClass("now-weather-icon"));
+				                        forecastDiv.append($("<div>").text("강수 확률: " + midItem["rnSt"+i+"Am"] + "% / " + midItem["rnSt"+i+"Pm"] + "%"));
+				                        forecastDiv.append($("<div>").text("최저/최고 기온: " + taItem["taMin"+i] + "° / " + taItem["taMax"+i] + "°"));
+
+				                        $('#weeklyForecast').append(forecastDiv); // 'weeklyForecast' div에 예보를 추가합니다.
+				                    }
+				                    
+				                }
+				            });
+				        }
+				    });
+
+					
+					$.ajax({
+						url: "/weather/getNowWeather",
+						type: "GET",
+						data: {"nx": grid.x,"ny": grid.y, "base_date":base_date, "base_time":base_time},
+						success: function(data) {
+							let nowJson = JSON.parse(data);
+							console.log(nowJson);
+							let nowItems = nowJson.response.body.items.item;
+							let nowWeather = "";
+							let temperature = ""; // 현재 온도
+					        let humidity = "";  // 현재 습도
+					        
+							for(let i = 0; i < nowItems.length; i++) {
+								if(nowItems[i].category == "PTY") {
+									if (nowItems[i].obsrValue == '0') {
+										nowWeather = "/static/image/흐림.png";
+						    	    } else if (nowItems[i].obsrValue == '1') {
+						    	    	nowWeather = "/static/image/폭우.png";
+						    	    } else if (nowItems[i].obsrValue == '2') {
+						    	    	nowWeather = "/static/image/눈발.png";
+						    	    } else if (nowItems[i].obsrValue == '3') {
+						    	    	nowWeather = "/static/image/눈발.png";
+						    	    } else if (nowItems[i].obsrValue == '4') {
+						    	    	nowWeather = "/static/image/폭우.png";
+						    	    } else if (nowItems[i].obsrValue == '5') {
+						    	    	nowWeather = "/static/image/폭우.png";
+						    	    } else if (nowItems[i].obsrValue == '6') {
+						    	    	nowWeather = "/static/image/눈발.png";
+						    	    }
+								} else if(nowItems[i].category == "SKY")  {
+									if (nowItems[i].obsrValue == '1') {
+										nowWeather = "/static/image/맑은하늘.png";
+						    	    } else if (nowItems[i].obsrValue == '3') {
+						    	    	nowWeather = "/static/image/구름_많음.png";
+						    	    } else if (nowItems[i].obsrValue == '4') {
+						    	    	nowWeather = "/static/image/흐림.png";
+						    	    }
+								} else if(nowItems[i].category == "T1H") {
+									temperature = nowItems[i].obsrValue;
+								} else if (nowItems[i].category == "REH") {
+									humidity = nowItems[i].obsrValue;
+								}
+							}
+					        // '#nowTime' div에 추가
+					        $('#nowTime').append($("<img>").attr("src", nowWeather).addClass("weather-icon"));
+					        $('#nowTime').append($("<div>").text("현재 온도 : " + temperature + "°").addClass("weather-temp"));
+					        $('#nowTime').append($("<div>").text("습도 " + humidity + "%"));
+						},
+					    error: function() {
+					        alert("현재 날씨 정보 에러");
+					    }
+					});
+
+					$.ajax({
+					    url: "/weather/getWeatherByAddress",
+					    type: "GET",
+					    data: {"nx": grid.x,"ny": grid.y, "base_date":base_date, "base_time":base_time},
+					    success: function(data) {
+					    	$('#nowWeather').val("");
+					    	let weatherJson = JSON.parse(data);
+					    	let addressItems = weatherJson.response.body.items.item;
+					    	
+					    	let weatherInfo = "";
+					    	let weatherByDateTime = {};
+					    	for (var i = 0; i < addressItems.length; i++) {
+					    		let item = addressItems[i];
+					    		let date = item.fcstDate; // 예측 날짜
+					    		let time = item.fcstTime; // 예측 시간
+					    		let dateTime = date + time; 
+					    	    if (!weatherByDateTime[dateTime]) {
+					    	        weatherByDateTime[dateTime] = {};
+					    	    }
+					    	    if (!weatherByDateTime[dateTime][item.category]) {
+					    	        weatherByDateTime[dateTime][item.category] = item.fcstValue;
+					    	    }
+					    	}
+					    	let dateTimes = Object.keys(weatherByDateTime).sort();
+					    	for (let i = 0; i < dateTimes.length; i++) {
+					    		let dateTime = dateTimes[i];
+					    		let weatherInfo = weatherByDateTime[dateTime];
+					    		let formattedDate = dateTime.substring(0, 8); 
+					    		let formattedTime = dateTime.substring(8, 10) + '시';
+					    		let direction = Math.floor((Number(weatherInfo.VEC) + 22.5 * 0.5) / 22.5);
+					    		let directionNames = ["북", "북북동", "동북동", "동", "동동남", "동남", "남동남", "남", "남남서", "서남서", "서", "서서북", "서북", "북서북", "북", "북북동", "북"];
+					    		let directionName = directionNames[direction];
+					    	    
+					    		let weather = "";
+					    	    if (weatherInfo.SKY == '1') {
+					    	        weather = "/static/image/맑은하늘.png";
+					    	    } else if (weatherInfo.SKY == '3') {
+					    	        weather = "/static/image/구름_많음.png";
+					    	    } else if (weatherInfo.SKY == '4') {
+					    	        weather = "/static/image/흐림.png";
+					    	    } else if (weatherInfo.PTY == '1') {
+					    	        weather = "/static/image/폭우.png";
+					    	    } else if (weatherInfo.PTY == '2') {
+					    	        weather = "/static/image/눈발.png";
+					    	    } else if (weatherInfo.PTY == '3') {
+					    	        weather = "/static/image/눈발.png";
+					    	    } else if (weatherInfo.PTY == '4') {
+					    	        weather = "/static/image/폭우.png";
+					    	    }
+
+					    	    let forecastDiv = $('<div>');
+
+					    	    // 그래프 그리기
+					    	    let chartDiv = document.createElement('div');
+					    	    chartDiv.style.width = '100%';
+					    	    chartDiv.style.height = '200px';
+					    	    forecastDiv.append(chartDiv);
+
+					    	    let chart = echarts.init(chartDiv);
+					    	    let option = {
+					    	        grid: {
+					    	            containLabel: true
+					    	        },
+					    	        xAxis: {
+					    	            type: 'category',
+					    	            data: ['Temp'],
+					    	            axisLabel: {
+					    	                show: false
+					    	            }
+					    	        },
+					    	        yAxis: {
+					    	            type: 'value',
+					    	            min:0,
+					    	            max: weatherInfo.TMP,
+					    	            axisLabel: {
+					    	                show: false 
+					    	            }
+					    	        },
+					    	        series: [{
+					    	            data: [weatherInfo.TMP],
+					    	            type: 'bar',
+					    	            label: {
+					    	                show: true,
+					    	                position: 'top'
+					    	            }
+					    	        }]
+					    	    };
+					    	    chart.setOption(option);
+
+					    	    forecastDiv.append($("<div>").text(formattedTime));
+					    	    forecastDiv.append($("<img>").attr("src", weather).addClass("weather-icon"));
+					    	    forecastDiv.append($("<div>").text(weatherInfo.TMP + "°"));
+					    	    forecastDiv.append($("<div>").text("풍향: " + directionName));
+					    	    forecastDiv.append($("<div>").text("풍속: " + weatherInfo.WSD + "m/s"));
+					    	    
+					    	    $('#nowWeather').append(forecastDiv);
+					    	
+					    	}
+					    },
+					    error: function() {
+					        alert("날씨 정보 에러");
+					    }
+					});
+
+		        },
+		        error: function(){
+		            alert("지역 좌표 불러오기 실패");
+		        }
+		    });
+		});
 	
 	</script>
 </body>
