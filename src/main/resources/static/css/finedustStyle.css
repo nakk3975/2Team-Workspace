@@ -95,7 +95,7 @@ button:active {
 
 #buttonBox {
 	position: absolute;
-	top: 75px;
+	top: 55px;
 	left: 10px;
 	width: 320px;
 	height: 150px;
@@ -181,9 +181,9 @@ button:active {
 
 #regionButtons {
 	position: absolute;
-	top: 75px;
+	top: 55px;
 	left: 10px;
-	width: 320px;
+	width: 350px;
 	height: 150px;
 	grid-template-columns: repeat(6, 1fr);
 	gap: 5px;
@@ -192,8 +192,7 @@ button:active {
 }
 
 #regionButtons button {
-	width: 100%;
-	padding: 5px;
+	padding: 3px;
 	margin: 2px 2px;
 	border-radius: 5px;
 }
