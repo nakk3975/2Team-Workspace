@@ -67,8 +67,8 @@ String userEmail = (String) session.getAttribute("userEmail");
 					, data: {"no":no, "name":name,"email":email}
 					, success: function(data){
 						if(data.result == "success"){
-							alert("수정이 완료되었습니다..");
-							location.href="/user/myPage/view";
+							alert("수정이 완료되었습니다. 다시 로그인해주십시오.");
+							location.href="/user/signout";
 						} else {
 							alert("수정 실패");
 						}
