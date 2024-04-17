@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내 정보</title>
+<title>내 정보 수정</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
    	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -17,30 +17,68 @@
 <body>
 <%
 // 세션에 저장된 속성 값 가져오기
+int userNo = (Integer) session.getAttribute("userNo");
 String userId = (String) session.getAttribute("userId");
 String userName = (String) session.getAttribute("userName");
 String userEmail = (String) session.getAttribute("userEmail");
+
 %>
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section class="contents d-flex justify-content-center">
 			<div class="join">
 				<div class="text-center">
-					<h3>마이 페이지</h3>
+				
+					<h3>수정 정보 입력</h3>
 					<hr>
 					아이디 = <%= userId %>
+					<input type = "hidden" id="userid" name="userid" value="<%=userId %>">
+					<input type = "hidden" id="userno" name="userno" value="<%=userNo %>">
 					<hr>
-					이름 = <%= userName %>
+					<label for="username">수정할 이름: </label><br>
+    				<input type="text" id="username" name="username" value="<%= userName %>"><br>
 					<hr>
-					이메일 = <%=userEmail %>
+					<label for="username">수정할 이메일: </label><br>
+    				<input type="text" id="useremail" name="useremail" value="<%= userEmail %>"><br>
 					<hr>
-					주소
-					<hr>
-					<a href="/user/myPage/modify">내 정보 수정</a>
+				
+					
+					<button type="button" id="changeBtn" class="btn btn-primary btn-block mt-3 mb-2" data-id="${userId}">정보 수정</button>
+					<a href="/user/myPage/view">마이페이지</a>
 				</div>
 			</div>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
 	</div>
+	
+	<script src="/static/js/form.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			$("#changeBtn").on("click", function() {
+				
+				let no = $("#userno").val();
+				let name = $("#username").val();
+				let email = $("#useremail").val();
+				
+				$.ajax({
+					type: "post"
+					, url: "/user/checkAndModify"
+					, data: {"no":no, "name":name,"email":email}
+					, success: function(data){
+						if(data.result == "success"){
+							alert("수정이 완료되었습니다..");
+							location.href="/user/myPage/view";
+						} else {
+							alert("수정 실패");
+						}
+					}
+					, error: function() {
+						alert("정보 수정 에러");
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>
