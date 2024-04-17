@@ -22,15 +22,15 @@ button:active {
 	margin: auto;
 }
 
-#titleBox{
-	width : 1200px;
-	height : 50px;
-	text-align : center;
-	font-size : 24px;
+#titleBox {
+	width: 1200px;
+	height: 50px;
+	text-align: center;
+	font-size: 24px;
 }
 
-#title{
-	margin-top : 5px;
+#title {
+	margin-top: 5px;
 	display: inline-block;
 }
 
@@ -57,8 +57,17 @@ button:active {
 #menuButton {
 	position: absolute;
 	top: 8px;
+	left: 105px;
+	z-index: 100;
+	border-radius: 5px;
+	display: none;
+}
+
+#toggleButton {
+	position: absolute;
+	top: 8px;
 	left: 10px;
-	z-index: 10;
+	z-index: 100;
 	border-radius: 5px;
 }
 
@@ -91,7 +100,7 @@ button:active {
 	width: 320px;
 	height: 150px;
 	gap: 5px;
-	z-index: 3;
+	z-index: 100;
 	display: none;
 }
 
@@ -180,7 +189,6 @@ button:active {
 	gap: 5px;
 	display: none;
 	background-color: white;
-	
 }
 
 #regionButtons button {
@@ -191,13 +199,30 @@ button:active {
 }
 
 #resultImageContainer {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
 	display: none;
-	position: relative;
+	background-color: white;
+	z-index: 99;
 }
 
 #resultImage {
-	width: 598px;
-	height: 648px;
+    max-width: 100%;
+    max-height: 100%;
+    display: block; /* 이미지를 블록 요소로 설정합니다. */
+    margin: auto; /* 가운데 정렬을 위해 margin을 자동으로 설정합니다. */
+    z-index : 2;
+}
+
+.alt-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index : 1;
 }
 
 #graphTitle {
@@ -206,39 +231,39 @@ button:active {
 	font-size: 24px;
 }
 
-#gradeTableBox{
-	width:100%;
-	height:40%;
-	text-align : center;
+#gradeTableBox {
+	width: 100%;
+	height: 40%;
+	text-align: center;
 }
 
-#gradeTable{
-	display : inline-block;
+#gradeTable {
+	display: inline-block;
 }
 
-#sourceExplainBox{
-	text-align : right;
+#sourceExplainBox {
+	text-align: right;
 }
 
-#mapInfo{
+#mapInfo {
 	position: absolute;
-    top: 8px;
-    right: 10px;
-    background-color: #fff;
-    padding: 10px;
-    border: 1px solid #000000;
-    border-radius: 5px;
-    z-index: 9999;
+	top: 8px;
+	right: 10px;
+	background-color: #fff;
+	padding: 10px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	z-index: 9999;
+	display: none;
 }
 
-#whiteBox{
+#mapTitle {
 	position: absolute;
-	width : 200px;
-	height : 40px;
-    top: 9px;
-    left: 10px;
-    background-color: #fff;
-    padding: 10px;
-    z-index: 5;
-    display : none;
+	top: 8px;
+	right: 10px;
+	background-color: #fff;
+	padding: 10px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	z-index: 999;
 }

@@ -33,7 +33,8 @@
 		<div id="contentBox">
 			<div id="mapBox">
 				<button id="menuButton" onclick="openMenuPopup()">메뉴</button>
-				<div id="whiteBox"></div>
+				<button id="toggleButton" onclick="toggleView(); showMenuButton(); closeMenuPopup(); toggleInfo()">예측도</button>
+				<div id="mapTitle">현황도</div>
 				<div id="mapInfo"></div>
 				<div id="buttonBox">
 					<div class="buttonGroup">
@@ -49,15 +50,14 @@
 						<button onclick="updateImageTime('Am'); showMapInfo(searchDate , 'Am', searchDust)">오전</button>
 						<button onclick="updateImageTime('Pm'); showMapInfo(searchDate , 'Pm', searchDust)">오후</button>
 					</div>
-					<div class="buttonGroup">
-						<button class="toggleButton" onclick="toggleView()">자세히</button>
-					</div>
+					
 				</div>
 				<div id="map"></div>
-				<div id="resultImageContainer">
-					<img id="resultImage" src="" alt="이미지가 아직 없습니다.">
+					<div id="resultImageContainer">
+    					<img id="resultImage" src="" alt="">
+  						<span class="alt-text">이미지가 아직 없습니다.</span>
+					</div>
 				</div>
-			</div>
 			<div id="graphBox">
 				<div id="regionButtonBox">
 					<button id="regionPopupButtons" onclick="openRegionPopup()">지역선택</button>
@@ -188,8 +188,18 @@
 				regionPopup.style.display = "grid";
 			}
 		}
+		
+		//지도 위 메뉴버튼
+		function showMenuButton(){
+			let menuButtonPopup = document.getElementById("menuButton");
+			if(menuButtonPopup.style.display == "grid"){
+				menuButtonPopup.style.display = "none";
+			} else {
+				menuButtonPopup.style.display = "grid";
+			}
+		}
 
-		//지도 위 메뉴버튼 팝업
+		//지도 위 메뉴창 팝업
 		function openMenuPopup() {
 			let menuPopup = document.getElementById("buttonBox");
 			if (menuPopup.style.display === "grid") {
@@ -199,11 +209,20 @@
 			}
 		}
 		
+		//토글버튼을 누르면 메뉴팝업창을 닫음.
+		function closeMenuPopup(){
+			let menuPopup = document.getElementById("buttonBox");
+			if (menuPopup.style.display === "grid") {
+				menuPopup.style.display = "none";
+			}
+		}
+		
 		// 선택된 지역 정보를 표시
 		function showRegionInfo(regionName) {
 		    let graphTitle = document.getElementById("graphTitle");
 		    graphTitle.innerHTML = "<span>" + regionName + '의 현재 대기상태' + "</span>";
 		}
+		
 		
 		//선택된 지도 정보를 표시
 		function showMapInfo(searchDate , searchTime, searchDust){
@@ -235,43 +254,32 @@
 			
 			let info = dateInfo + timeInfo + dustInfo;
 			
-			mapInfo.innerHTML = "<span>"+info+"예측도"+"</span>"
+		   	mapInfo.innerHTML = "<span>" + info + "</span>";
 		}
 		
+		function toggleInfo(){
+			let mapInfo = document.getElementById("mapInfo");
+			if (mapInfo.style.display === "grid") {
+				mapInfo.style.display = "none";
+			} else {
+				mapInfo.style.display = "grid";
+			}
+		}
 		
 		
 		//에어코리아에서 제공하는 예측도와, 에어코리아에서 제공하는 데이터를 기반으로 그린 폴리곤 지도를 토글하는 기능
 		let polygons = [];
 		
 		function toggleView() {
-
+			
+			let resultImageContainer = document.getElementById('resultImageContainer');
 			let button = document.activeElement;
-			if (button.innerText === "자세히") {
-				button.innerText = "간단히";
+			if (button.innerText === "예측도") {
+				button.innerText = "현황도";
+				resultImageContainer.style.display = 'flex';
 			} else {
-				button.innerText = "자세히";
-			}
-
-			let mapContainer = document.getElementById('map');
-			let resultImageContainer = document
-					.getElementById('resultImageContainer');
-
-			if (mapContainer.style.display === 'none') {
-				mapContainer.style.display = 'block';
+				button.innerText = "예측도";
 				resultImageContainer.style.display = 'none';
-				whiteBox.style.display = 'none';
-
-				for (let i = 0; i < polygons.length; i++) {
-					polygons[i].setMap(map);
-				}
-			} else {
-				mapContainer.style.display = 'none';
-				resultImageContainer.style.display = 'block';
-				whiteBox.style.display = 'block';
-
-				for (let i = 0; i < polygons.length; i++) {
-					polygons[i].setMap(null);
-				}
 			}
 		}
 		
@@ -299,7 +307,6 @@
 		function updateResultImage() {
 			imagePath = searchDate + searchTime + searchDust + "ImageUrl";
 			search = searchDate + searchDust;
-			loadMapAndPolygons(search);
 			document.getElementById("resultImage").src = eval(imagePath);
 		}
 
@@ -465,7 +472,7 @@
 		}
 
 		//카카오 지도 그리기.
-		function loadMapAndPolygons(search) {
+		function loadMapAndPolygons(searchDust) {
 			let map = new kakao.maps.Map(document.getElementById('map'), {
 				center : new kakao.maps.LatLng(35.9078, 127.7669),
 				level : 13,
@@ -480,19 +487,11 @@
 				let polygons = [];
 
 				//각 폴리곤을 칠할때 참조할 데이터 배열 dustData의 index를 결정
-				let timeIndex;
-				if (search == 'yesterday10') {
-					timeIndex = 0;
-				} else if (search == 'today10') {
-					timeIndex = 1;
-				} else if (search == 'tomorrow10') {
-					timeIndex = 2;
-				} else if (search == 'yesterday25') {
-					timeIndex = 3;
-				} else if (search == 'today25') {
-					timeIndex = 4;
-				} else if (search == 'tomorrow25') {
-					timeIndex = 5;
+				let dustIndex;
+				if (searchDust == '10') {
+					dustIndex = 8;
+				} else if (searchDust == '25') {
+					dustIndex = 10;
 				}
 
 				for (let i = 0; i < features.length; i++) {
@@ -503,7 +502,7 @@
 					let properties = feature.properties;
 					let index = properties.INDEX;
 
-					let grade = dustData[timeIndex][2 * (index) + 1];
+					let grade = airData[index][dustIndex];
 
 					if (grade == '좋음') {
 						gradeColor = '#32A1FF'; //파랑
@@ -543,7 +542,7 @@
 		window.onload = function() {
 			updateCharts(0);
 			updateResultImage();
-			loadMapAndPolygons(search);
+			loadMapAndPolygons(searchDust);
 			showRegionInfo('서울');
 			showMapInfo('today' , searchTime , '10');
 		};

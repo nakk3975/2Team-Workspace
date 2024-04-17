@@ -22,9 +22,9 @@ public class FinedustController {
 	@GetMapping("/airPollution")
 	public void fineDust(Model model) {
 		todayAir(model);
+		dustForecast(model);
 	}
-	
-	
+
 	// 동적 코딩을 위한 날짜 포맷
 	LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
 	LocalDateTime today = LocalDateTime.now();
@@ -63,8 +63,8 @@ public class FinedustController {
 						String pm10Grade = "";
 						String pm25Grade = "";
 						String khaiGrade = "";
-						
-						//value값이 비어있는 경우, 차선책을 가져오기 위해 grade를 'null'로 넘겨버림
+
+						// value값이 비어있는 경우, 차선책을 가져오기 위해 grade를 'null'로 넘겨버림
 						try {
 							so2Grade = AirGradeCalculator.calculateSO2Grade(Double.parseDouble(item.so2Value));
 							coGrade = AirGradeCalculator.calculateCOGrade(Double.parseDouble(item.coValue));
@@ -73,15 +73,15 @@ public class FinedustController {
 							pm10Grade = AirGradeCalculator.calculatePM10Grade(Double.parseDouble(item.pm10Value));
 							pm25Grade = AirGradeCalculator.calculatePM25Grade(Double.parseDouble(item.pm25Value));
 							khaiGrade = AirGradeCalculator.calculateKHAIGrade(Double.parseDouble(item.khaiValue));
-						} catch (NumberFormatException e) {
-							
+						} catch (NumberFormatException | NullPointerException e) {
+
 						}
-						
+
 						String[] informs = { so2Grade, item.so2Value, coGrade, item.coValue, no2Grade, item.no2Value,
 								o3Grade, item.o3Value, pm10Grade, item.pm10Value, pm25Grade, item.pm25Value, khaiGrade,
 								item.khaiValue };
 
-						//각 도시의 중앙지역의 값을 불러오지만, 위 try에서 null로 넘어왔을 경우 차선책을 다시 가져옴.
+						// 각 도시의 중앙지역의 값을 불러오지만, 위 try에서 null로 넘어왔을 경우 차선책을 다시 가져옴.
 						boolean isNull = false;
 						for (String x : informs) {
 							if (x == null || x.equals("-")) {
@@ -107,8 +107,46 @@ public class FinedustController {
 		CompletableFuture<Void> allOf = CompletableFuture.allOf(futures);
 		allOf.thenRun(() -> {
 			model.addAttribute("todayAirs", todayAirs);
-			dustForecast(model);
+			forecastImage(model);
 		}).join();
+	}
+
+	// 에어코리아에서 자체 제공하는 미세먼지, 초미세먼지 예측도(어제~내일의 오전(06시)/오후(18시)). 12번 호출이기 때문에 비동기화처리.
+	private CompletableFuture<Void> forecastImage(Model model) {
+		return CompletableFuture.runAsync(() -> {
+			try {
+				// 10:미세먼지, 25:초미세먼지.
+				String yesterdayAm10Image = UrlMaker.dustPictureUrl(twoDaysAgo, threeDaysAgo, twoDaysAgo, "21", 10);
+				String yesterdayPm10Image = UrlMaker.dustPictureUrl(twoDaysAgo, threeDaysAgo, yesterday, "09", 10);
+				String yesterdayAm25Image = UrlMaker.dustPictureUrl(twoDaysAgo, threeDaysAgo, twoDaysAgo, "21", 25);
+				String yesterdayPm25Image = UrlMaker.dustPictureUrl(twoDaysAgo, threeDaysAgo, yesterday, "09", 25);
+				String todayAm10Image = UrlMaker.dustPictureUrl(yesterday, twoDaysAgo, yesterday, "21", 10);
+				String todayPm10Image = UrlMaker.dustPictureUrl(yesterday, twoDaysAgo, today, "09", 10);
+				String todayAm25Image = UrlMaker.dustPictureUrl(yesterday, twoDaysAgo, yesterday, "21", 25);
+				String todayPm25Image = UrlMaker.dustPictureUrl(yesterday, twoDaysAgo, today, "09", 25);
+				String tomorrowAm10Image = UrlMaker.dustPictureUrl(today, twoDaysAgo, today, "21", 10);
+				String tomorrowPm10Image = UrlMaker.dustPictureUrl(today, twoDaysAgo, tomorrow, "09", 10);
+				String tomorrowAm25Image = UrlMaker.dustPictureUrl(today, twoDaysAgo, today, "21", 25);
+				String tomorrowPm25Image = UrlMaker.dustPictureUrl(today, twoDaysAgo, tomorrow, "09", 25);
+
+				// 모델에 이미지 URL 추가
+				model.addAttribute("yesterdayAm10Image", yesterdayAm10Image);
+				model.addAttribute("yesterdayPm10Image", yesterdayPm10Image);
+				model.addAttribute("yesterdayAm25Image", yesterdayAm25Image);
+				model.addAttribute("yesterdayPm25Image", yesterdayPm25Image);
+				model.addAttribute("todayAm10Image", todayAm10Image);
+				model.addAttribute("todayPm10Image", todayPm10Image);
+				model.addAttribute("todayAm25Image", todayAm25Image);
+				model.addAttribute("todayPm25Image", todayPm25Image);
+				model.addAttribute("tomorrowAm10Image", tomorrowAm10Image);
+				model.addAttribute("tomorrowPm10Image", tomorrowPm10Image);
+				model.addAttribute("tomorrowAm25Image", tomorrowAm25Image);
+				model.addAttribute("tomorrowPm25Image", tomorrowPm25Image);
+				
+			} catch (HttpStatusCodeException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	// 어제~내일의 미세먼지, 초미세먼지 정보 api. 위와 달리 1회만 호출하기 때문에 future 클래스 미사용.
@@ -133,46 +171,9 @@ public class FinedustController {
 			dustGrades[4] = today25.informGrade.split("\\s*(,|\\:)\\s*");
 			dustGrades[5] = tomorrow25.informGrade.split("\\s*(,|\\:)\\s*");
 			model.addAttribute("dustGrades", dustGrades);
-			fetchImagesAsync(model);
 		} catch (HttpStatusCodeException | URISyntaxException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// 에어코리아에서 자체 제공하는 미세먼지, 초미세먼지 예측도(어제~내일의 오전(06시)/오후(18시)). 12번 호출이기 때문에 비동기화처리.
-	private CompletableFuture<Void> fetchImagesAsync(Model model) {
-		return CompletableFuture.runAsync(() -> {
-			try {
-				// 10:미세먼지, 25:초미세먼지.
-				String yesterdayAm10Image = UrlMaker.dustPictureUrl(twoDaysAgo, threeDaysAgo, twoDaysAgo, "21", 10);
-				String yesterdayPm10Image = UrlMaker.dustPictureUrl(twoDaysAgo, threeDaysAgo, yesterday, "09", 10);
-				String yesterdayAm25Image = UrlMaker.dustPictureUrl(twoDaysAgo, threeDaysAgo, twoDaysAgo, "21", 25);
-				String yesterdayPm25Image = UrlMaker.dustPictureUrl(twoDaysAgo, threeDaysAgo, yesterday, "09", 25);
-				String todayAm10Image = UrlMaker.dustPictureUrl(yesterday, twoDaysAgo, yesterday, "21", 10);
-				String todayPm10Image = UrlMaker.dustPictureUrl(yesterday, twoDaysAgo, today, "09", 10);
-				String todayAm25Image = UrlMaker.dustPictureUrl(yesterday, twoDaysAgo, yesterday, "21", 25);
-				String todayPm25Image = UrlMaker.dustPictureUrl(yesterday, twoDaysAgo, today, "09", 25);
-				String tomorrowAm10Image = UrlMaker.dustPictureUrl(today, yesterday, today, "21", 10);
-				String tomorrowPm10Image = UrlMaker.dustPictureUrl(today, yesterday, tomorrow, "09", 10);
-				String tomorrowAm25Image = UrlMaker.dustPictureUrl(today, yesterday, today, "21", 25);
-				String tomorrowPm25Image = UrlMaker.dustPictureUrl(today, yesterday, tomorrow, "09", 25);
-
-				// 모델에 이미지 URL 추가
-				model.addAttribute("yesterdayAm10Image", yesterdayAm10Image);
-				model.addAttribute("yesterdayPm10Image", yesterdayPm10Image);
-				model.addAttribute("yesterdayAm25Image", yesterdayAm25Image);
-				model.addAttribute("yesterdayPm25Image", yesterdayPm25Image);
-				model.addAttribute("todayAm10Image", todayAm10Image);
-				model.addAttribute("todayPm10Image", todayPm10Image);
-				model.addAttribute("todayAm25Image", todayAm25Image);
-				model.addAttribute("todayPm25Image", todayPm25Image);
-				model.addAttribute("tomorrowAm10Image", tomorrowAm10Image);
-				model.addAttribute("tomorrowPm10Image", tomorrowPm10Image);
-				model.addAttribute("tomorrowAm25Image", tomorrowAm25Image);
-				model.addAttribute("tomorrowPm25Image", tomorrowPm25Image);
-			} catch (HttpStatusCodeException e) {
-				e.printStackTrace();
-			}
-		});
-	}
 }

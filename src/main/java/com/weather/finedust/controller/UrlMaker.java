@@ -9,7 +9,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 public class UrlMaker {
 
 	// 공공 api 인코딩키.
-	private static final String apiKey = "bwOV00fAbCauXCeo0zQpP3ukRJpHBg0GM63FmQOWweU2bcC3zOtGwLxwnTc4aSCo0HRqV1QwgOS20wID8dvIOQ%3D%3D";
+	private static final String apiKey = "Ss9lLqI9PsPCi4rzCRwYeaj4oMctehbAVqZVTEPQSYO2xKFWVHPuxlgNrehIPeg5BXcyxo2MlrJgMh%2FTYY600A%3D%3D";;
 	
 	// 금일 대기 정보 url
 	public static String todayAirUrl(String city) {
