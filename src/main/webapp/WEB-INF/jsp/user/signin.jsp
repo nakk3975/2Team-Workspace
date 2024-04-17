@@ -69,7 +69,8 @@
 					, success:function(data) {
 						// 로그인 성공 시 메인화면으로 이동
 						if(data.result == "success"){
-							location.href="/weather/main/view";
+							/* location.href="/weather/main/view"; */
+							location.href="/app/introduce";
 						// 실패시 오류 메세지 표시
 						} else {
 							$("#loginFail").show();
