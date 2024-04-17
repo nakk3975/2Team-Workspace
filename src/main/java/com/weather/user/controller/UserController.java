@@ -84,6 +84,7 @@ public class UserController {
 		session.getAttribute("userEmail");
 		return "user/mypage";
 	}
+
 	// 마이페이지 수정 페이지 진입
 	@GetMapping("/myPage/modify")
 	public String myPageModify(HttpServletRequest request) {
@@ -94,5 +95,11 @@ public class UserController {
 		session.getAttribute("userEmail");
 		
 		return "user/mypageModify";
+
+	
+	@GetMapping("popup/view")
+	public String popup() {
+		return "user/adresspopup";
+
 	}
 }

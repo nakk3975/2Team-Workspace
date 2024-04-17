@@ -1,0 +1,204 @@
+button {
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
+	background-color: #007bff;
+	color: #fff;
+	margin: 5px;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+button:active {
+	background-color: #004080;
+}
+
+#pageBox {
+	width: 1200px;
+	margin: auto;
+}
+
+#contentBox {
+	width: 1200px;
+	height: 650px;
+	position: relative;
+	margin: 0 auto;
+}
+
+#mapBox {
+	width: 600px;
+	height: 650px;
+	position: relative;
+	float: left;
+	background-color: #ffffff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+}
+
+#menuButton {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 3;
+}
+
+#regionPopupButtons {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 3;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	z-index: 1;
+}
+
+#graphBox {
+	width: 50%;
+	height: 100%;
+	float: right;
+	justify-content: center;
+}
+
+#buttonBox {
+	position: absolute;
+	top: 75px;
+	left: 10px;
+	width: 320px;
+	height: 150px;
+	gap: 5px;
+	z-index: 3;
+	display: none;
+}
+
+.buttonGroup {
+	display: flex;
+	flex-direction: row;
+	margin-right: 10px;
+}
+
+.buttonGroup button {
+	margin-right: 5px;
+}
+
+#regionButtonBox {
+	position: relative;
+	width: 100%;
+	height: 5%;
+	z-index: 999;
+	justify-content: center;
+}
+
+#dustGraphBox {
+	width: 100%;
+	height: 25%;
+	display: flex;
+	justify-content: center;
+}
+
+#dustGraphExplainBox {
+	width: 75%;
+	height: 5%;
+	display: flex;
+	justify-content: center;
+	justify-content: space-around;
+	margin-left: 14%;
+}
+
+#otherGraphBox {
+	width: 100%;
+	height: 15%;
+	display: flex;
+	justify-content: center;
+}
+
+#otherGraphExplainBox {
+	width: 100%;
+	height: 5%;
+	display: flex;
+	justify-content: center;
+}
+
+#chartContainerSO2, #chartContainerCO, #chartContainerNO2,
+	#chartContainerO3, #chartContainerAQI {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	margin-right: 10px;
+}
+
+#chartExplainSO2, #chartExplainCO, #chartExplainNO2, #chartExplainO3,
+	#chartExplainAQI {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	margin-right: 10px;
+	text-align: center;
+}
+
+#chartContainerdust10, #chartContainerdust25 {
+	display: inline-block;
+	width: 180px;
+	height: 180px;
+	margin-left: 20px;
+	margin-right: 20px;
+	text-align: center;
+}
+
+#regionButtons {
+	position: absolute;
+	top: 75px;
+	left: 10px;
+	width: 320px;
+	height: 150px;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 5px;
+	display: none;
+	background-color: white;
+}
+
+#regionButtons button {
+	width: 100%;
+	padding: 5px;
+	margin: 2px 2px;
+}
+
+#resultImageContainer {
+	display: none;
+	position: relative;
+}
+
+#resultImage {
+	width: 600px;
+	height: 650px;
+}
+
+#graphTitle {
+	text-align: center;
+	line-height: 200%;
+	font-size: 24px;
+}
+
+#gradeTableBox{
+	width:100%;
+	height:40%;
+	text-align : center;
+}
+
+#gradeTable{
+	display : inline-block;
+}
+
+#sourceExplainBox{
+	text-align : right;
+	border-top: 1px solid black;
+}

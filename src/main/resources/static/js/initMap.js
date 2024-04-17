@@ -268,5 +268,3 @@ function initMap() {
 }
 // Google Maps 스크립트 로드 후 initMap 함수 호출
 window.initMap = initMap;
-
-
