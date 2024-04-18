@@ -61,10 +61,11 @@ public class UserRestController {
 		// user의 정보가 null이 아니면 result에 success 저장
 		// session에 user 정보 저장
 		if(user != null) {
-			
+			session.setAttribute("userNo", user.getNo());
 			session.setAttribute("userId", user.getId());
 			session.setAttribute("userName", user.getName());
 			session.setAttribute("userEmail", user.getEmail());
+			
 			
 			result.put("result", "success");
 		} else {
@@ -153,4 +154,22 @@ public class UserRestController {
 		}
 		return result;	
 	}
+	
+	// 수정 페이지 비밀번호 비교 후 수정
+		@PostMapping("/checkAndModify")
+		public Map<String,String> checkAndModify(
+				@RequestParam("no") int no
+				, @RequestParam("name") String name
+				, @RequestParam("email") String email){
+			int count = userService.mypageModify(no, name, email);
+			Map<String, String> result = new HashMap<>();
+			
+			if(count == 1) {
+				result.put("result", "success");
+			} else {
+				result.put("result", "fail");
+			}
+			return result;
+		}
+
 }

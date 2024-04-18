@@ -33,4 +33,10 @@ public interface UserMapper {
 			@Param("name") String name
 			, @Param("email") String email);
 	
+	// 정보 변경
+	public int mypageModify(
+			@Param("no") int no
+			, @Param("name") String name
+			, @Param("email")String email);
+	
 }

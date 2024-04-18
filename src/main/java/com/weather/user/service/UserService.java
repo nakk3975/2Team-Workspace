@@ -50,4 +50,9 @@ public class UserService {
 	public UserDTO selectId(String name, String email) {
 		return userMapper.selectIdByUser(name, email);
 	}
+	
+	// 정보 변경
+	public int mypageModify(int no, String name, String email) {
+		return userMapper.mypageModify(no, name, email);
+	}
 }

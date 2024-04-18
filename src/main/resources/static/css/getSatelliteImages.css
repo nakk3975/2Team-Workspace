@@ -1,69 +1,12 @@
 @charset "UTF-8";
 
 body {
-	margin: 0;
-}
-
-.navbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
-	margin: 0;
+	margin: auto;
+	width: 1200px;
 }
 
 div {
 	margin: 0;
-}
-
-.no-margin {
-	margin: 0;
-}
-
-.navbar img {
-	max-height: 40px;
-	vertical-align: middle;
-}
-
-#Logo {
-	padding-left: 20px;
-	width: 230px;
-}
-
-.login-container {
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	padding-top: 20px;
-	padding-right: 20px;
-}
-
-.login-button {
-	background-color: #3498DB;
-	color: white;
-	width: 210px;
-	padding: 10px 20px;
-	border-radius: 5px;
-	border: none;
-	cursor: pointer;
-	font-size: 16px;
-	outline: none;
-	transition: background-color 0.3s ease;
-	margin-bottom: 10px;
-}
-
-.login-button:hover {
-	background-color: #0066cc;
-}
-
-.Menu:hover, .Menu_except:hover {
-	background-color: #F4EEEE;
-}
-
-.LoginOption {
-	font-size: 13px;
-	color: gray;
-	margin-left: 10px;
 }
 
 #mid_content {
@@ -80,13 +23,6 @@ div {
 	font-size: 25px;
 	color: black;
 	font-weight: bold;
-}
-
-#box {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
 }
 
 #main {
@@ -140,13 +76,20 @@ select {
 
 /* 위성 이미지 표시 영역 스타일 */
 #satelliteImages {
+	display: flex;         /* Flexbox를 활성화 */
+        justify-content: center; /* 가로 방향 중앙 정렬 */
+        align-items: center;    /* 세로 방향 중앙 정렬 */
+        flex-direction: column; /* 자식 요소들을 세로로 쌓음 */
+        height: 100%;           /* 필요에 따라 높이 조정 */
+        margin-top: 20px;
 	position: relative;
 	width: 100%; /* 이미지의 최대 너비를 조정해야 할 수 있음 */
 	margin: 0 auto;
 }
 
+
 #defaultImage, #response {
-	width: 100%;
+	width: 800px;
 	border-radius: 4px; /* 모서리를 둥글게 처리 */
 }
 
