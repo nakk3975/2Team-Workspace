@@ -254,9 +254,10 @@
 			
 			let info = dateInfo + timeInfo + dustInfo;
 			
-		   	mapInfo.innerHTML = "<span>" + info + "</span>";
+		   	mapInfo.innerHTML = "<span>" + info + " 예측도</span>";
 		}
 		
+		//지도 우측상단의 설명을 현황도, 예측도로 변경
 		function toggleInfo(){
 			let mapInfo = document.getElementById("mapInfo");
 			if (mapInfo.style.display === "grid") {

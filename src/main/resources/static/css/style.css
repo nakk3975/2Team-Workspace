@@ -14,6 +14,7 @@
     text-align: center;
     background-color: #fff;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 .label {
@@ -22,9 +23,72 @@
     font-weight: bold;
 }
 
+#rain {
+	font-size: 11px;
+}
+
 #mapDetail {
-	height: 300px;
 	width:100%;
+	background-color: #F5F4F0;
+}
+
+.weather-temp {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+#nowTime {
+	text-align: center;
+	background-color: #f2f2f2;
+	border: 1px solid #dcdcdc;
+	border-radius: 8px;
+	padding: 10px;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+#weeklyWeather {
+	display: none;
+}
+
+#nowWeather {
+	overflow: auto;
+	background-color: #e8f4fa;
+	border: 1px solid #cdddea;
+	border-radius: 5px;
+	padding:10px;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+}
+
+#weeklyForecast{
+	text-align: center;
+}
+
+.weather-icon {
+	width:50px;
+}
+
+.now-weather-icon {
+	width:50px;
+}
+
+.day-weather {
+    text-align: center;
+	background-color: #f2f2f2;
+	border: 1px solid #dcdcdc;
+	border-radius: 8px;
+	padding: 10px;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
 
 

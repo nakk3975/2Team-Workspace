@@ -82,12 +82,12 @@
 	String rgbDay = "rgbdn";
 
 	// 선택된 미디어 타입 불러오기
-	String selectedMediaType = request.getParameter("mediaType");
+	String selectedMediaType = request.getParameter("media_type");
 	%>
 
 	<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<div id="main">
-			<div id="main_title">
+			<div id="mainTitle">
 				<h2>위성 영상</h2>
 			</div>
 			<hr>
@@ -95,11 +95,13 @@
 			<div id="mainForm">
 				<div id="selectForm">
 					<form action="/satellite/getSatelliteImages" method="get" id="submitForm">
-						<select class="selectbox" name="date" placeholder="날짜 선택">
+						<!-- 날짜 선택(어제, 오늘) -->
+						<select class="select_box" name="date" placeholder="날짜 선택">
 							<option value="<%=formatYesterday%>">어제(<%=formatYesterday%>)</option>
 							<option value="<%=formatToday%>" selected>오늘(<%=formatToday%>)</option>
 						</select>
-						<select class="selectbox" name="time" placeholder="시간 선택">
+						<!-- 시간 선택 -->
+						<select class="select_box" name="time" placeholder="시간 선택">
 							<c:forEach begin="0" end="23" var="hour">
 								<c:forEach begin="0" end="5" var="index">
 									<c:set var="minute" value="${index * 10}" />
@@ -109,7 +111,8 @@
 								</c:forEach>
 							</c:forEach>
 						</select>
-						<select class="selectbox" name="mediaType" placeholder="영상 구분">
+						<!-- 영상 종류 선택 -->
+						<select class="select_box" name="media_type" placeholder="영상 구분">
 							<option value="<%=infrared%>">적외영상</option>
 							<option value="<%=visible%>">가시영상</option>
 							<option value="<%=vapor%>">수증기영상</option>
@@ -117,54 +120,55 @@
 							<option value="<%=rgbColor%>">RGB(컬러)영상</option>
 							<option value="<%=rgbDay%>">RGB(주야간합성)영상</option>
 						</select>
-						<input class="buttonStyle" id="searchButton" type="submit" value="조회">
+						<input class="button_style" id="searchButton" type="submit" value="조회">
 					</form>
 				</div>
 				<div id="buttonDiv">
 					<div id="searchedDate">
+						<!-- 사용자가 선택한 날짜와 시간 출력(초기값은 null) -->
 						<input type="text" id="searchedText" value="<%=selectedDate%>/<%=selectedTime%>">
 					</div>
-					<div class="searchButton">
+					<div class="search_button">
 						<!-- 어제 버튼 -->
-						<div class="buttonDiv">
+						<div class="button_div">
 							<form action="/satellite/getSatelliteImages" method="get" id="yesterdayForm">
 								<input type="hidden" name="date" value="<%=formatYesterday%>" />
 								<input type="hidden" name="time" value="<%=selectedTime%>">
-								<input type="hidden" name="mediaType" value="<%=selectedMediaType%>">
-								<input class="buttonStyle" type="submit" id="yesterdayButton" value="어제">
+								<input type="hidden" name="media_type" value="<%=selectedMediaType%>">
+								<input class="button_style" type="submit" id="yesterdayButton" value="어제">
 							</form>
 						</div>
 						<!-- 오늘 버튼 -->
-						<div class="buttonDiv">
+						<div class="button_div">
 							<form action="/satellite/getSatelliteImages" method="get" id="todayForm">
 								<input type="hidden" name="date" value="<%=formatToday%>" />
 								<input type="hidden" name="time" value="<%=selectedTime%>">
-								<input type="hidden" name="mediaType" value="<%=selectedMediaType%>">
-								<input class="buttonStyle" type="submit" id="todayButton" value="오늘">
+								<input type="hidden" name="media_type" value="<%=selectedMediaType%>">
+								<input class="button_style" type="submit" id="todayButton" value="오늘">
 							</form>
 						</div>
 						<!-- 10분전 버튼 -->
-						<div class="buttonDiv">
+						<div class="button_div">
 							<form action="/satellite/getSatelliteImages" method="get" id="tenMinBeforeForm">
 								<input type="hidden" name="date" value="<%=selectedDate%>">
 								<input type="hidden" name="time" value="<%=formattedTenMinutesBefore%>">
-								<input type="hidden" name="mediaType" value="<%=selectedMediaType%>">
-								<input class="buttonStyle" type="submit" id="tenBeforeButton" value="&lt;&lt;">
+								<input type="hidden" name="media_type" value="<%=selectedMediaType%>">
+								<input class="button_style" type="submit" id="tenBeforeButton" value="&lt;&lt;">
 							</form>
 						</div>
 						<!-- 10분후 버튼 -->
-						<div class="buttonDiv">
+						<div class="button_div">
 							<form action="/satellite/getSatelliteImages" method="get" id="tenMinAfterForm">
 								<input type="hidden" name="date" value="<%=selectedDate%>">
 								<input type="hidden" name="time" value="<%=formattedTenMinutesAfter%>">
-								<input type="hidden" name="mediaType" value="<%=selectedMediaType%>">
-								<input class="buttonStyle" type="submit" id="tenAfterButton" value="&gt;&gt;">
+								<input type="hidden" name="media_type" value="<%=selectedMediaType%>">
+								<input class="button_style" type="submit" id="tenAfterButton" value="&gt;&gt;">
 							</form>
 						</div>
 						<!-- 재생/멈춤 버튼 -->
-						<div class="buttonDiv">
-							<input class="buttonStyle" type="button" id="playButton" value="재생">
-							<input class="buttonStyle" type="button" id="stopButton" value="멈춤">
+						<div class="button_div">
+							<input class="button_style" type="button" id="playButton" value="재생">
+							<input class="button_style" type="button" id="stopButton" value="멈춤">
 						</div>
 					</div>
 				</div>
@@ -172,10 +176,17 @@
 			<hr>
 			<br>
 			<!-- 위성 이미지 출력 div -->
-			<div id="satelliteImages" data-setss="${satellite.response.body.items.item.get(0).satImgCFile}">
-				<div id="alertMessage">조회 버튼을 눌러 조회하고싶은 시간대와 이미지 종류를 선택하십시오.<br>현재 시간 기준 9시간 10분 전(<%=formatTime %>)까지의 정보만 제공됩니다.</div>
+			<div id="satelliteImage" data-setss="${satellite.response.body.items.item.get(0).satImgCFile}">
+				<div id="alertMessage">
+					조회 버튼을 눌러 조회하고싶은 시간대와 이미지 종류를 선택하십시오.
+					<br>
+					현재 시간 기준 9시간 10분 전(<%=formatTime %>)까지의 정보만 제공됩니다.
+				</div>
 				<br>
+				<!-- 대문 이미지가 출력될 공간 -->
 				<img id="defaultImage" src="/static/image/Satellite.png">
+				
+				<!-- 위성 이미지가 출력될 공간 -->
 				<img id="response" src="">
 			</div>
 		</div>
@@ -188,6 +199,7 @@
 	   		// 기본 이벤트(폼 제출 등) 방지
 	   	    event.preventDefault();
 	   	
+	   		// 폼 제출
 	   	 	$('#submitForm').submit();
 	   	 	
 	    });
@@ -197,6 +209,7 @@
 	    	// 기본 이벤트(폼 제출 등) 방지
 	   	    event.preventDefault();
 	   	
+	   		// 폼 제출
 	   	 	$('#yesterdayForm').submit();
 	    });
 	 	
@@ -205,6 +218,7 @@
 	    	// 기본 이벤트(폼 제출 등) 방지
 	   	    event.preventDefault();
 	   	
+	   		// 폼 제출
 	   	 	$('#todayForm').submit();
 	    });
 	 
@@ -212,7 +226,8 @@
 	    $("#tenBeforeButton").click(function(event) {
 	    	// 기본 이벤트(폼 제출 등) 방지
 	   	    event.preventDefault();
-	   	
+	   		
+	    	// 폼 제출
 	   	 	$('#tenMinBeforeForm').submit();
 	    });
 	 	
@@ -221,16 +236,18 @@
 	    	// 기본 이벤트(폼 제출 등) 방지
 	   	    event.preventDefault();
 	   	
+	   		// 폼 제출
 	   	 	$('#tenMinAfterForm').submit();
 	    });
 
 	    // "재생" 버튼 클릭 시 이미지 URL 자동 갱신
 	    $("#playButton").click(function(event) {
-	        var satImgCFile = $('#satelliteImages').data("setss");
+	        var satImgCFile = $('#satelliteImage').data("setss");
 	        var urls = satImgCFile.split(",");
 	        var currentIndex = 0;
 	        var intervalId;
-
+			
+	     	// 불러온 여러 이미지 URL들을 날짜별로 분리
 	        function updateImage() {
 	            var trimmedUrl = urls[currentIndex].trim().replace(/\[|\]/g, '');
 	            $('#response').attr('src', trimmedUrl);
@@ -250,10 +267,12 @@
 	    
 	});
 	
-	// 폼 제출 후의 이미지 URL 업데이트
+	// 사용자가 선택한 시간과 날짜에 맞게 이미지 URL 뽑아오는 로직
 	function loadImageAfterSubmit() {
-	    // URL분리 작업
-	    var satImgCFile = $('#satelliteImages').data("setss");
+	    // 불러온 여러 이미지 URL들을 날짜별로 분리
+	    var satImgCFile = $('#satelliteImage').data("setss");
+	    
+	    // "," 기준으로 분리 후 대괄호 제거
 	    var urls = satImgCFile.split(",").map(function(url) {
 	        return url.trim().replace(/\[|\]/g, '');
 	    });
@@ -262,17 +281,20 @@
    		var selectedDate = "<%=selectedDate%>"; // 사용자가 선택한 날짜
    		var selectedTime = "<%=selectedTime%>"; // 사용자가 선택한 시간
 
+   		// 선택한 날짜와 시간이 포함된 url을 반환해서 변수에 저장
 		var matchedUrl = urls.find(function(url) {
 			return url.includes(selectedDate + selectedTime);
 		});
 
+   		// 일치한 url이 있다면 img태그의 src에 matchedUrl을 설정
 	    if (matchedUrl) {
 	        $('#response').attr('src', matchedUrl + "?timestamp=" + new Date().getTime());
 	        $('#defaultImage').hide();
 	        $('#alertMessage').hide(); // 이미지가 있으므로 경고 메시지 숨김
-	    } else if(!selectedDate || !selectedTime){
+	    } else if(!selectedDate || !selectedTime){ // 사용자가 날짜와 시간을 선택하지 않은 경우라면
 	        // 날짜와 시간이 설정되지 않았을 경우, 초기 경고창과 메시지를 표시하지 않음
 		    $('#response').hide();
+	    	// img 태그 숨김
 	    }
 	}
 

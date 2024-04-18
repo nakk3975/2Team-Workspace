@@ -13,7 +13,7 @@ public interface UserMapper {
 			, @Param("email") String email);
 	
 	// 로그인
-	public UserDTO selectUser(@Param("id") String id);
+	public UserDTO selectUser(@Param("id") String id, @Param("pw") String password);
 	
 	// 중복체크
 	public int selectId(@Param("id") String id);

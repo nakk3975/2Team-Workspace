@@ -152,8 +152,7 @@ public class UserRestController {
 		} else {
 			result.put("result", "fail");
 		}
-		return result;
-		
+		return result;	
 	}
 	
 	// 수정 페이지 비밀번호 비교 후 수정
@@ -172,5 +171,5 @@ public class UserRestController {
 			}
 			return result;
 		}
-	
+
 }
