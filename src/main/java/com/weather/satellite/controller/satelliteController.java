@@ -16,6 +16,7 @@ import com.weather.satellite.dto.SatelliteDto;
 @RequestMapping("/satellite/*")
 @Controller
 public class satelliteController {
+<<<<<<< HEAD
    @GetMapping("/getSatelliteImages")
    public String getSatelliteImages(Model model,
          @RequestParam(value = "date", required = false)String receivedDate,
@@ -29,6 +30,19 @@ public class satelliteController {
                + API_KEY + "&numOfRows=10&pageNo=1&sat=g2&data=" + mediaType + "&area=ea&time=" + receivedDate +"&dataType=JSON";
       
       RestTemplate restTemplate = new RestTemplate();
+	@GetMapping("/getSatelliteImages")
+	public String getSatelliteImages(Model model,
+			@RequestParam(value = "date", required = false)String receivedDate,
+			@RequestParam(value = "media_type", required = false)String mediaType) {
+		
+		// 인코딩 인증키
+		String API_KEY = "SW%2B5pKGzSgxkkJeryeK9fDYT4XzTiNTgsgOqTRrx3xuxsO4kT7vcDilIqs7VmmkTGVsXAv919McNuZIbnc3uGw%3D%3D";
+		
+		// API URL 구성
+	    String API_URL = "http://apis.data.go.kr/1360000/SatlitImgInfoService/getInsightSatlit?serviceKey="
+	            + API_KEY + "&numOfRows=10&pageNo=1&sat=g2&data=" + mediaType + "&area=ea&time=" + receivedDate +"&dataType=JSON";
+		
+		RestTemplate restTemplate = new RestTemplate();
 
       //// **** 중요 **** uri
       URI uri = null; // java.net.URI 임포트 하셈

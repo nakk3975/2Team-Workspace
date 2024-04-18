@@ -25,57 +25,61 @@
 <body>
 	<div id="pageBox">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
+		<div id="titleBox">
+			<div id="title">
+				<span>미세먼지</span>
+			</div>
+		</div>
 		<div id="contentBox">
 			<div id="mapBox">
 				<button id="menuButton" onclick="openMenuPopup()">메뉴</button>
+				<button id="toggleButton" onclick="toggleView(); showMenuButton(); closeMenuPopup(); toggleInfo()">예측도</button>
+				<div id="mapTitle">현황도</div>
+				<div id="mapInfo"></div>
 				<div id="buttonBox">
 					<div class="buttonGroup">
-						<button onclick="updateImageDust('10')">미세먼지</button>
-						<button onclick="updateImageDust('25')">초미세먼지</button>
+						<button onclick="updateImageDust('10'); showMapInfo(searchDate , searchTime, '10')">미세먼지</button>
+						<button onclick="updateImageDust('25'); showMapInfo(searchDate , searchTime, '25')">초미세먼지</button>
 					</div>
 					<div class="buttonGroup">
-						<button onclick="updateImageDate('yesterday')">어제</button>
-						<button onclick="updateImageDate('today')">오늘</button>
-						<button onclick="updateImageDate('tomorrow')">내일</button>
+						<button onclick="updateImageDate('yesterday'); showMapInfo('yesterday', searchTime, searchDust)">어제</button>
+						<button onclick="updateImageDate('today'); showMapInfo('today' , searchTime, searchDust)">오늘</button>
+						<button onclick="updateImageDate('tomorrow'); showMapInfo('tomorrow' , searchTime, searchDust)">내일</button>
 					</div>
 					<div class="buttonGroup">
-						<button onclick="updateImageTime('Am')">오전</button>
-						<button onclick="updateImageTime('Pm')">오후</button>
+						<button onclick="updateImageTime('Am'); showMapInfo(searchDate , 'Am', searchDust)">오전</button>
+						<button onclick="updateImageTime('Pm'); showMapInfo(searchDate , 'Pm', searchDust)">오후</button>
 					</div>
-					<div class="buttonGroup">
-						<button class="toggleButton" onclick="toggleView()">자세히</button>
-					</div>
+					
 				</div>
 				<div id="map"></div>
-				<div id="resultImageContainer">
-					<img id="resultImage" src="" alt="이미지가 아직 없습니다.">
+					<div id="resultImageContainer">
+    					<img id="resultImage" src="" alt="">
+  						<span class="alt-text">이미지가 아직 없습니다.</span>
+					</div>
 				</div>
-			</div>
 			<div id="graphBox">
 				<div id="regionButtonBox">
 					<button id="regionPopupButtons" onclick="openRegionPopup()">지역선택</button>
-					<div id="graphTitle">
-						<span>현재 대기 상태</span>
-					</div>
-
+					<div id="graphTitle"></div>
 					<div id="regionButtons">
-						<button onclick="updateCharts(14);">강원</button>
-						<button onclick="updateCharts(15);">경기</button>
-						<button onclick="updateCharts(5);">경남</button>
-						<button onclick="updateCharts(6);">경북</button>
-						<button onclick="updateCharts(4);">광주</button>
-						<button onclick="updateCharts(8);">대구</button>
-						<button onclick="updateCharts(13);">대전</button>
-						<button onclick="updateCharts(9);">부산</button>
-						<button onclick="updateCharts(0);">서울</button>
-						<button onclick="updateCharts(12);">세종</button>
-						<button onclick="updateCharts(7);">울산</button>
-						<button onclick="updateCharts(16);">인천</button>
-						<button onclick="updateCharts(2);">전남</button>
-						<button onclick="updateCharts(3);">전북</button>
-						<button onclick="updateCharts(1);">제주</button>
-						<button onclick="updateCharts(10);">충남</button>
-						<button onclick="updateCharts(11);">충북</button>
+						<button onclick="updateCharts(14); showRegionInfo('강원');">강원</button>
+    					<button onclick="updateCharts(15); showRegionInfo('경기');">경기</button>
+    					<button onclick="updateCharts(5); showRegionInfo('경남');">경남</button>
+   					 	<button onclick="updateCharts(6); showRegionInfo('경북');">경북</button>
+					    <button onclick="updateCharts(4); showRegionInfo('광주');">광주</button>
+					    <button onclick="updateCharts(8); showRegionInfo('대구');">대구</button>
+					    <button onclick="updateCharts(13); showRegionInfo('대전');">대전</button>
+					    <button onclick="updateCharts(9); showRegionInfo('부산');">부산</button>
+					    <button onclick="updateCharts(0); showRegionInfo('서울');">서울</button>
+					    <button onclick="updateCharts(12); showRegionInfo('세종');">세종</button>
+					    <button onclick="updateCharts(7); showRegionInfo('울산');">울산</button>
+					    <button onclick="updateCharts(16); showRegionInfo('인천');">인천</button>
+					    <button onclick="updateCharts(2); showRegionInfo('전남');">전남</button>
+					    <button onclick="updateCharts(3); showRegionInfo('전북');">전북</button>
+					    <button onclick="updateCharts(1); showRegionInfo('제주');">제주</button>
+					    <button onclick="updateCharts(10); showRegionInfo('충남');">충남</button>
+					    <button onclick="updateCharts(11); showRegionInfo('충북');">충북</button>
 					</div>
 				</div>
 
@@ -120,7 +124,7 @@
 				</div>
 
 				<div id="gradeTableBox">
-					<img src="/static/image/airGradeTable.jpg" id="gradeTable" alt="등급표">
+					<img src="/static/image/airGradeTable.png" id="gradeTable" alt="등급표">
 				</div>
 			</div>
 		</div>
@@ -136,7 +140,7 @@
 	
 
 	<script>
-		//사용할 api 데이터 Json 형태로 만듦
+		//사용할 api 데이터 Json 형태로 만듦 (ajax 를 사용하지 않고, 자바 내장 Future 클래스를 사용하여 배열로 만들어 넘겼음.)
 		<%
 		String[][] todayAirs = (String[][]) request.getAttribute("todayAirs");
 		String[][] dustGrades = (String[][]) request.getAttribute("dustGrades");
@@ -144,61 +148,11 @@
 		String jsonTodayAirs = gson.toJson(todayAirs);
 		String jsonDustGrades = gson.toJson(dustGrades);
 		%>
-
-		//지역 선택버튼 팝업
-		function openRegionPopup() {
-			let regionPopup = document.getElementById("regionButtons");
-			if (regionPopup.style.display === "grid") {
-				regionPopup.style.display = "none";
-			} else {
-				regionPopup.style.display = "grid";
-			}
-		}
-
-		//지도 위 메뉴버튼 팝업
-		function openMenuPopup() {
-			let menuPopup = document.getElementById("buttonBox");
-			if (menuPopup.style.display === "grid") {
-				menuPopup.style.display = "none";
-			} else {
-				menuPopup.style.display = "grid";
-			}
-		}
 		
+		//airData : 금일 대기정보 api, dustData : 어제~내일의 미세먼지, 초미세먼지 등급예보 api.
+		let airData =<%=jsonTodayAirs%>;
+		let dustData =<%=jsonDustGrades%>;
 		
-		let polygons = [];
-		
-		//에어코리아에서 제공하는 예측도와, 에어코리아에서 제공하는 데이터를 기반으로 그린 폴리곤 지도를 토글하는 기능
-		function toggleView() {
-
-			let button = document.activeElement;
-			if (button.innerText === "자세히") {
-				button.innerText = "간단히";
-			} else {
-				button.innerText = "자세히";
-			}
-
-			let mapContainer = document.getElementById('map');
-			let resultImageContainer = document
-					.getElementById('resultImageContainer');
-
-			if (mapContainer.style.display === 'none') {
-				mapContainer.style.display = 'block';
-				resultImageContainer.style.display = 'none';
-
-				for (let i = 0; i < polygons.length; i++) {
-					polygons[i].setMap(map);
-				}
-			} else {
-				mapContainer.style.display = 'none';
-				resultImageContainer.style.display = 'block';
-
-				for (let i = 0; i < polygons.length; i++) {
-					polygons[i].setMap(null);
-				}
-			}
-		}
-
 		//에어코리아에서 제공하는 예측도 api
 		let todayAm10ImageUrl = "${todayAm10Image}";
 		let todayAm25ImageUrl = "${todayAm25Image}";
@@ -216,8 +170,118 @@
 		//버튼에 따라 변수들이 바뀌고, 이 변수값들을 합쳐 불러올 이미지를 지정.
 		let imagePath = "";
 		let searchDate = "today";
-		let searchTime = "Am";
+		let searchTime = "";
 		let searchDust = "10";
+		
+		//오전, 오후 기본값을 현재 시간에 따라 변경
+		let currentTime = new Date();
+	    let currentHour = currentTime.getHours();
+	    searchTime = currentHour >= 12 ? 'Pm' : 'Am';
+	    
+
+		//지역 선택버튼 팝업
+		function openRegionPopup() {
+			let regionPopup = document.getElementById("regionButtons");
+			if (regionPopup.style.display === "grid") {
+				regionPopup.style.display = "none";
+			} else {
+				regionPopup.style.display = "grid";
+			}
+		}
+		
+		//지도 위 메뉴버튼
+		function showMenuButton(){
+			let menuButtonPopup = document.getElementById("menuButton");
+			if(menuButtonPopup.style.display == "grid"){
+				menuButtonPopup.style.display = "none";
+			} else {
+				menuButtonPopup.style.display = "grid";
+			}
+		}
+
+		//지도 위 메뉴창 팝업
+		function openMenuPopup() {
+			let menuPopup = document.getElementById("buttonBox");
+			if (menuPopup.style.display === "grid") {
+				menuPopup.style.display = "none";
+			} else {
+				menuPopup.style.display = "grid";
+			}
+		}
+		
+		//토글버튼을 누르면 메뉴팝업창을 닫음.
+		function closeMenuPopup(){
+			let menuPopup = document.getElementById("buttonBox");
+			if (menuPopup.style.display === "grid") {
+				menuPopup.style.display = "none";
+			}
+		}
+		
+		// 선택된 지역 정보를 표시
+		function showRegionInfo(regionName) {
+		    let graphTitle = document.getElementById("graphTitle");
+		    graphTitle.innerHTML = "<span>" + regionName + '의 현재 대기상태' + "</span>";
+		}
+		
+		
+		//선택된 지도 정보를 표시
+		function showMapInfo(searchDate , searchTime, searchDust){
+			let mapInfo = document.getElementById("mapInfo");
+			
+			let dateInfo;
+			let timeInfo;
+			let dustInfo;
+			
+			if(searchDate=='yesterday'){
+				dateInfo='어제 ';
+			}else if (searchDate =='today'){
+				dateInfo='오늘 ';
+			}else{
+				dateInfo='내일 ';
+			}
+			
+			if(searchTime =='Am'){
+				timeInfo ='오전 ';
+			}else {
+				timeInfo ='오후 ';
+			}
+			
+			if(searchDust == '10'){
+				dustInfo ='미세먼지 ';
+			}else{
+				dustInfo ='초미세먼지 ';
+			}
+			
+			let info = dateInfo + timeInfo + dustInfo;
+			
+		   	mapInfo.innerHTML = "<span>" + info + "</span>";
+		}
+		
+		function toggleInfo(){
+			let mapInfo = document.getElementById("mapInfo");
+			if (mapInfo.style.display === "grid") {
+				mapInfo.style.display = "none";
+			} else {
+				mapInfo.style.display = "grid";
+			}
+		}
+		
+		
+		//에어코리아에서 제공하는 예측도와, 에어코리아에서 제공하는 데이터를 기반으로 그린 폴리곤 지도를 토글하는 기능
+		let polygons = [];
+		
+		function toggleView() {
+			
+			let resultImageContainer = document.getElementById('resultImageContainer');
+			let button = document.activeElement;
+			if (button.innerText === "예측도") {
+				button.innerText = "현황도";
+				resultImageContainer.style.display = 'flex';
+			} else {
+				button.innerText = "예측도";
+				resultImageContainer.style.display = 'none';
+			}
+		}
 		
 		//어제, 오늘, 내일 버튼
 		function updateImageDate(value) {
@@ -243,15 +307,10 @@
 		function updateResultImage() {
 			imagePath = searchDate + searchTime + searchDust + "ImageUrl";
 			search = searchDate + searchDust;
-			loadMapAndPolygons(search);
 			document.getElementById("resultImage").src = eval(imagePath);
 		}
 
 		
-		//airData : 금일 대기정보 api, dustData : 어제~내일의 미세먼지, 초미세먼지 등급예보 api.
-		let airData =<%=jsonTodayAirs%>;
-		let dustData =<%=jsonDustGrades%>;
-
 		//차트를 한번에 업데이트
 		function updateCharts(cityIndex) {
 
@@ -269,6 +328,7 @@
 			let dust10Grade = airData[cityIndex][8];
 			let dust25Grade = airData[cityIndex][10];
 			let AQIGrade = airData[cityIndex][12];
+			
 
 			//도넛 차트에서 칠할 비율을 계산. remain은 남은부분. 연한색으로 칠하기위해 따로 저장
 			let SO2Ratio = (SO2Data / 0.15) * 100;
@@ -412,7 +472,7 @@
 		}
 
 		//카카오 지도 그리기.
-		function loadMapAndPolygons(search) {
+		function loadMapAndPolygons(searchDust) {
 			let map = new kakao.maps.Map(document.getElementById('map'), {
 				center : new kakao.maps.LatLng(35.9078, 127.7669),
 				level : 13,
@@ -427,19 +487,11 @@
 				let polygons = [];
 
 				//각 폴리곤을 칠할때 참조할 데이터 배열 dustData의 index를 결정
-				let timeIndex;
-				if (search == 'yesterday10') {
-					timeIndex = 0;
-				} else if (search == 'today10') {
-					timeIndex = 1;
-				} else if (search == 'tomorrow10') {
-					timeIndex = 2;
-				} else if (search == 'yesterday25') {
-					timeIndex = 3;
-				} else if (search == 'today25') {
-					timeIndex = 4;
-				} else if (search == 'tomorrow25') {
-					timeIndex = 5;
+				let dustIndex;
+				if (searchDust == '10') {
+					dustIndex = 8;
+				} else if (searchDust == '25') {
+					dustIndex = 10;
 				}
 
 				for (let i = 0; i < features.length; i++) {
@@ -450,7 +502,7 @@
 					let properties = feature.properties;
 					let index = properties.INDEX;
 
-					let grade = dustData[timeIndex][2 * (index) + 1];
+					let grade = airData[index][dustIndex];
 
 					if (grade == '좋음') {
 						gradeColor = '#32A1FF'; //파랑
@@ -490,7 +542,9 @@
 		window.onload = function() {
 			updateCharts(0);
 			updateResultImage();
-			loadMapAndPolygons(search);
+			loadMapAndPolygons(searchDust);
+			showRegionInfo('서울');
+			showMapInfo('today' , searchTime , '10');
 		};
 	</script>
 </body>

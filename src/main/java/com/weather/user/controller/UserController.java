@@ -72,6 +72,7 @@ public class UserController {
 		session.removeAttribute("userId");
 		session.removeAttribute("userName");
 		session.removeAttribute("userEmail");
+		session.removeAttribute("userNo");
 		
 		return "redirect:/user/signin/view";
 	}
@@ -95,7 +96,7 @@ public class UserController {
 		session.getAttribute("userEmail");
 		
 		return "user/mypageModify";
-
+	}
 	
 	@GetMapping("popup/view")
 	public String popup() {

@@ -59,7 +59,7 @@ select {
 }
 
 /* 위성 이미지 타이틀 스타일 */
-#main_title h2 {
+#mainTitle h2 {
 	font-size: 24px;
 	color: #333;
 	text-align: center;
@@ -75,13 +75,13 @@ select {
 }
 
 /* 위성 이미지 표시 영역 스타일 */
-#satelliteImages {
+#satelliteImage {
 	display: flex;         /* Flexbox를 활성화 */
-        justify-content: center; /* 가로 방향 중앙 정렬 */
-        align-items: center;    /* 세로 방향 중앙 정렬 */
-        flex-direction: column; /* 자식 요소들을 세로로 쌓음 */
-        height: 100%;           /* 필요에 따라 높이 조정 */
-        margin-top: 20px;
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center;    /* 세로 방향 중앙 정렬 */
+    flex-direction: column; /* 자식 요소들을 세로로 쌓음 */
+    height: 100%;           /* 필요에 따라 높이 조정 */
+    margin-top: 20px;
 	position: relative;
 	width: 100%; /* 이미지의 최대 너비를 조정해야 할 수 있음 */
 	margin: 0 auto;
@@ -94,7 +94,7 @@ select {
 }
 
 /* 검색 버튼 스타일 */
-.buttonStyle {
+.button_style {
 	background-color: #3498DB;
 	color: #fff;
 	border: none;
@@ -105,7 +105,7 @@ select {
 	transition: background-color 0.3s ease;
 }
 
-.buttonStyle:hover {
+.button_style:hover {
 	background-color: #2980B9; /* 버튼 hover 색상 변경 */
 }
 
@@ -166,13 +166,13 @@ hr {
 	margin: 5px; /* 약간의 여백을 추가하여 요소들 사이에 간격을 만듭니다 */
 }
 
-.searchButton {
+.search_button {
 	display: flex; /* flexbox 설정 */
 	justify-content: start; /* 수평축 시작 부분에서 정렬 */
 	align-items: center; /* 수직축 중앙 정렬 */
 	flex-wrap: wrap; /* 추가 요소들이 있을 경우 다음 줄로 넘김 */
 }
 
-.buttonDiv {
+.button_div {
 	margin: 0 5px; /* 각 버튼 사이에 마진 설정 */
 }
