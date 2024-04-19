@@ -17,7 +17,7 @@ import com.weather.finedust.dto.FineDustDto;
 
 @RequestMapping("/finedust/*")
 @Controller
-public class FineDustController {
+public class FinedustController {
 
 	@GetMapping("/airPollution")
 	public void fineDust(Model model) {
