@@ -263,7 +263,7 @@
 			}
 			
 			if(whatMap == '현황도'){
-				info = dateInfo + dustInfo;
+				info = dustInfo;
 				mapInfo.innerHTML = "<span>" + info + " 현황도</span>";
 			}else{
 				info = dateInfo + timeInfo + dustInfo;
