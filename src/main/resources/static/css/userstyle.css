@@ -27,25 +27,7 @@
 	padding-left: 70px;
 }
 
-#h3title{
-	margin: 20px;
-}
 
-#modifyBTN {
-        display: inline-block;
-        background-color: rgba(0, 123, 255, 1); /* 투명도 1로 설정 */
-        color: #fff;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    /* 마우스를 올렸을 때의 스타일 */
-    #modifyBTN:hover {
-        background-color: rgba(0, 123, 255, 0.7); /* 투명도 0.7로 설정 */
-        color: #fff;
-    }
 /* 바탕 배경 이미지 */
 .pop-address-search { background-image: url(http://www.0000.com/img/backImg.png);}
 /* 회사 로고 이미지 */
