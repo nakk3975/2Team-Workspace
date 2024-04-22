@@ -26,7 +26,7 @@ String userEmail = (String) session.getAttribute("userEmail");
 		<section class="contents d-flex justify-content-center">
 			<div class="join">
 				<div class="text-center">
-					<h3>마이 페이지</h3>
+					<h3 class = "h3title">마이 페이지</h3>
 					<hr>
 					아이디 = <%= userId %>
 					<hr>
@@ -34,9 +34,8 @@ String userEmail = (String) session.getAttribute("userEmail");
 					<hr>
 					이메일 = <%=userEmail %>
 					<hr>
-					주소
-					<hr>
-					<a href="/user/myPage/modify">내 정보 수정</a>
+					
+					<a href="/user/myPage/modify" class = "modifyBTN">내 정보 수정</a>
 				</div>
 			</div>
 		</section>

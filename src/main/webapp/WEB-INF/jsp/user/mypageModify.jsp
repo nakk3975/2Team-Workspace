@@ -29,7 +29,7 @@ String userEmail = (String) session.getAttribute("userEmail");
 			<div class="join">
 				<div class="text-center">
 				
-					<h3>수정 정보 입력</h3>
+					<h3 class="mt-3 mb-2">수정 정보 입력</h3>
 					<hr>
 					아이디 = <%= userId %>
 					<input type = "hidden" id="userid" name="userid" value="<%=userId %>">
@@ -44,7 +44,8 @@ String userEmail = (String) session.getAttribute("userEmail");
 				
 					
 					<button type="button" id="changeBtn" class="btn btn-primary btn-block mt-3 mb-2" data-id="${userId}">정보 수정</button>
-					<a href="/user/myPage/view">마이페이지</a>
+					<hr>
+					<a href="/user/myPage/view" class="btn btn-primary mt-3 mb-2">마이페이지</a>
 				</div>
 			</div>
 		</section>
