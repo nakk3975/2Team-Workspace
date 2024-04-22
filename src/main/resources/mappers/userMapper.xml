@@ -35,5 +35,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			`user_table`
 		WHERE
 			`id` = #{id}
+			AND `pw` = #{pw}
 	</select>
+	
+	<select id="selectPasswordSearch" parameterType="map"
+	resultType="com.weather.user.dto.UserDTO">
+		SELECT
+			`no`
+			, `id`
+			, `pw`
+			, `name`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user_table`
+		WHERE
+			`id` = #{id}
+			AND `email` = #{email}
+	</select>
+	
+	<update id="updatePassword" parameterType="map">
+		UPDATE
+			`user_table`
+		SET
+			`pw` = #{password}
+			, `updatedAt` = now()
+		WHERE
+			`no` = #{no}	
+	</update>
+	
+	<select id="selectIdByUser" parameterType="map"
+	resultType="com.weather.user.dto.UserDTO">
+		SELECT
+			`no`
+			, `id`
+			, `pw`
+			, `name`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user_table`
+		WHERE
+			`name` = #{name}
+			AND `email` = #{email}
+	</select>
+		
+	<update id="mypageModify" parameterType="map">
+		UPDATE
+			`user_table`
+		SET
+			`name` = #{name}
+			,`email` = #{email}
+			, `updatedAt` = now()
+		WHERE
+			`no` = #{no}
+	</update>
 </mapper>

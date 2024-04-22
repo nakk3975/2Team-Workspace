@@ -11,46 +11,58 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weather.world.dto.CountryDTO;
-import com.weather.world.dto.RegionDTO;
+import com.weather.world.dto.WeatherForecastDTO;
 import com.weather.world.mapper.WorldMapper;
-
 
 @Service
 public class WorldService {
-	
+
 	@Autowired
 	private WorldMapper worldMapper;
 
-	private final String API_KEY = "95bf8829bcmsh8e831b1b3c56cc2p1ab63ejsnfaaa248c6b8b";
-	
-	public List<CountryDTO> getCountryCodes(){
-        return worldMapper.getCountry();
-    }
+	private final String API_KEY = "43kXAvhnuhZmMXOT/U03zA==sQauZ0ETFnkkiqmS";
+	private final String weatherKey = "fbe37a5d88c661f82bf1ad80f1081226";
 
-	public List<RegionDTO> getRegionsByCountryCode(String countryCode) throws JsonMappingException, JsonProcessingException {
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.set("X-RapidAPI-Key", API_KEY);
-	    HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-	    
-	    RestTemplate restTemplate = new RestTemplate();
-	    
-	    ResponseEntity<String> response = restTemplate.exchange(
-	        "https://wft-geo-db.p.rapidapi.com/v1/geo/countries/" + countryCode + "/places", 
-	        HttpMethod.GET, 
-	        entity, 
-	        String.class);
-	    
-	    // JSON 문자열을 DTO 객체 리스트로 변환합니다.
-	    ObjectMapper mapper = new ObjectMapper();
-	    JsonNode root = mapper.readTree(response.getBody());
-	    List<RegionDTO> regions = mapper.convertValue(root.get("data"), new TypeReference<List<RegionDTO>>() {});
-	    
-	    return regions;
+	// 나라 정보
+	public List<CountryDTO> getCountryCodes() {
+		return worldMapper.getCountry();
 	}
 
+	// 도시 정보
+	public String getRegionsByCountryCode(String countryCode)
+			throws JsonMappingException, JsonProcessingException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("X-Api-Key", API_KEY);
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		ResponseEntity<String> response = restTemplate.exchange(
+				"https://api.api-ninjas.com/v1/city?country=" + countryCode + "&limit=20", HttpMethod.GET, entity,
+				String.class);
+
+		return response.getBody();
+	}
+
+	// 날씨 정보
+	public WeatherForecastDTO getWeatherForecastByCoordinates(double latitude, double longitude)
+			throws JsonProcessingException {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		String url = String.format("https://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&appid=%s", latitude,
+				longitude, weatherKey);
+
+		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode root = mapper.readTree(response.getBody());
+		return mapper.convertValue(root, WeatherForecastDTO.class);
+	}
 }

@@ -1,0 +1,39 @@
+@charset "UTF-8";
+#wrap {
+	width:1200px;
+	margin: auto;
+}
+
+#loginForm {
+	text-align: center;	
+}
+
+#loginBtn {
+  background: url("/static/image/signin.png") no-repeat;
+  width: 228px;
+  height: 37px;
+}
+
+#loginBtn:active {
+  background: url("/static/image/signin_click.png") no-repeat;
+  width: 228px;
+  height: 37px;
+}
+
+#appDesign{
+	background-color: rgba(192, 192, 192, 0.7);
+	width: 800px;
+	height:900px;
+	
+}
+
+#MV{
+	margin-top: 30px;
+	 margin-bottom: 30px;
+}
+
+.heSay{
+	
+	font-style: italic;
+	 margin-bottom: 20px;
+}

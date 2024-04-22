@@ -1,0 +1,279 @@
+button {
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
+	background-color: #007bff;
+	color: #fff;
+	margin: 5px;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+button:active {
+	background-color: #004080;
+}
+
+#pageBox {
+	width: 1200px;
+	margin: auto;
+}
+
+#titleBox {
+	width: 1200px;
+	height: 50px;
+	text-align: center;
+	font-size: 24px;
+}
+
+#title {
+	margin-top: 5px;
+	display: inline-block;
+}
+
+#contentBox {
+	width: 1200px;
+	height: 650px;
+	position: relative;
+	margin: 0 auto;
+	border: 1px solid black;
+}
+
+#mapBox {
+	width: 598px;
+	height: 648px;
+	position: relative;
+	float: left;
+	background-color: #ffffff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+}
+
+#menuButton {
+	position: absolute;
+	top: 8px;
+	left: 105px;
+	z-index: 100;
+	border-radius: 5px;
+	display: none;
+}
+
+#toggleButton {
+	position: absolute;
+	top: 8px;
+	left: 10px;
+	z-index: 100;
+	border-radius: 5px;
+}
+
+#regionPopupButtons {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 10;
+	border-radius: 5px;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	z-index: 1;
+}
+
+#graphBox {
+	width: 48%;
+	height: 100%;
+	float: right;
+	justify-content: center;
+}
+
+#buttonBox {
+	position: absolute;
+	top: 55px;
+	left: 10px;
+	width: 320px;
+	height: 150px;
+	gap: 5px;
+	z-index: 100;
+	display: none;
+}
+
+.buttonGroup {
+	display: flex;
+	flex-direction: row;
+	margin-right: 10px;
+}
+
+.buttonGroup button {
+	margin-right: 5px;
+	border-radius: 5px;
+}
+
+#regionButtonBox {
+	position: relative;
+	width: 100%;
+	height: 5%;
+	z-index: 999;
+	justify-content: center;
+}
+
+#dustGraphBox {
+	width: 100%;
+	height: 25%;
+	display: flex;
+	justify-content: center;
+}
+
+#dustGraphExplainBox {
+	width: 75%;
+	height: 5%;
+	display: flex;
+	justify-content: center;
+	justify-content: space-around;
+	margin-left: 14%;
+}
+
+#otherGraphBox {
+	width: 100%;
+	height: 15%;
+	display: flex;
+	justify-content: center;
+}
+
+#otherGraphExplainBox {
+	width: 100%;
+	height: 5%;
+	display: flex;
+	justify-content: center;
+}
+
+#chartContainerSO2, #chartContainerCO, #chartContainerNO2,
+	#chartContainerO3, #chartContainerAQI {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	margin-right: 10px;
+}
+
+#chartExplainSO2, #chartExplainCO, #chartExplainNO2, #chartExplainO3,
+	#chartExplainAQI {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	margin-right: 10px;
+	text-align: center;
+}
+
+#chartContainerdust10, #chartContainerdust25 {
+	display: inline-block;
+	width: 180px;
+	height: 180px;
+	margin-left: 20px;
+	margin-right: 20px;
+	text-align: center;
+}
+
+#regionButtons {
+	position: absolute;
+	top: 55px;
+	left: 10px;
+	width: 350px;
+	height: 150px;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 5px;
+	display: none;
+	background-color: white;
+}
+
+#regionButtons button {
+	padding: 3px;
+	margin: 2px 2px;
+	border-radius: 5px;
+}
+
+#resultImageContainer {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: none;
+	background-color: white;
+	z-index: 99;
+}
+
+#resultImage {
+    max-width: 100%;
+    max-height: 100%;
+    display: block; /* 이미지를 블록 요소로 설정합니다. */
+    margin: auto; /* 가운데 정렬을 위해 margin을 자동으로 설정합니다. */
+    z-index : 2;
+}
+
+.alt-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index : 1;
+}
+
+#graphTitle {
+	text-align: center;
+	line-height: 200%;
+	font-size: 24px;
+}
+
+#gradeTableBox {
+	width: 100%;
+	height: 40%;
+	text-align: center;
+}
+
+#gradeTable {
+	display: inline-block;
+}
+
+#sourceExplainBox {
+	text-align: right;
+}
+
+#mapInfo {
+	position: absolute;
+	top: 8px;
+	right: 10px;
+	background-color: #fff;
+	padding: 10px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	z-index: 9999;
+}
+
+#mapTitle {
+	position: absolute;
+	top: 8px;
+	right: 10px;
+	background-color: #fff;
+	padding: 10px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	z-index: 999;
+}
+
+#timeButtonGroup{
+	display : none;
+}
+
+#dayButtonGroup{
+	display:none;
+}
+
+#dustButtonGroup{
+	height : 30%;
+}

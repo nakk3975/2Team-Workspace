@@ -2,3 +2,62 @@
 	width:1200px;
 	margin: auto;
 }
+
+#loginForm {
+	text-align: center;	
+}
+
+#loginBtn {
+  background: url("/static/image/signin.png") no-repeat;
+  width: 228px;
+  height: 37px;
+}
+
+#loginBtn:active {
+  background: url("/static/image/signin_click.png") no-repeat;
+  width: 228px;
+  height: 37px;
+}
+
+#idSearch {
+	padding-right: 70px;
+}
+
+#passwordSearch {
+	padding-left: 70px;
+}
+
+#h3title{
+	margin: 20px;
+}
+
+#modifyBTN {
+        display: inline-block;
+        background-color: rgba(0, 123, 255, 1); /* 투명도 1로 설정 */
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* 마우스를 올렸을 때의 스타일 */
+    #modifyBTN:hover {
+        background-color: rgba(0, 123, 255, 0.7); /* 투명도 0.7로 설정 */
+        color: #fff;
+    }
+/* 바탕 배경 이미지 */
+.pop-address-search { background-image: url(http://www.0000.com/img/backImg.png);}
+/* 회사 로고 이미지 */
+.pop-address-search .pop-address-search-inner .logo { background: url(http://www.0000.com/img/logo.png) no-repeat; background-position:center; }
+
+/* 바탕 배경색상 */
+.pop-address-search { background-color:#ECECEC; }
+/* 검색창 색상 */
+.pop-address-search .pop-address-search-inner .wrap input { background-color:#FFFFFF; }
+/* 검색버튼 색상 */
+.pop-address-search .pop-address-search-inner .wrap { background-color:#FFFFFF; }
+/* 본문 배경색(홀수) */
+.pop-address-search .pop-address-search-inner .result table.data-col tbody tr:nth-child(odd) td {background:#FFFFFF}
+/* 본문 배경색(짝수) */
+.pop-address-search .pop-address-search-inner .result table.data-col tbody tr:nth-child(even) td {background:#FFFFFF}

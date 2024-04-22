@@ -11,4 +11,14 @@ public class Item {
 	@JsonProperty("satImgC-file")
     public String satImgCFile;
 
+	public String getSatImgCFile() {
+		return satImgCFile;
+	}
+
+	public void setSatImgCFile(String satImgCFile) {
+		this.satImgCFile = satImgCFile;
+	}
+	
+	
+
 }

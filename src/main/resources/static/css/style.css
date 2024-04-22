@@ -1,24 +1,96 @@
-body {
-  margin: 0;
+#wrap {
+	width: 1200px;
+	margin: auto;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin: 0;
-  /* background-color: #333; /* 배경색을 검은색(#333)으로 지정 */
-  /* color: #fff; */
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius:5px;
+    width: 20px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
-div {
-  margin: 0;
+.label {
+    font-size: 8px;
+    color: #000;
+    font-weight: bold;
 }
 
-.no-margin {
-  margin: 0;
+#rain {
+	font-size: 11px;
 }
+
+#mapDetail {
+	width:100%;
+	background-color: #F5F4F0;
+}
+
+.weather-temp {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+#nowTime {
+	text-align: center;
+	background-color: #f2f2f2;
+	border: 1px solid #dcdcdc;
+	border-radius: 8px;
+	padding: 10px;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+#weeklyWeather {
+	display: none;
+}
+
+#nowWeather {
+	overflow: auto;
+	background-color: #e8f4fa;
+	border: 1px solid #cdddea;
+	border-radius: 5px;
+	padding:10px;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+}
+
+#weeklyForecast{
+	text-align: center;
+}
+
+.weather-icon {
+	width:50px;
+}
+
+.now-weather-icon {
+	width:50px;
+}
+
+.day-weather {
+    text-align: center;
+	background-color: #f2f2f2;
+	border: 1px solid #dcdcdc;
+	border-radius: 8px;
+	padding: 10px;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
 
 
 #logo {
@@ -63,13 +135,23 @@ div {
 }
 
 #box {
-  /* background-color: brown; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+	background-color:  rgba(135, 206, 235, 0.4);
+	
 }
 
+#box a:visited {
+    color: #0000FF/* 방문한 링크의 색상 */;
+}
+
+/* 클릭한 링크 */
+#box a:active {
+    color: #0000FF/* 클릭한 링크의 색상 */;
+}
+
+/* 마우스를 올린 링크 */
+#box a:hover {
+    color: rgba(0, 102, 204, 0.4);/* 마우스를 올린 링크의 색상 */;
+}
 
 #menuExcept {
   padding: 8px 70px 8px 70px;
@@ -804,3 +886,5 @@ button {
   position: relative;
   top: -5px;
 } */
+
+

@@ -6,6 +6,6 @@ spring:
       suffix: .jsp
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/weatherdb
+    url: jdbc:mysql://localhost:3305/weatherDB
     username: root
     password: root

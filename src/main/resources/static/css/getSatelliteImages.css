@@ -1,290 +1,178 @@
 @charset "UTF-8";
 
 body {
-	margin: 0;
-}
-
-.navbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
-	margin: 0;
-	/* background-color: #333; /* 배경색을 검은색(#333)으로 지정 */
-	/* color: #fff; */
+	margin: auto;
+	width: 1200px;
 }
 
 div {
 	margin: 0;
 }
 
-.no-margin {
-	margin: 0;
-}
-
-.navbar img {
-	max-height: 40px;
-	vertical-align: middle;
-	/* 이미지의 수직 정렬 조정 */
-}
-
-#Logo {
-	padding-left: 20px;
-	width: 230px;
-}
-
-.login-container {
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	padding-top: 20px;
-	padding-right: 20px;
-}
-
-.login-button {
-	background-color: #3498DB;
-	color: white;
-	width: 210px;
-	padding: 10px 20px;
-	border-radius: 5px;
-	border: none;
-	cursor: pointer;
-	font-size: 16px;
-	outline: none;
-	transition: background-color 0.3s ease;
-	margin-bottom: 10px;
-}
-
-.login-button:hover {
-	background-color: #0066cc;
-	/* hover 시 색 변경 */
-}
-
-.Menu:hover {
-	background-color: #F4EEEE
-}
-
-.Menu_except:hover {
-	background-color: #F4EEEE
-}
-
-.LoginOption {
-	font-size: 13px;
-	color: gray;
-	margin-left: 10px;
-	/* 링크 사이의 간격 조절 */
-}
-
-#generateResult {
-	background-color: #3498DB;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	padding: 5px 20px;
-	position: relative;
-	top: -3px;
-}
-
 #mid_content {
-	/* background-color: rgb(96, 115, 115); */
 	padding: 20px;
 	margin-bottom: 20px;
 	margin-top: 20px;
 	text-align: center;
+	white-space: nowrap;
 }
 
-#mid_content span {
-	margin: -2px;
-}
-
-#mid_content a {
+#mid_content span, #mid_content a {
 	margin: 0;
 	text-decoration: none;
 	font-size: 25px;
 	color: black;
 	font-weight: bold;
-	/* 링크 텍스트를 볼드 처리 */
-	/* margin: 0 5px; */
-	/* 각 링크 사이의 간격 조절 */
-	/* position: relative; */
-}
-
-#box {
-	/* background-color: brown; */
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-}
-
-#left_main {
-	/* background-color: #E0E0E0; */
-	width: 800px;
-	height: 900px;
-}
-
-/* 
-  우
-  우측배너영역
-  */
-#right_banners {
-	font-size: 25px;
-	color: black;
-	font-weight: bold;
-	padding: 10px 5px 10px 5px;
-	background-color: #E0E0E0;
-	width: 300px;
-	height: 1280px;
-	margin-left: 30px;
-	float: left;
-}
-
-#right_banners p {
-	margin: 5px 0px 10px 0px;
 }
 
 #main {
 	display: flex;
+	flex-direction: column; /* 자식 요소들을 수직으로 쌓음 */
+	align-items: center; /* 가로축 중앙 정렬 */
+	justify-content: center; /* 세로축 중앙 정렬 */
+	background-color: #E2E2E2;
 }
 
-.Menu {
-	/* background-color: #74b7fa; */
-	border-right: 2px solid #E0E0E0;
-	/* 오른쪽 선만 설정 */
+.Menu, .Menu_except {
 	padding: 8px 50px 8px 50px;
-}
-
-.Menu_except {
-	padding: 8px 70px 8px 70px;
+	min-width: 100px;
 }
 
 #bot {
 	background-color: rgb(216, 210, 210);
-	/* width: auto; */
 	text-align: center;
 	font-weight: bold;
 	margin: 150px 0px 0px 0px;
 	padding: 5px 0px 5px 0px;
 }
 
-#left_main_top {
-	padding: 20px 0px 10px 0px;
-	font-size: 25px;
-	color: black;
-	font-weight: bold;
-	background-color: #E0E0E0;
-	height: 600px;
-	width: auto;
-}
-
-#generateResult {
-	margin-left: 100px;
-}
-
-#left_main_top_top {
-	margin-top: 20px;
-	border-top: 1px solid black;
-	/* 위쪽 선만 설정 */
-	border-bottom: 1px solid black;
-	/* background-color: #3498DB; */
-	height: 300px;
-}
-
-#left_main_top_mid {
-	margin: 5px 0px 5px 0px;
-}
-
-#left_main_top_bot {
-	border-top: 1px solid black;
-	/* 왼쪽 선만 설정 */
-}
-
-#left_main_bot {
-	font-size: 25px;
-	color: black;
-	font-weight: bold;
-	padding: 20px;
-	margin-top: 30px;
-	background-color: #E0E0E0;
-	height: 600px;
-	width: auto;
-}
-
-#container_opt {
-	margin-top: 40px;
-	height: 550px;
-	/* background-color: #0066cc; */
-}
-
-.container {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	align-items: flex-start;
-	margin-top: 20px;
-}
-
-.row {
-	display: flex;
-	width: 100%;
-	/* justify-content: space-between; */
-	margin-bottom: 20px;
-}
-
-.item {
-	width: calc(50% - 10px);
-	/* 각 요소의 너비를 50%로 설정하고 간격을 뺀 값으로 계산 */
-	padding: 10px;
-	margin: 8px;
-	height: 50px;
-	background-color: white;
-	border: 1px solid #ccc;
-}
-
-#right_banners_content_top {
-	background-color: #3498DB;
-	height: 450px;
-}
-
-#right_banners_content_mid {
-	background-color: white;
-	height: 500px;
-}
-
-#right_banners_content_bot {
-	background-color: white;
-	height: 250px;
-}
-
-#mid_content {
-	/* 기존 스타일 */
-	white-space: nowrap;
-	/* 텍스트 줄바꿈 방지 */
-}
-
-.Menu_except {
-	/* 기존 스타일 */
-	min-width: 100px;
-	/* 최소 너비 설정 */
-}
-
 h1 {
-	/* 기존 스타일 */
-	white-space: nowrap;
-	/* 텍스트 줄바꿈 방지 */
 	overflow: hidden;
-	/* 넘치는 텍스트 숨김 */
 	text-overflow: ellipsis;
-	/* 넘치는 텍스트를 생략 부호 (...)로 표시 */
 }
 
 select {
 	height: 30px;
 	margin-left: 5px;
 	position: relative;
+	top: -2px;
+}
+
+/* 위성 이미지 타이틀 스타일 */
+#mainTitle h2 {
+	font-size: 24px;
+	color: #333;
+	text-align: center;
+	margin: 20px 0;
+}
+
+#mainForm {
+	display: flex;
+	flex-direction: column; /* 자식 요소들을 세로로 쌓기 */
+	align-items: flex-start; /* 자식 요소들을 컨테이너의 시작 지점인 왼쪽으로 정렬 */
+	width: 100%; /* `#mainForm`의 너비를 부모의 전체 너비로 설정 */
+	margin-left: 30px;
+}
+
+/* 위성 이미지 표시 영역 스타일 */
+#satelliteImage {
+	display: flex;         /* Flexbox를 활성화 */
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center;    /* 세로 방향 중앙 정렬 */
+    flex-direction: column; /* 자식 요소들을 세로로 쌓음 */
+    height: 100%;           /* 필요에 따라 높이 조정 */
+    margin-top: 20px;
+	position: relative;
+	width: 100%; /* 이미지의 최대 너비를 조정해야 할 수 있음 */
+	margin: 0 auto;
+}
+
+
+#defaultImage, #response {
+	width: 800px;
+	border-radius: 4px; /* 모서리를 둥글게 처리 */
+}
+
+/* 검색 버튼 스타일 */
+.button_style {
+	background-color: #3498DB;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 14px;
+	transition: background-color 0.3s ease;
+}
+
+.button_style:hover {
+	background-color: #2980B9; /* 버튼 hover 색상 변경 */
+}
+
+/* 날짜 및 시간 선택 영역 스타일 */
+#searchedDate {
+	display: flex;
+	justify-content: center;
 	top: -5px;
 }
 
-#province {
-	margin-left: 80px;
+#searchedText {
+	height: 30px;
+	font-size: 14px;
+}
+
+#searchedDate input[type="text"] {
+	text-align: center;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-right: 10px;
+}
+
+/* 아래쪽 저작권 표시 영역 스타일 */
+#bot pre {
+	color: #666;
+	font-size: 14px;
+	text-align: center;
+	margin-top: 50px;
+}
+
+#buttonDiv {
+	display: flex; /* flexbox 레이아웃 활성화 */
+	justify-content: center; /* 수평축 중앙 정렬 */
+	align-items: center; /* 수직축 중앙 정렬 */
+	flex-wrap: wrap; /* 내용이 넘칠 경우 다음 줄로 넘김 */
+	margin-bottom: 5px;
+}
+
+#buttonDiv>div, #buttonDiv form {
+	margin: 5px; /* 버튼 주위에 약간의 여백 추가 */
+}
+
+hr {
+	border: none; /* 기본 테두리를 제거합니다 */
+	height: 1px; /* 선의 두께를 설정합니다 */
+	background-color: #333; /* 선의 색상을 설정합니다 */
+	margin: 0; /* 주변 여백을 없앱니다 */
+	width: 100%; /* 선의 길이를 부모 요소의 전체 너비로 설정합니다 */
+}
+
+#selectForm {
+	display: flex; /* flex 컨테이너 설정 */
+}
+
+#selectForm select, #selectForm input[type="submit"] {
+	height: 40px; /* `select`와 `input` 요소의 높이를 통일합니다 */
+	margin: 5px; /* 약간의 여백을 추가하여 요소들 사이에 간격을 만듭니다 */
+}
+
+.search_button {
+	display: flex; /* flexbox 설정 */
+	justify-content: start; /* 수평축 시작 부분에서 정렬 */
+	align-items: center; /* 수직축 중앙 정렬 */
+	flex-wrap: wrap; /* 추가 요소들이 있을 경우 다음 줄로 넘김 */
+}
+
+.button_div {
+	margin: 0 5px; /* 각 버튼 사이에 마진 설정 */
 }
