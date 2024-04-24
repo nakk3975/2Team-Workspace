@@ -8,7 +8,7 @@
 	<div>
       <!-- 왼쪽 이미지 -->
 		<a href="#">
-        	<img src="/static/image/logo.png" id="logo" width="300px;" alt="왼쪽 이미지">
+        	<img src="/static/image/404_Team Logo 2.png" id="logo" width="300px;" alt="왼쪽 이미지">
       	</a>
     </div>
 

@@ -45,7 +45,7 @@ String userEmail = (String) session.getAttribute("userEmail");
 					
 					<button type="button" id="changeBtn" class="btn btn-primary btn-block mt-3 mb-2" data-id="${userId}">정보 수정</button>
 					<hr>
-					<a href="/user/myPage/view" class="btn btn-primary mt-3 mb-2">마이페이지</a>
+					<a href="/user/myPage/view" class="btn btn-primary btn-block mt-3 mb-2">마이페이지</a>
 				</div>
 			</div>
 		</section>
