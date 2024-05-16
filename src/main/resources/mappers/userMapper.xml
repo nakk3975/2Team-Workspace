@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			`user_table`
 		WHERE
 			`id` = #{id}
-			AND `pw` = #{pw}
+			
 	</select>
 	
 	<select id="selectPasswordSearch" parameterType="map"
