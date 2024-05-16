@@ -29,7 +29,7 @@
 					<hr>
 					<a>모바일에서도 해당 서비스를 받아보시기 바랍니다.</a>
 					<hr>
-					<a href="https://drive.google.com/file/d/1KgjKcSftETUss9J5Zvn8w-XuaBhQkwuG/view?usp=sharing">앱 다운로드</a>
+					<a href="https://drive.google.com/file/d/1uJRVQtOuw7XwoSIZ50Q4wX7LBg-XL9Vh/view?usp=drive_link">앱 다운로드</a>
 				</div>
 			</div>
 		</section>
