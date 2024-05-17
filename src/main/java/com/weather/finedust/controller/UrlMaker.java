@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 
-import org.springframework.web.client.HttpStatusCodeException;
-
 public class UrlMaker {
 
 	// 공공 api 인코딩키.

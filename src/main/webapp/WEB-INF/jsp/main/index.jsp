@@ -130,6 +130,7 @@
 		    var district = $("#districtSelect").val();
 		    var address = city + " " + district;
 		    $("#weeklyWeather").show();
+		    
 		    $.ajax({		        url: "/weather/searchAddress",
 		        type: "GET",
 		        data: {"address": address},
@@ -177,6 +178,7 @@
 							        let midItems = midJson.response.body.items.item;
 				                    let taItem = taItems[0];
 				                    let midItem = midItems[0];
+				                    $('#weeklyForecast').empty();
 				                    for(let i = 3; i <= 7; i++) {
 				                        let dateDisplay = getFutureDate(i); // i일 후의 날짜를 가져옵니다.
 				                        let forecastDiv = $("<div class='day-weather'>");
@@ -202,11 +204,12 @@
 						data: {"nx": grid.x,"ny": grid.y, "base_date":base_date, "base_time":base_time},
 						success: function(data) {
 							let nowJson = JSON.parse(data);
-							console.log(nowJson);
+		
 							let nowItems = nowJson.response.body.items.item;
 							let nowWeather = "";
 							let temperature = ""; // 현재 온도
 					        let humidity = "";  // 현재 습도
+					        $('#nowTime').empty();
 					        
 							for(let i = 0; i < nowItems.length; i++) {
 								if(nowItems[i].category == "PTY") {
@@ -254,7 +257,7 @@
 					    type: "GET",
 					    data: {"nx": grid.x,"ny": grid.y, "base_date":base_date, "base_time":base_time},
 					    success: function(data) {
-					    	$('#nowWeather').val("");
+					    	$('#nowWeather').empty();
 					    	let weatherJson = JSON.parse(data);
 					    	let addressItems = weatherJson.response.body.items.item;
 					    	
