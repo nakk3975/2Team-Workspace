@@ -253,7 +253,6 @@ button:active {
 	border: 1px solid #000000;
 	border-radius: 5px;
 	z-index: 9999;
-	display: none;
 }
 
 #mapTitle {
@@ -265,4 +264,16 @@ button:active {
 	border: 1px solid #000000;
 	border-radius: 5px;
 	z-index: 999;
+}
+
+#timeButtonGroup{
+	display : none;
+}
+
+#dayButtonGroup{
+	display:none;
+}
+
+#dustButtonGroup{
+	height : 30%;
 }

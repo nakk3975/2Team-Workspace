@@ -3,6 +3,7 @@
 		<footer>
 			<hr>
 			<div class="text-secondary text-center">
-				Copyright © 404 Team Not Found
+				<img src="/static/image/404_Team Logo.png" id="Teamlogo" height="35px;" >
+				<hr>
 			</div>
 		</footer>

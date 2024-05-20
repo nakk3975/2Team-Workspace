@@ -8,7 +8,7 @@
 	<div>
       <!-- 왼쪽 이미지 -->
 		<a href="#">
-        	<img src="/static/image/logo.png" id="logo" width="300px;" alt="왼쪽 이미지">
+        	<img src="/static/image/404_Team Logo 2.png" id="logo" width="300px;" alt="왼쪽 이미지">
       	</a>
     </div>
 
@@ -48,7 +48,7 @@
 				<li class="nav-item"><a href="/weather/world/view" class="nav-link font-weight-bold">세계날씨</a></li>
 				<li class="nav-item"><a href="/finedust/airPollution" class="nav-link font-weight-bold">미세먼지</a></li>
 				<li class="nav-item"><a href="/satellite/getSatelliteImages" class="nav-link font-weight-bold">위성영상</a></li>
-				<li class="nav-item"><a href="#" class="nav-link font-weight-bold">날씨 앱</a></li>
+				<li class="nav-item"><a href="/app/introduce" class="nav-link font-weight-bold">날씨 앱</a></li>
 
 			</ul>
 		</nav>

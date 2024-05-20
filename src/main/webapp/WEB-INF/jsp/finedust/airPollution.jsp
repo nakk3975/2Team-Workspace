@@ -33,22 +33,21 @@
 		<div id="contentBox">
 			<div id="mapBox">
 				<button id="menuButton" onclick="openMenuPopup()">메뉴</button>
-				<button id="toggleButton" onclick="toggleView(); showMenuButton(); closeMenuPopup(); toggleInfo()">예측도</button>
-				<div id="mapTitle">현황도</div>
+				<button id="toggleButton" onclick="toggleView(); closeMenuPopup(); showMapInfo(searchDate , searchTime, searchDust, true);">예측도</button>
 				<div id="mapInfo"></div>
 				<div id="buttonBox">
-					<div class="buttonGroup">
-						<button onclick="updateImageDust('10'); showMapInfo(searchDate , searchTime, '10')">미세먼지</button>
-						<button onclick="updateImageDust('25'); showMapInfo(searchDate , searchTime, '25')">초미세먼지</button>
+					<div class="buttonGroup" id="dustButtonGroup">
+						<button onclick="updateImageDust('10'); showMapInfo(searchDate , searchTime, '10'); loadMapAndPolygons('10')">미세먼지</button>
+						<button onclick="updateImageDust('25'); showMapInfo(searchDate , searchTime, '25'); loadMapAndPolygons('25')">초미세먼지</button>
 					</div>
-					<div class="buttonGroup">
-						<button onclick="updateImageDate('yesterday'); showMapInfo('yesterday', searchTime, searchDust)">어제</button>
-						<button onclick="updateImageDate('today'); showMapInfo('today' , searchTime, searchDust)">오늘</button>
-						<button onclick="updateImageDate('tomorrow'); showMapInfo('tomorrow' , searchTime, searchDust)">내일</button>
+					<div class="buttonGroup" id="dayButtonGroup">
+						<button onclick="updateImageDate('yesterday'); showMapInfo('yesterday', searchTime, searchDust, false)">어제</button>
+						<button onclick="updateImageDate('today'); showMapInfo('today' , searchTime, searchDust, false)">오늘</button>
+						<button onclick="updateImageDate('tomorrow'); showMapInfo('tomorrow' , searchTime, searchDust, false)">내일</button>
 					</div>
-					<div class="buttonGroup">
-						<button onclick="updateImageTime('Am'); showMapInfo(searchDate , 'Am', searchDust)">오전</button>
-						<button onclick="updateImageTime('Pm'); showMapInfo(searchDate , 'Pm', searchDust)">오후</button>
+					<div class="buttonGroup" id="timeButtonGroup">
+						<button onclick="updateImageTime('Am'); showMapInfo(searchDate , 'Am', searchDust, false)">오전</button>
+						<button onclick="updateImageTime('Pm'); showMapInfo(searchDate , 'Pm', searchDust, false)">오후</button>
 					</div>
 					
 				</div>
@@ -223,14 +222,14 @@
 		    graphTitle.innerHTML = "<span>" + regionName + '의 현재 대기상태' + "</span>";
 		}
 		
+		let whatMap='현황도';
 		
 		//선택된 지도 정보를 표시
-		function showMapInfo(searchDate , searchTime, searchDust){
+		function showMapInfo(searchDate , searchTime, searchDust, changeMap){
 			let mapInfo = document.getElementById("mapInfo");
 			
 			let dateInfo;
 			let timeInfo;
-			let dustInfo;
 			
 			if(searchDate=='yesterday'){
 				dateInfo='어제 ';
@@ -252,9 +251,25 @@
 				dustInfo ='초미세먼지 ';
 			}
 			
-			let info = dateInfo + timeInfo + dustInfo;
 			
-		   	mapInfo.innerHTML = "<span>" + info + " 예측도</span>";
+			let info ="";
+			
+			if(changeMap== true){
+				if(whatMap == '예측도'){
+					whatMap='현황도';
+				}else{
+					whatMap='예측도';
+				}
+			}
+			
+			if(whatMap == '현황도'){
+				info = dustInfo;
+				mapInfo.innerHTML = "<span>" + info + " 현황도</span>";
+			}else{
+				info = dateInfo + timeInfo + dustInfo;
+			   	mapInfo.innerHTML = "<span>" + info + " 예측도</span>";
+			}
+			
 		}
 		
 		//지도 우측상단의 설명을 현황도, 예측도로 변경
@@ -268,19 +283,29 @@
 		}
 		
 		
-		//에어코리아에서 제공하는 예측도와, 에어코리아에서 제공하는 데이터를 기반으로 그린 폴리곤 지도를 토글하는 기능
+		//에어코리아에서 제공하는 예측도와, 에어코리아에서 제공하는 데이터를 기반으로 그린 폴리곤 지도를 토글하는 기능. 메뉴 버튼도 날짜, 시간부분을 토글.
 		let polygons = [];
 		
 		function toggleView() {
 			
 			let resultImageContainer = document.getElementById('resultImageContainer');
+			let timeButtonGroup = document.getElementById('timeButtonGroup');
+			let dayButtonGroup = document.getElementById('dayButtonGroup');
+			let dustButtonGroup = document.getElementById('dustButtonGroup');
+			
 			let button = document.activeElement;
 			if (button.innerText === "예측도") {
 				button.innerText = "현황도";
 				resultImageContainer.style.display = 'flex';
+				dayButtonGroup.style.display='flex';
+				timeButtonGroup.style.display='flex';
+				dustButtonGroup.style.height = '100%';
 			} else {
 				button.innerText = "예측도";
 				resultImageContainer.style.display = 'none';
+				dayButtonGroup.style.display='none';
+				timeButtonGroup.style.display='none';
+				dustButtonGroup.style.height = '30%';
 			}
 		}
 		
@@ -545,7 +570,8 @@
 			updateResultImage();
 			loadMapAndPolygons(searchDust);
 			showRegionInfo('서울');
-			showMapInfo('today' , searchTime , '10');
+			showMapInfo('today' , searchTime , '10', false);
+			showMenuButton();
 		};
 	</script>
 </body>
